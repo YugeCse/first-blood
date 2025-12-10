@@ -1,0 +1,104 @@
+[gd_scene load_steps=12 format=3 uid="uid://bxbxxvkyn1qiw"]
+
+[ext_resource type="Script" uid="uid://c4ugjfyxlonol" path="res://sprites/scripts/gun_turret.gd" id="1_44tbv"]
+[ext_resource type="Texture2D" uid="uid://bpmaesl3t71h3" path="res://assets/enemy/turret.png" id="2_bpepy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7sdta"]
+atlas = ExtResource("2_bpepy")
+region = Rect2(108, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ey4vq"]
+atlas = ExtResource("2_bpepy")
+region = Rect2(0, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bpepy"]
+atlas = ExtResource("2_bpepy")
+region = Rect2(18, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k1q3e"]
+atlas = ExtResource("2_bpepy")
+region = Rect2(72, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jl00c"]
+atlas = ExtResource("2_bpepy")
+region = Rect2(90, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ihkq8"]
+atlas = ExtResource("2_bpepy")
+region = Rect2(54, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ld1mm"]
+atlas = ExtResource("2_bpepy")
+region = Rect2(36, 0, 18, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_44tbv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7sdta")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ey4vq")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bpepy")
+}],
+"loop": true,
+"name": &"left_up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k1q3e")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jl00c")
+}],
+"loop": true,
+"name": &"right_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ihkq8")
+}],
+"loop": true,
+"name": &"right_up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ld1mm")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bpepy"]
+size = Vector2(18, 18)
+
+[node name="GunTurret" type="StaticBody2D"]
+script = ExtResource("1_44tbv")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_44tbv")
+animation = &"left"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bpepy")

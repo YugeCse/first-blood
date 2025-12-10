@@ -1,17 +1,24 @@
+## 玩家组件
 class_name Player extends CharacterBody2D
 
+## 玩家状态
 @export
-var state: int = PlayerState.Action.idle
+var action: PlayerState.Action = PlayerState.Action.idle
 
+## 玩家移动速度
 var speed: float = 120.0
 
+## 玩家是否在跳跃中
 var is_jumping: bool = false
 
+## 玩家跳跃计数器
 var jump_counter: int = 0
 
+## 玩家关联的精灵节点
 @onready
 var sprite = $AnimatedSprite
 
+## 玩家的碰撞形状
 @onready
 var collision_shape = $CollisionShape
 
