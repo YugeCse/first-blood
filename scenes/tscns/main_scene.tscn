@@ -2250,36 +2250,34 @@ limit_top = 0
 limit_bottom = 210
 limit_smoothed = true
 
-[node name="ColorRect" type="ColorRect" parent="Camera2D"]
+[node name="Background" type="ColorRect" parent="Camera2D"]
 custom_minimum_size = Vector2(10000, 210)
 offset_right = 40.0
 offset_bottom = 40.0
 color = Color(0.047058824, 0.3764706, 1, 0.68235296)
 
-[node name="TextureRect4" type="TextureRect" parent="Camera2D/ColorRect"]
+[node name="TextureRect4" type="TextureRect" parent="Camera2D/Background"]
 layout_mode = 0
 offset_left = 302.0
 offset_right = 622.0
 offset_bottom = 180.0
 texture = ExtResource("2_hdif8")
 
-[node name="TextureRect3" type="TextureRect" parent="Camera2D/ColorRect"]
+[node name="TextureRect3" type="TextureRect" parent="Camera2D/Background"]
 layout_mode = 0
 offset_left = 471.0
-offset_top = -1.0
 offset_right = 791.0
-offset_bottom = 179.0
+offset_bottom = 180.0
 texture = ExtResource("2_hdif8")
 
-[node name="TextureRect2" type="TextureRect" parent="Camera2D/ColorRect"]
+[node name="TextureRect2" type="TextureRect" parent="Camera2D/Background"]
 layout_mode = 0
 offset_left = 790.0
-offset_top = -1.0
 offset_right = 1110.0
-offset_bottom = 179.0
+offset_bottom = 180.0
 texture = ExtResource("2_hdif8")
 
-[node name="TextureRect" type="TextureRect" parent="Camera2D/ColorRect"]
+[node name="TextureRect" type="TextureRect" parent="Camera2D/Background"]
 layout_mode = 0
 offset_right = 320.0
 offset_bottom = 180.0
