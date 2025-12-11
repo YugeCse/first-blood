@@ -2329,30 +2329,6 @@ physics_quadrant_size = 8
 [node name="Turret" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
 position = Vector2(207, 67)
 
-[node name="Turret2" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
-position = Vector2(407, 196)
-
-[node name="Turret3" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
-position = Vector2(710, 130)
-
-[node name="Turret4" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
-position = Vector2(956, 171)
-
-[node name="Turret5" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
-position = Vector2(1245, 76)
-
-[node name="Turret6" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
-position = Vector2(1302, 76)
-
-[node name="Turret7" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
-position = Vector2(1498, 166)
-
-[node name="Turret8" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
-position = Vector2(1788, 92)
-
-[node name="Turret9" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
-position = Vector2(1886, 124)
-
 [node name="Enemy" parent="Camera2D/EnemyContainer" instance=ExtResource("15_rf4d2")]
 position = Vector2(219, 38)
 

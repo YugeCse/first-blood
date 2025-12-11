@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bxbxxvkyn1qiw"]
+[gd_scene load_steps=19 format=3 uid="uid://bxbxxvkyn1qiw"]
 
 [ext_resource type="Script" uid="uid://c4ugjfyxlonol" path="res://sprites/scripts/turret.gd" id="1_44tbv"]
 [ext_resource type="Texture2D" uid="uid://bpmaesl3t71h3" path="res://assets/enemy/turret.png" id="2_bpepy"]
@@ -27,6 +27,10 @@ region = Rect2(108, 0, 18, 18)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ey4vq"]
 atlas = ExtResource("2_bpepy")
 region = Rect2(0, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qyvr6"]
+atlas = ExtResource("2_bpepy")
+region = Rect2(126, 0, 18, 18)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bpepy"]
 atlas = ExtResource("2_bpepy")
@@ -85,6 +89,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_qyvr6")
+}],
+"loop": true,
+"name": &"left_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_bpepy")
 }],
 "loop": true,
@@ -137,7 +149,7 @@ script = ExtResource("1_44tbv")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_44tbv")
-animation = &"left"
+animation = &"down"
 autoplay = "left"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -7,13 +7,16 @@ var action: PlayerState.Action = PlayerState.Action.idle
 
 ## 玩家移动速度
 @export
-var speed: float = 120.0
+var speed: float = 60.0
 
 ## 玩家是否在跳跃中
 var is_jumping: bool = false
 
 ## 玩家跳跃计数器
 var jump_counter: int = 0
+
+## 玩家射击角度
+var shoot_degress: float = 0.0
 
 ## 玩家关联的精灵节点
 @onready
@@ -50,7 +53,6 @@ func _handle_control_move(delta: float):
 		sprite.play('idle') #播放跳的动画
 	# 处理用户输入
 	var is_moving = false #是否正在移动
-	var shoot_degress = 0.0 #射击角度
 	var move_dir = Vector2.ZERO #移动方向
 	if Input.is_action_pressed('ui_left'):
 		is_moving = true
@@ -83,7 +85,7 @@ func _handle_control_move(delta: float):
 	# 如果需要调试碰撞，可以检查上一次滑动碰撞
 	var collider = get_last_slide_collision()
 	if collider: #发生了碰撞
-		print('玩家与其他实体发生了碰撞💥')
+		pass # print('玩家与其他实体发生了碰撞💥')
 	# 处理子弹发射的相关逻辑
 	if Input.is_action_just_pressed('ui_shoot'):
 		if not is_moving:
@@ -119,13 +121,13 @@ func shoot(degress: float):
 	var direction = Vector2(cos(angle_radians),\
 		sin(angle_radians)).normalized()
 	print('玩家发射的方向数据是：', direction)
-	print('玩家输入的角度是：{}, {}', [degress, angle_radians])
+	print('玩家输入的角度是：', degress, ', ', angle_radians)
 	var bullet = bullet_resource.instantiate() as PlayerBullet
 	var offset = Vector2.ZERO
 	if degress == 0.0:
 		offset = Vector2(15.0, 5.0)
 	elif degress == 180.0:
-		offset = -Vector2(15.0, 5.0)
+		offset = Vector2(-15.0, 5.0)
 	bullet.direction = direction
 	bullet.global_position = global_position + offset
 	get_tree().current_scene.add_child_to_camera(bullet)
