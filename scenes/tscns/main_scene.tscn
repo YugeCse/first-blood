@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=4 uid="uid://ch2wthxe3euso"]
+[gd_scene load_steps=31 format=4 uid="uid://ch2wthxe3euso"]
 
 [ext_resource type="Script" uid="uid://bgsml851ggl8l" path="res://scenes/scripts/main_scene.gd" id="1_iqqi7"]
 [ext_resource type="Texture2D" uid="uid://blio11u6qg3js" path="res://assets/tileset.png" id="2_ajs4e"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://bohkcb6wp3ptn" path="res://assets/background/tile_cave_blob_1.png" id="9_jkd1u"]
 [ext_resource type="Texture2D" uid="uid://d3x43c7qnfpj5" path="res://assets/background/tile_cave_hole_1.png" id="10_ujx1k"]
 [ext_resource type="PackedScene" uid="uid://bxbxxvkyn1qiw" path="res://sprites/tscns/turret.tscn" id="14_x4yan"]
+[ext_resource type="PackedScene" uid="uid://cm6tulftvh8w7" path="res://sprites/tscns/enemy.tscn" id="15_rf4d2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hdif8"]
 texture = ExtResource("2_ajs4e")
@@ -2352,8 +2353,11 @@ position = Vector2(1788, 92)
 [node name="Turret9" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
 position = Vector2(1886, 124)
 
+[node name="Enemy" parent="Camera2D/EnemyContainer" instance=ExtResource("15_rf4d2")]
+position = Vector2(219, 38)
+
 [node name="Player" parent="Camera2D" instance=ExtResource("3_aqrb5")]
 z_index = 2
-position = Vector2(18, 69)
+position = Vector2(10, 104)
 platform_floor_layers = 4294967294
 platform_wall_layers = 2

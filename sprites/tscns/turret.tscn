@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bxbxxvkyn1qiw"]
+[gd_scene load_steps=18 format=3 uid="uid://bxbxxvkyn1qiw"]
 
 [ext_resource type="Script" uid="uid://c4ugjfyxlonol" path="res://sprites/scripts/turret.gd" id="1_44tbv"]
 [ext_resource type="Texture2D" uid="uid://bpmaesl3t71h3" path="res://assets/enemy/turret.png" id="2_bpepy"]
@@ -127,6 +127,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bpepy"]
 size = Vector2(18, 18)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_qyvr6"]
+radius = 300.0
+
 [node name="Turret" type="StaticBody2D" groups=["Enemy"]]
 collision_layer = 4
 collision_mask = 17
@@ -139,3 +142,12 @@ autoplay = "left"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_bpepy")
+
+[node name="DetectorArea2D" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectorArea2D"]
+shape = SubResource("CircleShape2D_qyvr6")
+
+[connection signal="area_entered" from="DetectorArea2D" to="." method="_on_detector_area_2d_area_entered"]
+[connection signal="area_exited" from="DetectorArea2D" to="." method="_on_detector_area_2d_area_exited"]

@@ -14,6 +14,10 @@ var is_jumping: bool = false
 ## 玩家跳跃计数器
 var jump_counter: int = 0
 
+## 子弹资源
+@onready
+var bullet_resource = preload("res://sprites/tscns/player_bullet.tscn")
+
 ## 玩家关联的精灵节点
 @onready
 var sprite = $AnimatedSprite
@@ -44,13 +48,19 @@ func _handle_control_move(delta: float):
 		is_jumping = false
 		sprite.play('idle') #播放跳的动画
 	# 处理用户输入
-	var dir = Vector2.ZERO
+	var is_moving = false #是否正在移动
+	var shoot_degress = 0.0 #射击角度
+	var move_dir = Vector2.ZERO #移动方向
 	if Input.is_action_pressed('ui_left'):
-		dir.x = Vector2.LEFT.x
+		is_moving = true
+		shoot_degress = 180.0
+		move_dir.x = Vector2.LEFT.x
 		_play_sprite_run() #播放run的动画
 		if sprite: sprite.flip_h = true
 	if Input.is_action_pressed('ui_right'):
-		dir.x = Vector2.RIGHT.x
+		is_moving = true
+		shoot_degress = 0.0
+		move_dir.x = Vector2.RIGHT.x
 		_play_sprite_run() #播放run的动画
 		if sprite: sprite.flip_h = false
 	if Input.is_action_just_pressed('ui_jump'):
@@ -65,8 +75,11 @@ func _handle_control_move(delta: float):
 				return #已经完成第二次跳跃，直接返回
 			velocity.y = -260.0
 			jump_counter = -1 #标记此时不能再跳了
-	velocity.x = speed * dir.x
-	if dir.x == 0.0: sprite.play('idle') #如果没有移动，则使用idle动画
+	if Input.is_action_just_pressed('ui_shoot'):
+		shoot(shoot_degress) #发射子弹
+	velocity.x = speed * move_dir.x
+	if move_dir.x == 0.0:
+		sprite.play('idle') #如果没有移动，则使用idle动画
 	move_and_slide() # 使用 CharacterBody2D 的无参 move_and_slide() 来处理地面接触与滑动
 	# 如果需要调试碰撞，可以检查上一次滑动碰撞
 	var col = get_last_slide_collision()
@@ -85,3 +98,22 @@ func _set_position_clamp():
 		global_position.x = shape_size.x / 2.0
 	elif global_position.x >= GlobalConfigs.DESIGN_MAP_WIDTH - shape_size.x / 2.0:
 		global_position.x = GlobalConfigs.DESIGN_MAP_WIDTH - shape_size.x / 2.0
+
+## 发射子弹
+func shoot(degress: float):
+	# 角度转弧度
+	var angle_radians = deg_to_rad(degress)
+	# 使用 cos/sin 得到方向向量
+	var direction = Vector2(cos(angle_radians),\
+		sin(angle_radians)).normalized()
+	var bullet = bullet_resource.instantiate() as PlayerBullet
+	var offset = Vector2.ZERO
+	if degress == 0.0:
+		offset = Vector2(15.0, 5.0)
+	elif degress == 180.0:
+		offset = -Vector2(15.0, 5.0)
+		direction.x = -1 * direction.x
+		print('相反处理')
+	bullet.direction = direction
+	bullet.global_position = global_position + offset
+	get_tree().current_scene.add_child_to_camera(bullet)

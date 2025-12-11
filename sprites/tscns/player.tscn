@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://bu0oiv8b0bb31"]
+[gd_scene load_steps=38 format=3 uid="uid://bu0oiv8b0bb31"]
 
 [ext_resource type="Script" uid="uid://7v86wpn4d6vs" path="res://sprites/scripts/player.gd" id="1_ti7od"]
 [ext_resource type="Texture2D" uid="uid://dselj4x3fck4w" path="res://assets/player/john_idle.png" id="2_rkemy"]
@@ -235,6 +235,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lm2uk"]
 size = Vector2(16, 21)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_l7xvl"]
+radius = 100.0
+
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_mask = 2
 script = ExtResource("1_ti7od")
@@ -254,3 +257,9 @@ limit_top = 0
 limit_right = 2000
 limit_bottom = 210
 position_smoothing_enabled = true
+
+[node name="DetectorArea2D" type="Area2D" parent="."]
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectorArea2D"]
+shape = SubResource("CircleShape2D_l7xvl")
