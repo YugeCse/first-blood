@@ -30,6 +30,8 @@ func _physics_process(delta: float) -> void:
 	var shape_size = (collision_shape.shape as RectangleShape2D).size
 	if position.x < shape_size.x / 2.0:
 		position.x = shape_size.x / 2.0
+	elif position.x >= 2000.0 - shape_size.x / 2.0:
+		position.x = 2000.0 - shape_size.x / 2.0
 	# 把 velocity 当作像素/秒来管理：水平速度不乘 delta，重力乘 delta
 	var gravity: float = 980.0
 	if not is_on_floor():

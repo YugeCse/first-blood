@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://bxbxxvkyn1qiw"]
 
-[ext_resource type="Script" uid="uid://c4ugjfyxlonol" path="res://sprites/scripts/gun_turret.gd" id="1_44tbv"]
+[ext_resource type="Script" uid="uid://c4ugjfyxlonol" path="res://sprites/scripts/turret.gd" id="1_44tbv"]
 [ext_resource type="Texture2D" uid="uid://bpmaesl3t71h3" path="res://assets/enemy/turret.png" id="2_bpepy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7sdta"]

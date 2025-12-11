@@ -1,4 +1,5 @@
-extends StaticBody2D
+## 炮台组件
+class_name Turret extends StaticBody2D
 
 
 # Called when the node enters the scene tree for the first time.
