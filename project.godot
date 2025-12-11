@@ -17,13 +17,20 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+GlobalConfigs="*res://autoloads/global_configs.gd"
 PlayerState="*res://autoloads/player_state.gd"
+EnemyState="*res://autoloads/enemy_state.gd"
 
 [display]
 
 window/size/viewport_width=1200
 window/size/viewport_height=840
 window/stretch/scale=3.0
+
+[global_group]
+
+Enemy=""
+Player=""
 
 [input]
 
@@ -69,6 +76,10 @@ ui_jump={
 
 2d_physics/layer_1="player"
 2d_physics/layer_2="floor"
+2d_physics/layer_3="turret"
+2d_physics/layer_4="enemy"
+2d_physics/layer_5="player_bullet"
+2d_physics/layer_6="enemy_bullet"
 
 [rendering]
 

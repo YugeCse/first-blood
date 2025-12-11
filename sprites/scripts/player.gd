@@ -24,17 +24,18 @@ var collision_shape = $CollisionShape
 
 func _ready() -> void:
 	set_process_input(true)
-	$Camera2D.make_current()
+	$FollowCamera2D.make_current() #设置相机跟随
 
 func _physics_process(delta: float) -> void:
-	var shape_size = (collision_shape.shape as RectangleShape2D).size
-	if position.x < shape_size.x / 2.0:
-		position.x = shape_size.x / 2.0
-	elif position.x >= 2000.0 - shape_size.x / 2.0:
-		position.x = 2000.0 - shape_size.x / 2.0
+	_set_position_clamp() #设置坐标限制
+	_handle_control_move(delta) #处理控制移动
+
+## 处理控制移动
+func _handle_control_move(delta: float):
 	# 把 velocity 当作像素/秒来管理：水平速度不乘 delta，重力乘 delta
 	var gravity: float = 980.0
 	if not is_on_floor():
+		#有重力加速度
 		velocity.y += gravity * delta
 	else:
 		# 当在地面上时，把垂直速度清零，避免累积
@@ -53,17 +54,17 @@ func _physics_process(delta: float) -> void:
 		_play_sprite_run() #播放run的动画
 		if sprite: sprite.flip_h = false
 	if Input.is_action_just_pressed('ui_jump'):
-		if is_on_floor():
+		if is_on_floor(): #如果在地面上，可以执行跳跃
 			if jump_counter == 0:
-				jump_counter = 1
+				jump_counter = 1 #标记已经跳过一次了
 			velocity.y = -300.0
-			is_jumping = true
+			is_jumping = true #标记正在跳跃
 			sprite.play('jump') #播放跳的动画
-		else:
+		else: #此时在天空中，判断是否能够二次跳跃
 			if not(jump_counter == 1 and is_jumping):
-				return
+				return #已经完成第二次跳跃，直接返回
 			velocity.y = -260.0
-			jump_counter = -1 #不能再跳了
+			jump_counter = -1 #标记此时不能再跳了
 	velocity.x = speed * dir.x
 	if dir.x == 0.0: sprite.play('idle') #如果没有移动，则使用idle动画
 	move_and_slide() # 使用 CharacterBody2D 的无参 move_and_slide() 来处理地面接触与滑动
@@ -76,3 +77,11 @@ func _play_sprite_run():
 	var anim_name = sprite.animation as StringName
 	if anim_name.get_basename() != 'run':
 		sprite.play('run') #播放run的动画
+
+## 设置坐标限制
+func _set_position_clamp():
+	var shape_size = (collision_shape.shape as RectangleShape2D).size
+	if global_position.x < shape_size.x / 2.0:
+		global_position.x = shape_size.x / 2.0
+	elif global_position.x >= GlobalConfigs.DESIGN_MAP_WIDTH - shape_size.x / 2.0:
+		global_position.x = GlobalConfigs.DESIGN_MAP_WIDTH - shape_size.x / 2.0

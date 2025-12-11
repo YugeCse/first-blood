@@ -235,16 +235,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lm2uk"]
 size = Vector2(16, 21)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_mask = 2
 script = ExtResource("1_ti7od")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-limit_left = 0
-limit_top = 0
-limit_right = 2000
-limit_bottom = 210
-position_smoothing_enabled = true
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_iofu1")
@@ -254,3 +247,10 @@ autoplay = "idle"
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
 position = Vector2(-1, 1.5)
 shape = SubResource("RectangleShape2D_lm2uk")
+
+[node name="FollowCamera2D" type="Camera2D" parent="."]
+limit_left = 0
+limit_top = 0
+limit_right = 2000
+limit_bottom = 210
+position_smoothing_enabled = true

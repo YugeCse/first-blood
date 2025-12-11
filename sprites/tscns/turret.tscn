@@ -1,7 +1,24 @@
-[gd_scene load_steps=12 format=3 uid="uid://bxbxxvkyn1qiw"]
+[gd_scene load_steps=17 format=3 uid="uid://bxbxxvkyn1qiw"]
 
 [ext_resource type="Script" uid="uid://c4ugjfyxlonol" path="res://sprites/scripts/turret.gd" id="1_44tbv"]
 [ext_resource type="Texture2D" uid="uid://bpmaesl3t71h3" path="res://assets/enemy/turret.png" id="2_bpepy"]
+[ext_resource type="Texture2D" uid="uid://b4jx6g2fh8ak7" path="res://assets/enemy/turret_broke.png" id="2_qyvr6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fxtge"]
+atlas = ExtResource("2_qyvr6")
+region = Rect2(0, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rfgw3"]
+atlas = ExtResource("2_qyvr6")
+region = Rect2(18, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_avq7p"]
+atlas = ExtResource("2_qyvr6")
+region = Rect2(36, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tcpbm"]
+atlas = ExtResource("2_qyvr6")
+region = Rect2(54, 0, 18, 18)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7sdta"]
 atlas = ExtResource("2_bpepy")
@@ -33,6 +50,23 @@ region = Rect2(36, 0, 18, 18)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_44tbv"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fxtge")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rfgw3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_avq7p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tcpbm")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7sdta")
@@ -93,12 +127,15 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bpepy"]
 size = Vector2(18, 18)
 
-[node name="GunTurret" type="StaticBody2D"]
+[node name="Turret" type="StaticBody2D" groups=["Enemy"]]
+collision_layer = 4
+collision_mask = 17
 script = ExtResource("1_44tbv")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_44tbv")
 animation = &"left"
+autoplay = "left"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_bpepy")
