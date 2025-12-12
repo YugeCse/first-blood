@@ -50,11 +50,12 @@ func potral():
 ## 执行追击，这个过程会执行射击
 func chase():
 	var angle = global_position\
-		.angle_to(spy_player.global_position)
+		.dot(spy_player.global_position)
 	if angle > 0:
-		print('玩家在他的左边')
-	else:
-		print('玩家在他的右边')
+		print('玩家在他的前方')
+	elif angle < 0:
+		print('玩家在他的后方')
+	else: print('玩家在他的正侧方')
 
 ## 执行射击
 func shoot():
