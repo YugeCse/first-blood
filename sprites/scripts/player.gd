@@ -40,6 +40,7 @@ func _physics_process(delta: float) -> void:
 
 ## 处理控制移动
 func _handle_control_move(delta: float):
+	#region 控制重力逻辑
 	# 把 velocity 当作像素/秒来管理：水平速度不乘 delta，重力乘 delta
 	var gravity: float = 980.0
 	if not is_on_floor():
@@ -51,7 +52,8 @@ func _handle_control_move(delta: float):
 		jump_counter = 0
 		is_jumping = false
 		sprite.play('idle') #播放跳的动画
-	# 处理用户输入
+	#endregion
+	#region 处理用户输入
 	var is_moving = false #是否正在移动
 	var move_dir = Vector2.ZERO #移动方向
 	if Input.is_action_pressed('ui_left'):
@@ -86,11 +88,13 @@ func _handle_control_move(delta: float):
 	var collider = get_last_slide_collision()
 	if collider: #发生了碰撞
 		pass # print('玩家与其他实体发生了碰撞💥')
-	# 处理子弹发射的相关逻辑
+	#endregion
+	#region 处理子弹发射的相关逻辑
 	if Input.is_action_just_pressed('ui_shoot'):
 		if not is_moving:
 			print('玩家未发生移动，直接发射子弹')
 		shoot(shoot_degress) #发射子弹
+	#endregion
 
 ## 播放玩家run动画
 func _play_sprite_run():
