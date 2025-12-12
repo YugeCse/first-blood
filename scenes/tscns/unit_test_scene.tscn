@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgkelgmd78yuo"]
+
+[ext_resource type="PackedScene" uid="uid://cm6tulftvh8w7" path="res://sprites/tscns/enemy.tscn" id="1_eoldt"]
+[ext_resource type="PackedScene" uid="uid://bu0oiv8b0bb31" path="res://sprites/tscns/player.tscn" id="2_b2bbi"]
+[ext_resource type="PackedScene" uid="uid://bxbxxvkyn1qiw" path="res://sprites/tscns/turret.tscn" id="3_l3rtl"]
+
+[node name="UnitTestScene" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("2_b2bbi")]
+position = Vector2(391, 279)
+
+[node name="Turret" parent="." instance=ExtResource("3_l3rtl")]
+position = Vector2(691, 119)
+
+[node name="Enemy" parent="." instance=ExtResource("1_eoldt")]
+position = Vector2(331, 14)

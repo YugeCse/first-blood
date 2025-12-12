@@ -140,7 +140,7 @@ animations = [{
 size = Vector2(18, 18)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qyvr6"]
-radius = 300.0
+radius = 200.0
 
 [node name="Turret" type="StaticBody2D" groups=["Enemy"]]
 collision_layer = 4
@@ -149,7 +149,7 @@ script = ExtResource("1_44tbv")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_44tbv")
-animation = &"dead"
+animation = &"left"
 autoplay = "left"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

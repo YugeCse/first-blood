@@ -68,10 +68,10 @@ func shoot(degress: float):
 	var angle_radians = deg_to_rad(degress)
 	# 使用 cos/sin 得到方向向量
 	var dir = Vector2.from_angle(angle_radians)
+	var offset = dir.normalized() * 15.0
 	var bullet = bullet_resource.instantiate() as EnemyBullet
-	var offset = Vector2.ZERO
 	bullet.direction = dir
-	bullet.global_position = global_position + dir.normalized() * 15.0
+	bullet.global_position = global_position + offset
 	get_tree().current_scene.add_child_to_camera(bullet)
 
 ## 被损坏

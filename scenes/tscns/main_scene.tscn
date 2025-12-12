@@ -1,9 +1,10 @@
-[gd_scene load_steps=31 format=4 uid="uid://ch2wthxe3euso"]
+[gd_scene load_steps=32 format=4 uid="uid://ch2wthxe3euso"]
 
 [ext_resource type="Script" uid="uid://bgsml851ggl8l" path="res://scenes/scripts/main_scene.gd" id="1_iqqi7"]
 [ext_resource type="Texture2D" uid="uid://blio11u6qg3js" path="res://assets/tileset.png" id="2_ajs4e"]
 [ext_resource type="Texture2D" uid="uid://ybn66p51l2q7" path="res://assets/titlescreen/main_title_bg.png" id="2_hdif8"]
 [ext_resource type="PackedScene" uid="uid://bu0oiv8b0bb31" path="res://sprites/tscns/player.tscn" id="3_aqrb5"]
+[ext_resource type="Texture2D" uid="uid://ctmfm7yj0fdsm" path="res://assets/ui/ui_medal_life.png" id="3_hktbw"]
 [ext_resource type="Texture2D" uid="uid://dmwgrxb6tv01p" path="res://assets/background/jungle_tree1.png" id="4_ehh3e"]
 [ext_resource type="Texture2D" uid="uid://b2u7p3yhhu4qj" path="res://assets/background/jungle_bg_trees.png" id="4_ti3i2"]
 [ext_resource type="Texture2D" uid="uid://bssm3lvacmqq2" path="res://assets/background/clouds1.png" id="5_py70p"]
@@ -2312,6 +2313,28 @@ offset_bottom = 180.0
 texture = ExtResource("2_hdif8")
 
 [node name="HUDContainer" type="CanvasLayer" parent="Camera2D"]
+follow_viewport_enabled = true
+
+[node name="PlayerLifeContainer" type="HBoxContainer" parent="Camera2D/HUDContainer"]
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 44.0
+offset_bottom = 27.0
+
+[node name="TextureRect" type="TextureRect" parent="Camera2D/HUDContainer/PlayerLifeContainer"]
+layout_mode = 2
+texture = ExtResource("3_hktbw")
+stretch_mode = 4
+
+[node name="TextureRect2" type="TextureRect" parent="Camera2D/HUDContainer/PlayerLifeContainer"]
+layout_mode = 2
+texture = ExtResource("3_hktbw")
+stretch_mode = 4
+
+[node name="TextureRect3" type="TextureRect" parent="Camera2D/HUDContainer/PlayerLifeContainer"]
+layout_mode = 2
+texture = ExtResource("3_hktbw")
+stretch_mode = 4
 
 [node name="MapContainer" type="Node" parent="Camera2D"]
 
