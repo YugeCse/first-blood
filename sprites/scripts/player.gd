@@ -122,16 +122,14 @@ func shoot(degress: float):
 	# 角度转弧度
 	var angle_radians = deg_to_rad(degress)
 	# 使用 cos/sin 得到方向向量
-	var direction = Vector2(cos(angle_radians),\
+	var dir = Vector2(cos(angle_radians),\
 		sin(angle_radians)).normalized()
-	print('玩家发射的方向数据是：', direction)
-	print('玩家输入的角度是：', degress, ', ', angle_radians)
 	var bullet = bullet_resource.instantiate() as PlayerBullet
 	var offset = Vector2.ZERO
 	if degress == 0.0:
 		offset = Vector2(15.0, 5.0)
 	elif degress == 180.0:
 		offset = Vector2(-15.0, 5.0)
-	bullet.direction = direction
+	bullet.direction = dir
 	bullet.global_position = global_position + offset
 	get_tree().current_scene.add_child_to_camera(bullet)

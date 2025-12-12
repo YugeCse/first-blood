@@ -7,6 +7,9 @@ var spy_player: Player
 ## 炮台射击的角度
 var shoot_degress: float = 180.0
 
+## 是否损坏
+var is_destory: bool = false
+
 @onready
 var sprite = $Sprite2D
 
@@ -24,6 +27,7 @@ func _ready() -> void:
 	sprite.play('left')  #方向朝向玩家来的方向
 
 func _physics_process(delta: float) -> void:
+	if is_destory: return
 	#region 检测到玩家，进行旋转处理
 	if spy_player:  #检测到玩家存在，处理旋转精灵图像
 		# dir: 从炮台指向玩家（炮台要面向玩家）
@@ -69,6 +73,14 @@ func shoot(degress: float):
 	bullet.direction = dir
 	bullet.global_position = global_position + dir.normalized() * 15.0
 	get_tree().current_scene.add_child_to_camera(bullet)
+
+## 被损坏
+func destroy():
+	is_destory = true
+	collision_shape.disabled = true
+	shoot_timer.stop()
+	sprite.play('dead')
+	print('炮台(', name , ')被损坏')
 
 func _on_detector_area_2d_area_entered(area: Area2D) -> void:
 	var area_parent = area.get_parent()

@@ -27,5 +27,8 @@ func _physics_process(delta: float) -> void:
 	var collider = move_and_collide(velocity)
 	if not collider: return #未发生碰撞
 	collision_shape.disabled = true
+	collider = collider.get_collider()
+	if collider is Turret:
+		collider.destroy()
 	queue_free() #发生碰撞，需要删除
 	print('玩家子弹与其他发生了碰撞💥')
