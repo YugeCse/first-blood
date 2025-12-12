@@ -17,7 +17,7 @@ func _physics_process(delta: float) -> void:
 	if spy_player: #检测到玩家
 		var dir = spy_player.global_position\
 			.direction_to(global_position)
-		var degress = rad_to_deg(dir.angle())
+		var degress = wrapf(rad_to_deg(dir.angle()), 0, 360)
 		if abs(dir.x) > abs(dir.y):
 			var x = dir.x
 			if x > 0:
