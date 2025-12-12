@@ -114,10 +114,10 @@ func _on_detector_area_2d_area_entered(area: Area2D) -> void:
 	var parent = area.get_parent()
 	if parent is Player:
 		spy_player = parent as Player
-		print('玩家进入敌人{}监视范围'.format([name]))
+		print('玩家进入敌人({name})监视范围'.format({'name': name}))
 
 func _on_detector_area_2d_area_exited(area: Area2D) -> void:
 	var parent = area.get_parent()
 	if parent is Player and parent == spy_player:
 		spy_player = null
-		print('玩家离开敌人{}监视范围'.format([name]))
+		print('玩家离开敌人({name})监视范围'.format({'name': name}))

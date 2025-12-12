@@ -2313,7 +2313,6 @@ offset_bottom = 180.0
 texture = ExtResource("2_hdif8")
 
 [node name="HUDContainer" type="CanvasLayer" parent="Camera2D"]
-follow_viewport_enabled = true
 
 [node name="PlayerLifeContainer" type="HBoxContainer" parent="Camera2D/HUDContainer"]
 offset_left = 12.0
