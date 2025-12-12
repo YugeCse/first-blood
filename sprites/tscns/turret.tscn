@@ -161,5 +161,9 @@ collision_layer = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectorArea2D"]
 shape = SubResource("CircleShape2D_qyvr6")
 
+[node name="ShootTimer" type="Timer" parent="."]
+wait_time = 1.5
+
 [connection signal="area_entered" from="DetectorArea2D" to="." method="_on_detector_area_2d_area_entered"]
 [connection signal="area_exited" from="DetectorArea2D" to="." method="_on_detector_area_2d_area_exited"]
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
