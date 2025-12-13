@@ -191,16 +191,18 @@ animations = [{
 }],
 "loop": true,
 "name": &"run",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ha57j"]
 radius = 160.0
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "collision_shape") groups=["Enemy"]]
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("shoot_timer", "sprite", "collision_shape") groups=["Enemy"]]
 collision_layer = 8
 collision_mask = 19
 script = ExtResource("1_u2tar")
+potral_speed = 150.0
+shoot_timer = NodePath("ShootTimer")
 sprite = NodePath("AnimatedSprite")
 collision_shape = NodePath("CollisionShape")
 
@@ -209,9 +211,9 @@ shape = SubResource("RectangleShape2D_ha57j")
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vnllh")
-animation = &"idle"
+animation = &"run"
 autoplay = "idle"
-frame_progress = 0.8781196
+frame_progress = 0.9941868
 flip_h = true
 
 [node name="DetectorArea2D" type="Area2D" parent="."]
@@ -222,5 +224,8 @@ shape = SubResource("CircleShape2D_ha57j")
 
 [node name="MoveTimer" type="Timer" parent="."]
 
+[node name="ShootTimer" type="Timer" parent="."]
+
 [connection signal="area_entered" from="DetectorArea2D" to="." method="_on_detector_area_2d_area_entered"]
 [connection signal="area_exited" from="DetectorArea2D" to="." method="_on_detector_area_2d_area_exited"]
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

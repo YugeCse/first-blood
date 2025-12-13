@@ -1,6 +1,14 @@
 ## 炮台组件
 class_name Turret extends StaticBody2D
 
+## 生命血量
+@export_range(100, 500)
+var life_blood: float = 300
+
+## 生命最大血量
+@export_range(100, 500)
+var life_boold_max: float = 300
+
 ## 被检测的玩家
 var spy_player: Player
 
@@ -24,6 +32,8 @@ var shoot_timer = $ShootTimer
 var bullet_resource = preload("res://sprites/tscns/enemy_bullet.tscn")
 
 func _ready() -> void:
+	if life_boold_max < life_blood:
+		life_boold_max = life_blood
 	sprite.play('left')  #方向朝向玩家来的方向
 
 func _physics_process(delta: float) -> void:
@@ -73,6 +83,19 @@ func shoot(degress: float):
 	bullet.direction = dir
 	bullet.global_position = global_position + offset
 	get_tree().current_scene.add_child_to_camera(bullet)
+
+## 被打击
+## [br]
+## - crack: 收到的伤害
+func hurt(crack: float):
+	var diff = life_blood - crack
+	if diff <= 0.0:
+		life_blood = 0.0
+	if life_blood <= 0.0:
+		destroy() #敌人被毁坏
+	else:
+		life_blood = diff #更新血量
+	print('血量：{value}'.format({'value': life_blood}))
 
 ## 被损坏
 func destroy():

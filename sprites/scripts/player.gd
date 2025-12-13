@@ -51,7 +51,6 @@ func _handle_control_move(delta: float):
 		velocity.y = 0.0
 		jump_counter = 0
 		is_jumping = false
-		sprite.play('idle') #播放跳的动画
 	#endregion
 	#region 处理用户输入
 	var is_moving = false #是否正在移动
@@ -81,6 +80,11 @@ func _handle_control_move(delta: float):
 			velocity.y = -260.0
 			jump_counter = -1 #标记此时不能再跳了
 	velocity.x = speed * move_dir.x
+	if is_moving: #如果正在移动
+		sprite.play('run') #播放跑的动画
+	elif is_jumping:
+		sprite.play('jump') #播放跳的动画
+	else: sprite.play('idle') #播放休闲状态
 	if move_dir.x == 0.0:
 		sprite.play('idle') #如果没有移动，则使用idle动画
 	move_and_slide() # 使用 CharacterBody2D 的无参 move_and_slide() 来处理地面接触与滑动

@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://bohkcb6wp3ptn" path="res://assets/background/tile_cave_blob_1.png" id="9_jkd1u"]
 [ext_resource type="Texture2D" uid="uid://d3x43c7qnfpj5" path="res://assets/background/tile_cave_hole_1.png" id="10_ujx1k"]
 [ext_resource type="PackedScene" uid="uid://bxbxxvkyn1qiw" path="res://sprites/tscns/turret.tscn" id="14_x4yan"]
-[ext_resource type="PackedScene" uid="uid://cm6tulftvh8w7" path="res://sprites/tscns/enemy.tscn" id="15_rf4d2"]
+[ext_resource type="PackedScene" uid="uid://cm6tulftvh8w7" path="res://sprites/tscns/enemy.tscn" id="16_hktbw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hdif8"]
 texture = ExtResource("2_ajs4e")
@@ -2351,8 +2351,13 @@ physics_quadrant_size = 8
 [node name="Turret" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
 position = Vector2(207, 67)
 
-[node name="Enemy" parent="Camera2D/EnemyContainer" instance=ExtResource("15_rf4d2")]
-position = Vector2(219, 38)
+[node name="Enemy" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
+position = Vector2(224, 39)
+potral_speed = 500.0
+
+[node name="Enemy2" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
+position = Vector2(341, 166)
+potral_speed = 500.0
 
 [node name="Player" parent="Camera2D" instance=ExtResource("3_aqrb5")]
 z_index = 2
