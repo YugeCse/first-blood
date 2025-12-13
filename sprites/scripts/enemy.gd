@@ -18,21 +18,16 @@ var life_blood: float = 200.0
 var life_blood_max: float = 200.0
 
 ## 巡逻速度
-@export_range(100, 1000)
-var potral_speed: float = 500.0
+@export_range(10, 1000)
+var patrol_speed: float = 10.0
 
-## 上次的巡逻点
-var last_potral_posi: Vector2
+## 巡逻路径
+@export
+var patrol_path: Path2D
 
-## 巡逻距离
-@export_range(0, 1000)
-var potral_distance: float = 50.0
-
-## 巡逻距离长度
-var potral_dist_len: float = 0.0
-
-## 是否巡逻到目的点
-var is_potral_target: bool = false
+## 路径跟随
+@export
+var patrol_path_follow: PathFollow2D
 
 ## 被监视的玩家
 var spy_player: Player
@@ -58,6 +53,7 @@ func _ready() -> void:
 		life_blood_max = 100.0
 	sprite.play("idle") #显示静止状态
 	sprite.flip_h = true #朝玩家方向
+	shoot_timer.paused = true
 	_draw_life_blood_in_edit_mode()
 
 func _enter_tree() -> void:
@@ -67,8 +63,12 @@ func _physics_process(delta: float) -> void:
 	_detect_position_clamp() #检测坐标越界处理
 	_draw_life_blood_in_edit_mode()
 	if Engine.is_editor_hint(): return #编辑模式下不处理逻辑
-	if action == EnemyState.Action.idle and not spy_player:
-		action = EnemyState.Action.potral
+	if action == EnemyState.Action.idle:
+		if (sprite.animation as StringName)\
+			.get_basename() != 'idle':
+			sprite.play('idle')
+		if not spy_player:
+			action = EnemyState.Action.potral
 	if action == EnemyState.Action.potral: #巡逻
 		potral(delta) #执行巡逻
 	elif action == EnemyState.Action.chase and spy_player: #追击玩家
@@ -76,48 +76,30 @@ func _physics_process(delta: float) -> void:
 
 ## 执行巡逻， 沿着一定的区域范围进行行走
 func potral(delta: float):
+	if not patrol_path or\
+		not patrol_path_follow:
+		sprite.play('idle')
+		sprite.flip_h = true if direction.x < 0 else false
+		return #没有设置巡逻路径，直接返回
 	sprite.play('run') #执行动画
 	if is_on_floor():
 		velocity.y = 0.0
 	else: velocity.y += 980.0 * delta
-	if not last_potral_posi:
-		last_potral_posi = global_position
-	else:
-		var distance = global_position - last_potral_posi
-		if not distance or\
-			distance.x == null or\
-			potral_distance == null: 
-			return #不满足条件，直接返回
-		if abs(distance.x) >= potral_distance:
-			last_potral_posi = global_position
-			is_potral_target = true
-			direction.x = -direction.x
-			sprite.flip_h = true if direction.x < 0 else false
-	if is_potral_target:
-		potral_dist_len = 0.0
-		velocity.x = potral_speed * delta * direction.x
-		is_potral_target = false #执行完操作，需要还原
-	else:
-		if direction == Vector2.ZERO:
-			direction = Vector2.LEFT
-		velocity.x = potral_speed * delta * direction.x
-	move_and_slide() #进行移动操作
+	patrol_path_follow.progress += patrol_speed * delta
+	sprite.flip_h = true if patrol_path_follow.progress <= 50.0 else false
 
 ## 执行追击，这个过程会执行射击
 func chase():
 	sprite.play('idle')
-	if shoot_timer:
-		if shoot_timer.paused:
-			shoot_timer.paused = false
-		if not shoot_timer.is_processing():
-			shoot_timer.start(1.0)
+	_start_shoot_timer() #启动射击定时器
 	var dir = global_position - spy_player.global_position
 	if dir.x > 0:
-		if direction.x > 0:
-			direction.x = -1.0
-			sprite.flip_h = true
+		direction.x = 1.0
+		sprite.flip_h = true
 		print('玩家在他的前方: ', dir.x)
 	elif dir.x < 0:
+		sprite.flip_h = false
+		direction.x = -1.0
 		print('玩家在他的后方', dir.x)
 	else: print('玩家在他的正侧方', dir.x)
 
@@ -128,6 +110,7 @@ func shoot():
 		- global_position).normalized()
 	dir.y = 0.0 #清理垂直方向的
 	var offset = dir.normalized() * 15.0
+	offset.y = 5.0 #调整枪与子弹的垂直坐标数据
 	var bullet = bullet_resource.instantiate() as EnemyBullet
 	bullet.direction = dir
 	bullet.global_position = global_position + offset
@@ -187,16 +170,28 @@ func _draw() -> void:
 func _draw_life_blood_in_edit_mode():
 	if Engine.is_editor_hint(): queue_redraw()
 
+## 启动射击定时器
+func _start_shoot_timer():
+	if not shoot_timer: return
+	if shoot_timer.paused:
+		shoot_timer.paused = false
+	if not shoot_timer.is_stopped(): return
+	shoot_timer.start() #启动射击定时器
+
+## 停止射击定时器
+func _stop_shoot_timer():
+	if not shoot_timer: return
+	if not shoot_timer.paused:
+		shoot_timer.paused = true
+	if not shoot_timer.is_stopped():
+		shoot_timer.stop()
+
 func _on_detector_area_2d_area_entered(area: Area2D) -> void:
 	var parent = area.get_parent()
 	if parent is Player:
 		spy_player = parent as Player
 		action = EnemyState.Action.chase
-		if shoot_timer: #如果发射定时器可用
-			if shoot_timer.paused:
-				shoot_timer.paused = false
-			if not shoot_timer.is_processing():
-				shoot_timer.start()
+		_stop_shoot_timer() #停止射击定时器
 		print('玩家进入敌人({name})监视范围'.format({'name': name}))
 
 func _on_detector_area_2d_area_exited(area: Area2D) -> void:
@@ -205,8 +200,11 @@ func _on_detector_area_2d_area_exited(area: Area2D) -> void:
 		spy_player = null
 		if shoot_timer and not shoot_timer.paused:
 			shoot_timer.paused = true
+			shoot_timer.stop()
 		action = EnemyState.Action.idle
 		print('玩家离开敌人({name})监视范围'.format({'name': name}))
 
 func _on_shoot_timer_timeout() -> void:
+	if shoot_timer:
+		shoot_timer.wait_time = randf_range(1.0, 1.5)
 	shoot() #发射子弹

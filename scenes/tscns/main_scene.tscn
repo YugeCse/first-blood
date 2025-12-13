@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=4 uid="uid://ch2wthxe3euso"]
+[gd_scene load_steps=33 format=4 uid="uid://ch2wthxe3euso"]
 
 [ext_resource type="Script" uid="uid://bgsml851ggl8l" path="res://scenes/scripts/main_scene.gd" id="1_iqqi7"]
 [ext_resource type="Texture2D" uid="uid://blio11u6qg3js" path="res://assets/tileset.png" id="2_ajs4e"]
@@ -2243,6 +2243,12 @@ sources/0 = SubResource("TileSetAtlasSource_py70p")
 sources/1 = SubResource("TileSetAtlasSource_1rb06")
 sources/6 = SubResource("TileSetAtlasSource_qu1vm")
 
+[sub_resource type="Curve2D" id="Curve2D_hktbw"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -55, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 3
+
 [node name="MainScene" type="Control"]
 clip_contents = true
 custom_minimum_size = Vector2(10000, 210)
@@ -2262,7 +2268,7 @@ position_smoothing_enabled = true
 custom_minimum_size = Vector2(10000, 210)
 offset_right = 40.0
 offset_bottom = 40.0
-color = Color(0.047058824, 0.3764706, 1, 0.68235296)
+color = Color(0.4576946, 0.6837173, 0.99011046, 0.68235296)
 
 [node name="BgImg7" type="TextureRect" parent="Camera2D/Background"]
 layout_mode = 0
@@ -2353,11 +2359,19 @@ position = Vector2(207, 67)
 
 [node name="Enemy" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
 position = Vector2(224, 39)
-potral_speed = 500.0
+patrol_speed = 500.0
 
-[node name="Enemy2" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
+[node name="PatrolEnemy2Path2D" type="Path2D" parent="Camera2D/EnemyContainer"]
 position = Vector2(341, 166)
-potral_speed = 500.0
+curve = SubResource("Curve2D_hktbw")
+
+[node name="PatrolEnemy2PathFollow2D" type="PathFollow2D" parent="Camera2D/EnemyContainer/PatrolEnemy2Path2D"]
+rotates = false
+
+[node name="Enemy2" parent="Camera2D/EnemyContainer/PatrolEnemy2Path2D/PatrolEnemy2PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
+patrol_speed = 10.0
+patrol_path = NodePath("../..")
+patrol_path_follow = NodePath("..")
 
 [node name="Player" parent="Camera2D" instance=ExtResource("3_aqrb5")]
 z_index = 2
