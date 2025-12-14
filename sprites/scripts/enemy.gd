@@ -68,25 +68,27 @@ func _physics_process(delta: float) -> void:
 			.get_basename() != 'idle':
 			sprite.play('idle')
 		if not spy_player:
-			action = EnemyState.Action.potral
-	if action == EnemyState.Action.potral: #巡逻
-		potral(delta) #执行巡逻
+			action = EnemyState.Action.patrol
+	if action == EnemyState.Action.patrol: #巡逻
+		patrol(delta) #执行巡逻
 	elif action == EnemyState.Action.chase and spy_player: #追击玩家
 		chase() #执行追击
 
 ## 执行巡逻， 沿着一定的区域范围进行行走
-func potral(delta: float):
+func patrol(delta: float):
 	if not patrol_path or\
 		not patrol_path_follow:
 		sprite.play('idle')
 		sprite.flip_h = true if direction.x < 0 else false
 		return #没有设置巡逻路径，直接返回
 	sprite.play('run') #执行动画
-	if is_on_floor():
+	if is_on_floor(): #如果是在地板上，就不受重力作用
 		velocity.y = 0.0
 	else: velocity.y += 980.0 * delta
+	var patrol_progress = patrol_path_follow.progress_ratio
+	#print(name, '执行巡逻中...', patrol_progress)
 	patrol_path_follow.progress += patrol_speed * delta
-	sprite.flip_h = true if patrol_path_follow.progress <= 50.0 else false
+	sprite.flip_h = true if patrol_progress <= 0.5 else false
 
 ## 执行追击，这个过程会执行射击
 func chase():

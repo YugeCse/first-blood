@@ -5,7 +5,7 @@ enum Action {
 	## 禁止
 	idle,
 	## 巡逻
-	potral,
+	patrol,
 	## 追击
 	chase,
 	## 死亡

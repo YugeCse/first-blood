@@ -140,7 +140,7 @@ animations = [{
 size = Vector2(18, 18)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qyvr6"]
-radius = 200.0
+radius = 160.0
 
 [node name="Turret" type="StaticBody2D" groups=["Enemy"]]
 collision_layer = 4
