@@ -2251,7 +2251,7 @@ point_count = 3
 
 [sub_resource type="Curve2D" id="Curve2D_hktbw"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -100, 0, 0, 0, 0, 0, 0, 0)
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -60, 1, 0, 0, 0, 0, 0, 0)
 }
 point_count = 3
 
@@ -2326,6 +2326,31 @@ offset_right = 320.0
 offset_bottom = 180.0
 texture = ExtResource("2_hdif8")
 
+[node name="HUDContainer" type="CanvasLayer" parent="Camera2D"]
+layer = 0
+follow_viewport_enabled = true
+
+[node name="PlayerLifeContainer" type="HBoxContainer" parent="Camera2D/HUDContainer"]
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 44.0
+offset_bottom = 27.0
+
+[node name="TextureRect" type="TextureRect" parent="Camera2D/HUDContainer/PlayerLifeContainer"]
+layout_mode = 2
+texture = ExtResource("3_hktbw")
+stretch_mode = 4
+
+[node name="TextureRect2" type="TextureRect" parent="Camera2D/HUDContainer/PlayerLifeContainer"]
+layout_mode = 2
+texture = ExtResource("3_hktbw")
+stretch_mode = 4
+
+[node name="TextureRect3" type="TextureRect" parent="Camera2D/HUDContainer/PlayerLifeContainer"]
+layout_mode = 2
+texture = ExtResource("3_hktbw")
+stretch_mode = 4
+
 [node name="MapContainer" type="Node" parent="Camera2D"]
 
 [node name="BackendTileMapLayer" type="TileMapLayer" parent="Camera2D/MapContainer"]
@@ -2341,6 +2366,50 @@ physics_quadrant_size = 8
 
 [node name="Turret" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
 position = Vector2(207, 67)
+
+[node name="Turret2" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
+visible = false
+position = Vector2(464, 138)
+
+[node name="Turret3" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
+position = Vector2(730, 127)
+spy_radius = 120.0
+
+[node name="Turret4" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
+position = Vector2(957, 156)
+spy_radius = 120.0
+
+[node name="Turret5" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
+position = Vector2(896, 189)
+spy_radius = 120.0
+
+[node name="Turret6" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
+position = Vector2(1242, 75)
+spy_radius = 120.0
+
+[node name="Turret7" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
+position = Vector2(1305, 76)
+spy_radius = 120.0
+
+[node name="Turret8" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
+position = Vector2(1497, 155)
+spy_radius = 120.0
+
+[node name="Turret9" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
+position = Vector2(1650, 199)
+spy_radius = 120.0
+
+[node name="Turret10" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
+position = Vector2(1787, 93)
+spy_radius = 120.0
+
+[node name="Turret11" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
+position = Vector2(1830, 198)
+spy_radius = 120.0
+
+[node name="Turret12" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
+position = Vector2(1862, 125)
+spy_radius = 120.0
 
 [node name="PatrolEnemyPath2D" type="Path2D" parent="Camera2D/EnemyContainer"]
 position = Vector2(224, 36)
@@ -2360,41 +2429,135 @@ position = Vector2(341, 166)
 curve = SubResource("Curve2D_hktbw")
 
 [node name="PatrolEnemy2PathFollow2D" type="PathFollow2D" parent="Camera2D/EnemyContainer/PatrolEnemy2Path2D"]
-position = Vector2(-49.759953, 0)
+position = Vector2(-49.766457, 0.82944095)
 progress = 49.76
 rotates = false
 
-[node name="Enemy2" parent="Camera2D/EnemyContainer/PatrolEnemy2Path2D/PatrolEnemy2PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
-patrol_path = NodePath("../..")
-patrol_path_follow = NodePath("..")
+[node name="Enemy2" parent="Camera2D/EnemyContainer/PatrolEnemy2Path2D/PatrolEnemy2PathFollow2D" instance=ExtResource("16_hktbw")]
+
+[node name="PatrolEnemy3Path2D" type="Path2D" parent="Camera2D/EnemyContainer"]
+position = Vector2(500, 110)
+curve = SubResource("Curve2D_hktbw")
+
+[node name="PatrolEnemy3PathFollow2D" type="PathFollow2D" parent="Camera2D/EnemyContainer/PatrolEnemy3Path2D"]
+position = Vector2(-49.766457, 0.82944095)
+progress = 49.76
+rotates = false
+
+[node name="Enemy3" parent="Camera2D/EnemyContainer/PatrolEnemy3Path2D/PatrolEnemy3PathFollow2D" instance=ExtResource("16_hktbw")]
+
+[node name="Enemy4" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
+position = Vector2(362, 62)
+
+[node name="Enemy5" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
+position = Vector2(635, 167)
+
+[node name="PatrolEnemy4Path2D" type="Path2D" parent="Camera2D/EnemyContainer"]
+position = Vector2(750, 94)
+curve = SubResource("Curve2D_hktbw")
+
+[node name="PatrolEnemy4PathFollow2D" type="PathFollow2D" parent="Camera2D/EnemyContainer/PatrolEnemy4Path2D"]
+position = Vector2(-49.766457, 0.82944095)
+progress = 49.76
+rotates = false
+
+[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy4Path2D/PatrolEnemy4PathFollow2D" instance=ExtResource("16_hktbw")]
+
+[node name="Enemy6" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
+position = Vector2(678, 166)
+
+[node name="PatrolEnemy5Path2D" type="Path2D" parent="Camera2D/EnemyContainer"]
+position = Vector2(850, 165)
+curve = SubResource("Curve2D_hktbw")
+
+[node name="PatrolEnemy5PathFollow2D" type="PathFollow2D" parent="Camera2D/EnemyContainer/PatrolEnemy5Path2D"]
+position = Vector2(-23.237501, 0.38729164)
+progress = 96.76944
+rotates = false
+
+[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy5Path2D/PatrolEnemy5PathFollow2D" instance=ExtResource("16_hktbw")]
+
+[node name="Enemy7" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
+position = Vector2(894, 159)
+
+[node name="Enemy8" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
+position = Vector2(959, 126)
+
+[node name="Enemy9" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
+position = Vector2(1098, 165)
+
+[node name="PatrolEnemy6Path2D" type="Path2D" parent="Camera2D/EnemyContainer"]
+position = Vector2(1290, 165)
+curve = SubResource("Curve2D_hktbw")
+
+[node name="PatrolEnemy6PathFollow2D" type="PathFollow2D" parent="Camera2D/EnemyContainer/PatrolEnemy6Path2D"]
+position = Vector2(-23.237501, 0.38729164)
+progress = 96.76944
+rotates = false
+
+[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy6Path2D/PatrolEnemy6PathFollow2D" instance=ExtResource("16_hktbw")]
+
+[node name="PatrolEnemy7Path2D" type="Path2D" parent="Camera2D/EnemyContainer"]
+position = Vector2(1260, 165)
+curve = SubResource("Curve2D_hktbw")
+
+[node name="PatrolEnemy7PathFollow2D" type="PathFollow2D" parent="Camera2D/EnemyContainer/PatrolEnemy7Path2D"]
+position = Vector2(-56.128002, 0.93546677)
+progress = 63.956882
+rotates = false
+
+[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy7Path2D/PatrolEnemy7PathFollow2D" instance=ExtResource("16_hktbw")]
+
+[node name="Enemy10" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
+position = Vector2(1150, 134)
+
+[node name="Enemy11" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
+position = Vector2(1223, 132)
+
+[node name="Enemy12" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
+position = Vector2(1290, 131)
+
+[node name="PatrolEnemy8Path2D" type="Path2D" parent="Camera2D/EnemyContainer"]
+position = Vector2(1300, 46)
+curve = SubResource("Curve2D_hktbw")
+
+[node name="PatrolEnemy8PathFollow2D" type="PathFollow2D" parent="Camera2D/EnemyContainer/PatrolEnemy8Path2D"]
+position = Vector2(-9.183639, 0.15306064)
+progress = 9.2004595
+rotates = false
+
+[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy8Path2D/PatrolEnemy8PathFollow2D" instance=ExtResource("16_hktbw")]
+
+[node name="PatrolEnemy9Path2D" type="Path2D" parent="Camera2D/EnemyContainer"]
+position = Vector2(1530, 86)
+curve = SubResource("Curve2D_hktbw")
+
+[node name="PatrolEnemy9PathFollow2D" type="PathFollow2D" parent="Camera2D/EnemyContainer/PatrolEnemy9Path2D"]
+position = Vector2(-9.183639, 0.15306064)
+progress = 9.2004595
+rotates = false
+
+[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy9Path2D/PatrolEnemy9PathFollow2D" instance=ExtResource("16_hktbw")]
+
+[node name="PatrolEnemy10Path2D" type="Path2D" parent="Camera2D/EnemyContainer"]
+position = Vector2(1530, 126)
+curve = SubResource("Curve2D_hktbw")
+
+[node name="PatrolEnemy10PathFollow2D" type="PathFollow2D" parent="Camera2D/EnemyContainer/PatrolEnemy10Path2D"]
+position = Vector2(-50.143547, 0.8357258)
+progress = 50.130962
+rotates = false
+
+[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy10Path2D/PatrolEnemy10PathFollow2D" instance=ExtResource("16_hktbw")]
+
+[node name="Enemy13" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
+position = Vector2(1498, 186)
+
+[node name="Enemy6" parent="Camera2D" instance=ExtResource("16_hktbw")]
+position = Vector2(508, 165)
 
 [node name="Player" parent="Camera2D" instance=ExtResource("3_aqrb5")]
 z_index = 2
 position = Vector2(10, 104)
 platform_floor_layers = 4294967294
 platform_wall_layers = 2
-
-[node name="HUDContainer" type="CanvasLayer" parent="."]
-layer = 0
-follow_viewport_enabled = true
-
-[node name="PlayerLifeContainer" type="HBoxContainer" parent="HUDContainer"]
-offset_left = 12.0
-offset_top = 12.0
-offset_right = 44.0
-offset_bottom = 27.0
-
-[node name="TextureRect" type="TextureRect" parent="HUDContainer/PlayerLifeContainer"]
-layout_mode = 2
-texture = ExtResource("3_hktbw")
-stretch_mode = 4
-
-[node name="TextureRect2" type="TextureRect" parent="HUDContainer/PlayerLifeContainer"]
-layout_mode = 2
-texture = ExtResource("3_hktbw")
-stretch_mode = 4
-
-[node name="TextureRect3" type="TextureRect" parent="HUDContainer/PlayerLifeContainer"]
-layout_mode = 2
-texture = ExtResource("3_hktbw")
-stretch_mode = 4

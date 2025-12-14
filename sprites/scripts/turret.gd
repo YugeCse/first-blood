@@ -9,6 +9,10 @@ var life_blood: float = 300
 @export_range(100, 500)
 var life_boold_max: float = 300
 
+## 监视范围
+@export_range(100, 1000)
+var spy_radius: float = 100.0
+
 ## 被检测的玩家
 var spy_player: Player
 
@@ -19,13 +23,16 @@ var shoot_degress: float = 180.0
 var is_destory: bool = false
 
 @onready
+var shoot_timer = $ShootTimer
+
+@onready
 var sprite = $Sprite2D
 
 @onready
 var collision_shape = $CollisionShape2D
 
 @onready
-var shoot_timer = $ShootTimer
+var detector_area: Area2D = $DetectorArea2D
 
 ## 子弹资源
 @onready
@@ -34,10 +41,13 @@ var bullet_resource = preload("res://sprites/tscns/enemy_bullet.tscn")
 func _ready() -> void:
 	if life_boold_max < life_blood:
 		life_boold_max = life_blood
+	_update_spy_area() #更新监视范围
 	sprite.play('left')  #方向朝向玩家来的方向
 
 func _physics_process(delta: float) -> void:
-	if is_destory: return
+	if Engine.is_editor_hint() or\
+		is_destory: return
+	_update_spy_area() #更新监视范围
 	#region 检测到玩家，进行旋转处理
 	if spy_player:  #检测到玩家存在，处理旋转精灵图像
 		# dir: 从炮台指向玩家（炮台要面向玩家）
@@ -104,6 +114,23 @@ func destroy():
 	shoot_timer.stop()
 	sprite.play('dead')
 	print('炮台(', name , ')被损坏')
+
+## 更新监视范围
+func _update_spy_area():
+	var spy_shape: CircleShape2D
+	var origin_shape = \
+		null if detector_area.get_child_count() <= 0\
+		else detector_area.get_child(0)
+	if origin_shape and\
+		origin_shape is CircleShape2D:
+		spy_shape = origin_shape as CircleShape2D
+		if spy_shape.radius == spy_radius: return
+	detector_area.remove_child(origin_shape)
+	spy_shape = CircleShape2D.new()
+	var detector_shape = CollisionShape2D.new()
+	spy_shape.radius = spy_radius
+	detector_shape.shape = spy_shape
+	detector_area.add_child(detector_shape)
 
 func _on_detector_area_2d_area_entered(area: Area2D) -> void:
 	var area_parent = area.get_parent()

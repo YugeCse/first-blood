@@ -212,7 +212,7 @@ shape = SubResource("RectangleShape2D_ha57j")
 sprite_frames = SubResource("SpriteFrames_vnllh")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.3280302
+frame_progress = 0.39189205
 flip_h = true
 
 [node name="DetectorArea2D" type="Area2D" parent="."]
