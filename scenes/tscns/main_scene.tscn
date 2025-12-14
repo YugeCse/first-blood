@@ -2257,9 +2257,11 @@ point_count = 3
 
 [node name="MainScene" type="Control"]
 clip_contents = true
-custom_minimum_size = Vector2(10000, 210)
+custom_minimum_size = Vector2(2000, 210)
 layout_mode = 3
 anchors_preset = 0
+offset_right = 2000.0
+offset_bottom = 210.0
 script = ExtResource("1_iqqi7")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -2272,8 +2274,8 @@ position_smoothing_enabled = true
 
 [node name="Background" type="ColorRect" parent="Camera2D"]
 custom_minimum_size = Vector2(10000, 210)
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 10000.0
+offset_bottom = 210.0
 color = Color(0.4576946, 0.6837173, 0.99011046, 0.68235296)
 
 [node name="BgImg7" type="TextureRect" parent="Camera2D/Background"]
@@ -2324,29 +2326,6 @@ offset_right = 320.0
 offset_bottom = 180.0
 texture = ExtResource("2_hdif8")
 
-[node name="HUDContainer" type="CanvasLayer" parent="Camera2D"]
-
-[node name="PlayerLifeContainer" type="HBoxContainer" parent="Camera2D/HUDContainer"]
-offset_left = 12.0
-offset_top = 12.0
-offset_right = 44.0
-offset_bottom = 27.0
-
-[node name="TextureRect" type="TextureRect" parent="Camera2D/HUDContainer/PlayerLifeContainer"]
-layout_mode = 2
-texture = ExtResource("3_hktbw")
-stretch_mode = 4
-
-[node name="TextureRect2" type="TextureRect" parent="Camera2D/HUDContainer/PlayerLifeContainer"]
-layout_mode = 2
-texture = ExtResource("3_hktbw")
-stretch_mode = 4
-
-[node name="TextureRect3" type="TextureRect" parent="Camera2D/HUDContainer/PlayerLifeContainer"]
-layout_mode = 2
-texture = ExtResource("3_hktbw")
-stretch_mode = 4
-
 [node name="MapContainer" type="Node" parent="Camera2D"]
 
 [node name="BackendTileMapLayer" type="TileMapLayer" parent="Camera2D/MapContainer"]
@@ -2381,6 +2360,8 @@ position = Vector2(341, 166)
 curve = SubResource("Curve2D_hktbw")
 
 [node name="PatrolEnemy2PathFollow2D" type="PathFollow2D" parent="Camera2D/EnemyContainer/PatrolEnemy2Path2D"]
+position = Vector2(-49.759953, 0)
+progress = 49.76
 rotates = false
 
 [node name="Enemy2" parent="Camera2D/EnemyContainer/PatrolEnemy2Path2D/PatrolEnemy2PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
@@ -2392,3 +2373,28 @@ z_index = 2
 position = Vector2(10, 104)
 platform_floor_layers = 4294967294
 platform_wall_layers = 2
+
+[node name="HUDContainer" type="CanvasLayer" parent="."]
+layer = 0
+follow_viewport_enabled = true
+
+[node name="PlayerLifeContainer" type="HBoxContainer" parent="HUDContainer"]
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 44.0
+offset_bottom = 27.0
+
+[node name="TextureRect" type="TextureRect" parent="HUDContainer/PlayerLifeContainer"]
+layout_mode = 2
+texture = ExtResource("3_hktbw")
+stretch_mode = 4
+
+[node name="TextureRect2" type="TextureRect" parent="HUDContainer/PlayerLifeContainer"]
+layout_mode = 2
+texture = ExtResource("3_hktbw")
+stretch_mode = 4
+
+[node name="TextureRect3" type="TextureRect" parent="HUDContainer/PlayerLifeContainer"]
+layout_mode = 2
+texture = ExtResource("3_hktbw")
+stretch_mode = 4

@@ -29,6 +29,7 @@ EnemyState="*res://autoloads/enemy_state.gd"
 
 window/size/viewport_width=1200
 window/size/viewport_height=840
+window/stretch/aspect="expand"
 window/stretch/scale=3.0
 
 [global_group]
