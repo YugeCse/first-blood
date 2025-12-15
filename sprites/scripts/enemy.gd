@@ -21,6 +21,10 @@ var life_blood_max: float = 200.0
 @export_range(10, 1000)
 var patrol_speed: float = 10.0
 
+## 重力加速度
+@export_range(1.0, 1000)
+var gravity_speed: float = 9.8
+
 ## 巡逻路径
 @export
 var patrol_path: Path2D
@@ -66,7 +70,7 @@ func _physics_process(delta: float) -> void:
 	if action == EnemyState.Action.idle:
 		if (sprite.animation as StringName)\
 			.get_basename() != 'idle':
-			sprite.play('idle')
+			sprite.play(&'idle')
 		if not spy_player:
 			action = EnemyState.Action.patrol
 	if action == EnemyState.Action.patrol: #巡逻
@@ -78,13 +82,13 @@ func _physics_process(delta: float) -> void:
 func patrol(delta: float):
 	if not patrol_path or\
 		not patrol_path_follow:
-		sprite.play('idle')
+		sprite.play(&'idle')
 		sprite.flip_h = true if direction.x < 0 else false
 		return #没有设置巡逻路径，直接返回
-	sprite.play('run') #执行动画
+	sprite.play(&'run') #执行动画
 	if is_on_floor(): #如果是在地板上，就不受重力作用
 		velocity.y = 0.0
-	else: velocity.y += 980.0 * delta
+	else: velocity.y += gravity_speed
 	var patrol_progress = patrol_path_follow.progress_ratio
 	#print(name, '执行巡逻中...', patrol_progress)
 	patrol_path_follow.progress += patrol_speed * delta
@@ -143,7 +147,7 @@ func destory():
 func _get_collision_rect()->Rect2:
 	var shape = \
 		collision_shape.shape as RectangleShape2D
-	return Rect2(global_position, shape.size)
+	return Rect2(Vector2.ZERO, shape.size)
 
 ## 检测坐标越界处理
 func _detect_position_clamp():
@@ -154,6 +158,8 @@ func _detect_position_clamp():
 	if global_position.x < min_x or\
 		global_position.x > max_x or\
 		global_position.y > max_y:
+		collision_shape.disabled = true
+		action = EnemyState.Action.dead
 		queue_free() #丛节点中删除这个敌人
 
 ## 绘制血条图形

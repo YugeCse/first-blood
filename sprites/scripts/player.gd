@@ -5,15 +5,35 @@ class_name Player extends CharacterBody2D
 @export
 var action: PlayerState.Action = PlayerState.Action.idle
 
+## 血量
+@export_range(100, 10000)
+var blood: float = 100.0
+
+## 最大血量
+@export_range(100, 10000)
+var blood_max: float = 100.0
+
 ## 玩家移动速度
 @export_range(30, 300)
 var speed: float = 46.0
+
+## 重力加速度
+@export_range(1.0, 1000)
+var gravity_speed: float = 9.8
 
 ## 玩家是否在跳跃中
 var is_jumping: bool = false
 
 ## 玩家跳跃计数器
 var jump_counter: int = 0
+
+## 第一跳跃高度
+@export_range(10, 1000)
+var jump_height: float = 220.0
+
+## 第二跳跃高度
+@export_range(10, 1000)
+var jump_secondary_height: float = 200.0
 
 ## 玩家射击角度
 var shoot_degress: float = 0.0
@@ -48,10 +68,9 @@ func _physics_process(delta: float) -> void:
 func _handle_control_move(delta: float):
 	#region 控制重力逻辑
 	# 把 velocity 当作像素/秒来管理：水平速度不乘 delta，重力乘 delta
-	var gravity: float = 9.8
 	if not is_on_floor():
 		#有重力加速度
-		velocity.y += gravity
+		velocity.y += gravity_speed
 	else:
 		# 当在地面上时，把垂直速度清零，避免累积
 		velocity.y = 0.0
@@ -75,18 +94,22 @@ func _handle_control_move(delta: float):
 		if is_on_floor(): #如果在地面上，可以执行跳跃
 			if jump_counter == 0:
 				jump_counter = 1 #标记已经跳过一次了
-			velocity.y = -250.0
+			velocity.y = -jump_height
 			is_jumping = true #标记正在跳跃
 		else: #此时在天空中，判断是否能够二次跳跃
 			if not(jump_counter == 1 and is_jumping):
 				return #已经完成第二次跳跃，直接返回
-			velocity.y = -200.0
+			velocity.y = -jump_secondary_height
 			jump_counter = -1 #标记此时不能再跳了
 	#region 处理子弹发射的相关逻辑
 	var is_shoot: bool = false
 	if Input.is_action_just_pressed(&'ui_shoot'):
 		is_shoot = true
 		shoot() #发射子弹
+	#玩家面向的角度
+	var facing_degress = \
+		wrapf(rad_to_deg(move_dir.angle()), 0, 360)
+	print('玩家朝向角度：', facing_degress)
 	if is_jumping: #如果正在跳跃
 		sprite.play(&'jump') #播放跳的动画
 	elif not is_shoot: #如果没有射击
@@ -101,10 +124,6 @@ func _handle_control_move(delta: float):
 	velocity.x = move_dir.x * speed
 	sprite.flip_h = false if facing == 1 else true
 	move_and_slide() #开始进入玩家移动
-	# 如果需要调试碰撞，可以检查上一次滑动碰撞
-	var collider = get_last_slide_collision()
-	if collider: #发生了碰撞
-		pass # print('玩家与其他实体发生了碰撞💥')
 	#endregion
 
 ## 设置坐标限制，超出范围就还原到特定位置
@@ -136,3 +155,10 @@ func shoot():
 	bullet.direction = dir
 	bullet.global_position = global_position + offset
 	get_tree().current_scene.add_child_to_camera(bullet)
+
+## 获取碰撞区域的矩形大小
+func _get_collision_shape_rect() -> Rect2:
+	var collider_shape = \
+		collision_shape.shape as RectangleShape2D
+	return Rect2(Vector2.ZERO, collider_shape.size)
+	
