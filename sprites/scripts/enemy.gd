@@ -9,6 +9,9 @@ var action = EnemyState.Action.idle
 ## 移动方向
 var direction: Vector2 = Vector2.ZERO
 
+## 朝向，-1:向左，1:向右
+var facing: int = -1.0
+
 ## 血量
 @export_range(0, 1000)
 var life_blood: float = 200.0
@@ -36,15 +39,15 @@ var patrol_path_follow: PathFollow2D
 ## 被监视的玩家
 var spy_player: Player
 
-## 射击定时器
-@export
-var shoot_timer: Timer
-
 @export
 var sprite: AnimatedSprite2D
 
 @export
 var collision_shape: CollisionShape2D
+
+## 射击定时器
+@onready
+var shoot_timer: Timer = $ShootTimer
 
 ## 子弹资源
 @onready
@@ -97,7 +100,6 @@ func patrol(delta: float):
 ## 执行追击，这个过程会执行射击
 func chase():
 	sprite.play('idle')
-	_start_shoot_timer() #启动射击定时器
 	var dir = global_position - spy_player.global_position
 	if dir.x > 0:
 		direction.x = 1.0
@@ -108,13 +110,12 @@ func chase():
 		direction.x = -1.0
 		print('玩家在他的后方', dir.x)
 	else: print('玩家在他的正侧方', dir.x)
+	_start_shoot_timer() #启动射击定时器
 
 ## 执行射击
 func shoot():
 	# 使用 cos/sin 得到方向向量
-	var dir = (spy_player.global_position\
-		- global_position).normalized()
-	dir.y = 0.0 #清理垂直方向的
+	var dir = Vector2(-direction.x, 0.0)
 	var offset = dir.normalized() * 15.0
 	offset.y = 5.0 #调整枪与子弹的垂直坐标数据
 	var bullet = bullet_resource.instantiate() as EnemyBullet

@@ -1,7 +1,7 @@
 class_name PlayerBullet extends CharacterBody2D
 
 @export
-var speed: float = 2.5
+var speed: float = 200
 
 @export
 var direction: Vector2 = Vector2.RIGHT
@@ -24,7 +24,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	velocity = direction * speed
-	var collider = move_and_collide(velocity)
+	var collider = move_and_collide(velocity * delta)
 	if not collider:
 		return #未发生碰撞
 	collision_shape.disabled = true

@@ -37,25 +37,25 @@ region = Rect2(54, 0, 9, 8)
 [sub_resource type="SpriteFrames" id="SpriteFrames_yqi1a"]
 animations = [{
 "frames": [{
-"duration": 1.0,
+"duration": 0.2,
 "texture": SubResource("AtlasTexture_glmyp")
 }, {
-"duration": 0.9,
+"duration": 0.3,
 "texture": SubResource("AtlasTexture_f0pei")
 }, {
-"duration": 0.8,
+"duration": 0.3,
 "texture": SubResource("AtlasTexture_0n06s")
 }, {
-"duration": 0.7,
+"duration": 0.25,
 "texture": SubResource("AtlasTexture_klx8n")
 }, {
-"duration": 0.5,
+"duration": 0.1,
 "texture": SubResource("AtlasTexture_w3go8")
 }, {
-"duration": 0.4,
+"duration": 0.1,
 "texture": SubResource("AtlasTexture_0t51f")
 }, {
-"duration": 0.3,
+"duration": 0.05,
 "texture": SubResource("AtlasTexture_hnarb")
 }],
 "loop": false,
@@ -74,3 +74,5 @@ shape = SubResource("RectangleShape2D_q7fhf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_yqi1a")
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
