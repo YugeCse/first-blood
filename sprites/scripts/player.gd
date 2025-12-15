@@ -55,6 +55,34 @@ func _handle_control_move(delta: float):
 	#region 处理用户输入
 	var is_moving = false #是否正在移动
 	var move_dir = Vector2.ZERO #移动方向
+	var is_up_pressed = Input.is_action_pressed('ui_up')
+	var is_left_pressed = Input.is_action_pressed('ui_left')
+	var is_right_pressed = Input.is_action_pressed('ui_right')
+	var is_jump_pressed = Input.is_action_just_pressed('ui_jump')
+	var is_shoot_pressed = Input.is_action_just_pressed('ui_shoot')
+	is_moving = is_left_pressed || is_right_pressed #被按下时表示正在移动
+	if is_moving: #如果正在移动
+		if is_jump_pressed:
+			sprite.play('jump')
+		elif is_up_pressed: #按下了上
+			pass
+		elif is_shoot_pressed:
+			sprite.play('run_shoot')
+		else:
+			sprite.play('run')
+		shoot_degress = 180.0
+		if sprite: sprite.flip_h = true
+		move_dir.x = (Vector2.LEFT if is_left_pressed else Vector2.RIGHT).x
+		move_and_slide()
+	else:
+		if is_jump_pressed:
+			sprite.play('jump')
+		elif is_up_pressed:
+			pass
+		else:
+			sprite.play('idle')
+		if is_shoot_pressed:
+			sprite.play('stand_shoot')
 	if Input.is_action_pressed('ui_left'):
 		is_moving = true
 		shoot_degress = 180.0
@@ -95,16 +123,13 @@ func _handle_control_move(delta: float):
 	#endregion
 	#region 处理子弹发射的相关逻辑
 	if Input.is_action_just_pressed('ui_shoot'):
-		if not is_moving:
-			print('玩家未发生移动，直接发射子弹')
-		shoot(shoot_degress) #发射子弹
+		shoot(shoot_degress, is_moving) #发射子弹
 	#endregion
 
 ## 播放玩家run动画
-func _play_sprite_run():
+func _play_sprite_run(is_up_pressed: bool = false):
 	var anim_name = sprite.animation as StringName
-	if anim_name.get_basename() != 'run':
-		sprite.play('run') #播放run的动画
+	sprite.play('run') #播放run的动画
 
 ## 设置坐标限制，超出范围就还原到特定位置
 func _set_position_clamp():
@@ -122,8 +147,11 @@ func _set_position_clamp():
 ## 发射子弹
 ## [br]
 ## - degress: 发射角度
-func shoot(degress: float):
-	# 角度转弧度
+## - is_running: 是否正在跑动
+func shoot(degress: float, is_running: bool = false):
+	if not is_running:
+		sprite.play('stand_shoot')
+	else: sprite.play('run_shoot')
 	var angle_radians = deg_to_rad(degress)
 	# 使用 cos/sin 得到方向向量
 	var dir = Vector2(cos(angle_radians),\

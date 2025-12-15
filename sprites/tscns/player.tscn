@@ -1,10 +1,12 @@
-[gd_scene load_steps=38 format=3 uid="uid://bu0oiv8b0bb31"]
+[gd_scene load_steps=52 format=3 uid="uid://bu0oiv8b0bb31"]
 
 [ext_resource type="Script" uid="uid://7v86wpn4d6vs" path="res://sprites/scripts/player.gd" id="1_ti7od"]
 [ext_resource type="Texture2D" uid="uid://dselj4x3fck4w" path="res://assets/player/john_idle.png" id="2_rkemy"]
 [ext_resource type="Texture2D" uid="uid://djxbg33vusjdr" path="res://assets/player/john_idle_ng.png" id="3_lm2uk"]
 [ext_resource type="Texture2D" uid="uid://da8qks7ackycw" path="res://assets/player/john_jump.png" id="4_7xmjr"]
 [ext_resource type="Texture2D" uid="uid://bu8ksr6y24yp2" path="res://assets/player/john_run.png" id="5_l7xvl"]
+[ext_resource type="Texture2D" uid="uid://bne3h1h2cstgp" path="res://assets/player/john_run_shoot.png" id="6_k38cv"]
+[ext_resource type="Texture2D" uid="uid://bukrkfblmh2uf" path="res://assets/player/john_stand_shooting.png" id="6_m7bdr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lm2uk"]
 atlas = ExtResource("2_rkemy")
@@ -122,6 +124,54 @@ region = Rect2(208, 0, 26, 22)
 atlas = ExtResource("5_l7xvl")
 region = Rect2(234, 0, 26, 22)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_y7uew"]
+atlas = ExtResource("6_k38cv")
+region = Rect2(0, 0, 26, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ugs3q"]
+atlas = ExtResource("6_k38cv")
+region = Rect2(26, 0, 26, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7cn3b"]
+atlas = ExtResource("6_k38cv")
+region = Rect2(52, 0, 26, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yuasl"]
+atlas = ExtResource("6_k38cv")
+region = Rect2(78, 0, 26, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v6urq"]
+atlas = ExtResource("6_k38cv")
+region = Rect2(104, 0, 26, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epywx"]
+atlas = ExtResource("6_k38cv")
+region = Rect2(130, 0, 26, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qd7jr"]
+atlas = ExtResource("6_k38cv")
+region = Rect2(156, 0, 26, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s6sa3"]
+atlas = ExtResource("6_k38cv")
+region = Rect2(182, 0, 26, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hbvl5"]
+atlas = ExtResource("6_k38cv")
+region = Rect2(208, 0, 26, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ojve1"]
+atlas = ExtResource("6_k38cv")
+region = Rect2(234, 0, 26, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bjnvb"]
+atlas = ExtResource("6_m7bdr")
+region = Rect2(0, 0, 26, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mifpf"]
+atlas = ExtResource("6_m7bdr")
+region = Rect2(26, 0, 26, 22)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_iofu1"]
 animations = [{
 "frames": [{
@@ -230,6 +280,52 @@ animations = [{
 "loop": true,
 "name": &"run",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y7uew")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ugs3q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7cn3b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yuasl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v6urq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_epywx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qd7jr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s6sa3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hbvl5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ojve1")
+}],
+"loop": true,
+"name": &"run_shoot",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bjnvb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mifpf")
+}],
+"loop": true,
+"name": &"stand_shoot",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lm2uk"]
@@ -244,8 +340,9 @@ script = ExtResource("1_ti7od")
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_iofu1")
-animation = &"idle"
+animation = &"stand_shoot"
 autoplay = "idle"
+frame_progress = 0.8971632
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
 position = Vector2(-1, 1.5)

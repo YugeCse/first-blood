@@ -2368,7 +2368,6 @@ physics_quadrant_size = 8
 position = Vector2(207, 67)
 
 [node name="Turret2" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
-visible = false
 position = Vector2(464, 138)
 
 [node name="Turret3" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
@@ -2411,6 +2410,9 @@ spy_radius = 120.0
 position = Vector2(1862, 125)
 spy_radius = 120.0
 
+[node name="Enemy" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
+position = Vector2(508, 165)
+
 [node name="PatrolEnemyPath2D" type="Path2D" parent="Camera2D/EnemyContainer"]
 position = Vector2(224, 36)
 curve = SubResource("Curve2D_icrl2")
@@ -2433,7 +2435,9 @@ position = Vector2(-49.766457, 0.82944095)
 progress = 49.76
 rotates = false
 
-[node name="Enemy2" parent="Camera2D/EnemyContainer/PatrolEnemy2Path2D/PatrolEnemy2PathFollow2D" instance=ExtResource("16_hktbw")]
+[node name="Enemy2" parent="Camera2D/EnemyContainer/PatrolEnemy2Path2D/PatrolEnemy2PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
+patrol_path = NodePath("../..")
+patrol_path_follow = NodePath("..")
 
 [node name="PatrolEnemy3Path2D" type="Path2D" parent="Camera2D/EnemyContainer"]
 position = Vector2(500, 110)
@@ -2444,7 +2448,9 @@ position = Vector2(-49.766457, 0.82944095)
 progress = 49.76
 rotates = false
 
-[node name="Enemy3" parent="Camera2D/EnemyContainer/PatrolEnemy3Path2D/PatrolEnemy3PathFollow2D" instance=ExtResource("16_hktbw")]
+[node name="Enemy3" parent="Camera2D/EnemyContainer/PatrolEnemy3Path2D/PatrolEnemy3PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
+patrol_path = NodePath("../..")
+patrol_path_follow = NodePath("..")
 
 [node name="Enemy4" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
 position = Vector2(362, 62)
@@ -2461,7 +2467,9 @@ position = Vector2(-49.766457, 0.82944095)
 progress = 49.76
 rotates = false
 
-[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy4Path2D/PatrolEnemy4PathFollow2D" instance=ExtResource("16_hktbw")]
+[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy4Path2D/PatrolEnemy4PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
+patrol_path = NodePath("../..")
+patrol_path_follow = NodePath("..")
 
 [node name="Enemy6" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
 position = Vector2(678, 166)
@@ -2475,7 +2483,9 @@ position = Vector2(-23.237501, 0.38729164)
 progress = 96.76944
 rotates = false
 
-[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy5Path2D/PatrolEnemy5PathFollow2D" instance=ExtResource("16_hktbw")]
+[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy5Path2D/PatrolEnemy5PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
+patrol_path = NodePath("../..")
+patrol_path_follow = NodePath("..")
 
 [node name="Enemy7" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
 position = Vector2(894, 159)
@@ -2495,7 +2505,9 @@ position = Vector2(-23.237501, 0.38729164)
 progress = 96.76944
 rotates = false
 
-[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy6Path2D/PatrolEnemy6PathFollow2D" instance=ExtResource("16_hktbw")]
+[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy6Path2D/PatrolEnemy6PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
+patrol_path = NodePath("../..")
+patrol_path_follow = NodePath("..")
 
 [node name="PatrolEnemy7Path2D" type="Path2D" parent="Camera2D/EnemyContainer"]
 position = Vector2(1260, 165)
@@ -2506,7 +2518,9 @@ position = Vector2(-56.128002, 0.93546677)
 progress = 63.956882
 rotates = false
 
-[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy7Path2D/PatrolEnemy7PathFollow2D" instance=ExtResource("16_hktbw")]
+[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy7Path2D/PatrolEnemy7PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
+patrol_path = NodePath("../..")
+patrol_path_follow = NodePath("..")
 
 [node name="Enemy10" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
 position = Vector2(1150, 134)
@@ -2526,7 +2540,9 @@ position = Vector2(-9.183639, 0.15306064)
 progress = 9.2004595
 rotates = false
 
-[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy8Path2D/PatrolEnemy8PathFollow2D" instance=ExtResource("16_hktbw")]
+[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy8Path2D/PatrolEnemy8PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
+patrol_path = NodePath("../..")
+patrol_path_follow = NodePath("..")
 
 [node name="PatrolEnemy9Path2D" type="Path2D" parent="Camera2D/EnemyContainer"]
 position = Vector2(1530, 86)
@@ -2537,7 +2553,9 @@ position = Vector2(-9.183639, 0.15306064)
 progress = 9.2004595
 rotates = false
 
-[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy9Path2D/PatrolEnemy9PathFollow2D" instance=ExtResource("16_hktbw")]
+[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy9Path2D/PatrolEnemy9PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
+patrol_path = NodePath("../..")
+patrol_path_follow = NodePath("..")
 
 [node name="PatrolEnemy10Path2D" type="Path2D" parent="Camera2D/EnemyContainer"]
 position = Vector2(1530, 126)
@@ -2548,13 +2566,12 @@ position = Vector2(-50.143547, 0.8357258)
 progress = 50.130962
 rotates = false
 
-[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy10Path2D/PatrolEnemy10PathFollow2D" instance=ExtResource("16_hktbw")]
+[node name="Enemy" parent="Camera2D/EnemyContainer/PatrolEnemy10Path2D/PatrolEnemy10PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
+patrol_path = NodePath("../..")
+patrol_path_follow = NodePath("..")
 
 [node name="Enemy13" parent="Camera2D/EnemyContainer" instance=ExtResource("16_hktbw")]
 position = Vector2(1498, 186)
-
-[node name="Enemy6" parent="Camera2D" instance=ExtResource("16_hktbw")]
-position = Vector2(508, 165)
 
 [node name="Player" parent="Camera2D" instance=ExtResource("3_aqrb5")]
 z_index = 2

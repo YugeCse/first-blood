@@ -8,7 +8,7 @@ var player = $Camera2D/Player
 var camera = $Camera2D
 
 @onready
-var hud_container = $HUDContainer
+var hud_container = $Camera2D/HUDContainer
 
 func _ready() -> void:
 	pass
