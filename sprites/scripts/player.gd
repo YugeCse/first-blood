@@ -7,11 +7,11 @@ var action: PlayerState.Action = PlayerState.Action.idle
 
 ## 血量
 @export_range(100, 10000)
-var blood: float = 100.0
+var life_blood: float = 100.0
 
 ## 最大血量
 @export_range(100, 10000)
-var blood_max: float = 100.0
+var life_blood_max: float = 100.0
 
 ## 玩家移动速度
 @export_range(30, 300)
