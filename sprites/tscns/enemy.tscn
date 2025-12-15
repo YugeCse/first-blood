@@ -212,7 +212,7 @@ shape = SubResource("RectangleShape2D_ha57j")
 sprite_frames = SubResource("SpriteFrames_vnllh")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.39189205
+frame_progress = 0.7642152
 flip_h = true
 
 [node name="DetectorArea2D" type="Area2D" parent="."]
@@ -221,8 +221,6 @@ collision_layer = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectorArea2D"]
 shape = SubResource("CircleShape2D_ha57j")
 debug_color = Color(0, 0.6, 0.69803923, 0.08627451)
-
-[node name="MoveTimer" type="Timer" parent="."]
 
 [node name="ShootTimer" type="Timer" parent="."]
 autostart = true

@@ -1,7 +1,7 @@
 class_name PlayerBullet extends CharacterBody2D
 
 @export
-var speed: float = 200.0
+var speed: float = 2.5
 
 @export
 var direction: Vector2 = Vector2.RIGHT
@@ -23,9 +23,10 @@ func _ready() -> void:
 	sprite.animation_finished.connect(queue_free)
 
 func _physics_process(delta: float) -> void:
-	velocity = direction * speed * delta
+	velocity = direction * speed
 	var collider = move_and_collide(velocity)
-	if not collider: return #未发生碰撞
+	if not collider:
+		return #未发生碰撞
 	collision_shape.disabled = true
 	collider = collider.get_collider()
 	var fire_crack = 10.0
@@ -39,4 +40,3 @@ func _physics_process(delta: float) -> void:
 			collider.hurt(fire_crack)
 		else: collider.hurt(fire_crack)
 	queue_free() #发生碰撞，需要删除
-	print('玩家子弹与其他发生了碰撞💥')

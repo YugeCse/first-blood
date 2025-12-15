@@ -6,8 +6,8 @@ class_name Player extends CharacterBody2D
 var action: PlayerState.Action = PlayerState.Action.idle
 
 ## 玩家移动速度
-@export
-var speed: float = 60.0
+@export_range(30, 300)
+var speed: float = 46.0
 
 ## 玩家是否在跳跃中
 var is_jumping: bool = false
@@ -17,6 +17,12 @@ var jump_counter: int = 0
 
 ## 玩家射击角度
 var shoot_degress: float = 0.0
+
+## 朝向, 1-向右；-1-向右
+var facing: int = 1
+
+## 移动方向
+var move_dir: Vector2 = Vector2.ZERO
 
 ## 玩家关联的精灵节点
 @onready
@@ -42,10 +48,10 @@ func _physics_process(delta: float) -> void:
 func _handle_control_move(delta: float):
 	#region 控制重力逻辑
 	# 把 velocity 当作像素/秒来管理：水平速度不乘 delta，重力乘 delta
-	var gravity: float = 980.0
+	var gravity: float = 9.8
 	if not is_on_floor():
 		#有重力加速度
-		velocity.y += gravity * delta
+		velocity.y += gravity
 	else:
 		# 当在地面上时，把垂直速度清零，避免累积
 		velocity.y = 0.0
@@ -54,82 +60,52 @@ func _handle_control_move(delta: float):
 	#endregion
 	#region 处理用户输入
 	var is_moving = false #是否正在移动
-	var move_dir = Vector2.ZERO #移动方向
-	var is_up_pressed = Input.is_action_pressed('ui_up')
-	var is_left_pressed = Input.is_action_pressed('ui_left')
-	var is_right_pressed = Input.is_action_pressed('ui_right')
-	var is_jump_pressed = Input.is_action_just_pressed('ui_jump')
-	var is_shoot_pressed = Input.is_action_just_pressed('ui_shoot')
-	is_moving = is_left_pressed || is_right_pressed #被按下时表示正在移动
-	if is_moving: #如果正在移动
-		if is_jump_pressed:
-			sprite.play('jump')
-		elif is_up_pressed: #按下了上
-			pass
-		elif is_shoot_pressed:
-			sprite.play('run_shoot')
-		else:
-			sprite.play('run')
-		shoot_degress = 180.0
-		if sprite: sprite.flip_h = true
-		move_dir.x = (Vector2.LEFT if is_left_pressed else Vector2.RIGHT).x
-		move_and_slide()
-	else:
-		if is_jump_pressed:
-			sprite.play('jump')
-		elif is_up_pressed:
-			pass
-		else:
-			sprite.play('idle')
-		if is_shoot_pressed:
-			sprite.play('stand_shoot')
-	if Input.is_action_pressed('ui_left'):
-		is_moving = true
-		shoot_degress = 180.0
-		move_dir.x = Vector2.LEFT.x
-		_play_sprite_run() #播放run的动画
-		if sprite: sprite.flip_h = true
-	if Input.is_action_pressed('ui_right'):
-		is_moving = true
-		shoot_degress = 0.0
-		move_dir.x = Vector2.RIGHT.x
-		_play_sprite_run() #播放run的动画
-		if sprite: sprite.flip_h = false
-	if Input.is_action_just_pressed('ui_jump'):
+	move_dir = Vector2(
+		Input.get_action_strength(&'ui_right') -\
+		Input.get_action_strength(&'ui_left'),
+		Input.get_action_strength(&'ui_down') -\
+		Input.get_action_strength(&'ui_up'))
+	if move_dir != Vector2.ZERO:
+		move_dir = move_dir.normalized()
+		if move_dir.x != 0:
+			facing = sign(move_dir.x)
+	is_moving = move_dir.x != 0 #被按下时表示正在移动
+	#处理跳跃逻辑
+	if Input.is_action_just_pressed(&'ui_jump'):
 		if is_on_floor(): #如果在地面上，可以执行跳跃
 			if jump_counter == 0:
 				jump_counter = 1 #标记已经跳过一次了
-			velocity.y = -300.0
+			velocity.y = -250.0
 			is_jumping = true #标记正在跳跃
-			sprite.play('jump') #播放跳的动画
 		else: #此时在天空中，判断是否能够二次跳跃
 			if not(jump_counter == 1 and is_jumping):
 				return #已经完成第二次跳跃，直接返回
-			velocity.y = -260.0
+			velocity.y = -200.0
 			jump_counter = -1 #标记此时不能再跳了
-	velocity.x = speed * move_dir.x
-	if is_moving: #如果正在移动
-		sprite.play('run') #播放跑的动画
-	elif is_jumping:
-		sprite.play('jump') #播放跳的动画
-	else: sprite.play('idle') #播放休闲状态
-	if move_dir.x == 0.0:
-		sprite.play('idle') #如果没有移动，则使用idle动画
-	move_and_slide() # 使用 CharacterBody2D 的无参 move_and_slide() 来处理地面接触与滑动
+	#region 处理子弹发射的相关逻辑
+	var is_shoot: bool = false
+	if Input.is_action_just_pressed(&'ui_shoot'):
+		is_shoot = true
+		shoot() #发射子弹
+	if is_jumping: #如果正在跳跃
+		sprite.play(&'jump') #播放跳的动画
+	elif not is_shoot: #如果没有射击
+		if not is_moving:
+			sprite.play(&'idle')
+		else: sprite.play(&'run')
+	else:
+		if is_moving:
+			sprite.play(&'run_shoot')
+		else: sprite.play(&'stand_shoot')
+	#endregion
+	velocity.x = move_dir.x * speed
+	sprite.flip_h = false if facing == 1 else true
+	move_and_slide() #开始进入玩家移动
 	# 如果需要调试碰撞，可以检查上一次滑动碰撞
 	var collider = get_last_slide_collision()
 	if collider: #发生了碰撞
 		pass # print('玩家与其他实体发生了碰撞💥')
 	#endregion
-	#region 处理子弹发射的相关逻辑
-	if Input.is_action_just_pressed('ui_shoot'):
-		shoot(shoot_degress, is_moving) #发射子弹
-	#endregion
-
-## 播放玩家run动画
-func _play_sprite_run(is_up_pressed: bool = false):
-	var anim_name = sprite.animation as StringName
-	sprite.play('run') #播放run的动画
 
 ## 设置坐标限制，超出范围就还原到特定位置
 func _set_position_clamp():
@@ -145,13 +121,8 @@ func _set_position_clamp():
 		print('玩家已经跳崖了，Go Die!')
 
 ## 发射子弹
-## [br]
-## - degress: 发射角度
-## - is_running: 是否正在跑动
-func shoot(degress: float, is_running: bool = false):
-	if not is_running:
-		sprite.play('stand_shoot')
-	else: sprite.play('run_shoot')
+func shoot():
+	var degress = 0.0 if facing == 1 else 180.0
 	var angle_radians = deg_to_rad(degress)
 	# 使用 cos/sin 得到方向向量
 	var dir = Vector2(cos(angle_radians),\

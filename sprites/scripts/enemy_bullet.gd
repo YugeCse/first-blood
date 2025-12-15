@@ -1,7 +1,7 @@
 class_name EnemyBullet extends CharacterBody2D
 
 @export
-var speed: float = 120.0
+var speed: float = 3.0
 
 @export
 var direction: Vector2 = Vector2.LEFT
@@ -18,9 +18,9 @@ func _ready() -> void:
 	sprite.animation_finished.connect(queue_free)
 
 func _physics_process(delta: float) -> void:
-	velocity = direction * speed * delta
+	velocity = direction * speed
 	var collider = move_and_collide(velocity)
-	if not collider: return #未发生碰撞
+	if not collider: 
+		return #未发生碰撞
 	collision_shape.disabled = true
 	queue_free() #发生碰撞，需要删除
-	print('敌方子弹与其他发生了碰撞💥')
