@@ -339,7 +339,7 @@ radius = 20.0
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_mask = 34
-platform_on_leave = 2
+platform_wall_layers = 2
 script = ExtResource("1_ti7od")
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
