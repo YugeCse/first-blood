@@ -1,11 +1,32 @@
-[gd_scene load_steps=20 format=3 uid="uid://bbm0ckpya7ycp"]
+[gd_scene load_steps=26 format=3 uid="uid://bbm0ckpya7ycp"]
 
 [ext_resource type="Script" uid="uid://clnhmgcskcipf" path="res://sprites/scripts/player_bullet.gd" id="1_1q3ka"]
+[ext_resource type="Texture2D" uid="uid://b8l0ig0ujwh7v" path="res://assets/fx/bullet_impact.png" id="2_2edyn"]
 [ext_resource type="Texture2D" uid="uid://yiobrrnr6q2k" path="res://assets/player/weapon_bullet.png" id="2_mycpm"]
 [ext_resource type="Texture2D" uid="uid://cxtmsclpwbps0" path="res://assets/player/weapon_bullet_level2.png" id="3_2edyn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mycpm"]
 radius = 6.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t2uin"]
+atlas = ExtResource("2_2edyn")
+region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_60ora"]
+atlas = ExtResource("2_2edyn")
+region = Rect2(20, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sr8js"]
+atlas = ExtResource("2_2edyn")
+region = Rect2(40, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ftohj"]
+atlas = ExtResource("2_2edyn")
+region = Rect2(60, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q7ebb"]
+atlas = ExtResource("2_2edyn")
+region = Rect2(80, 0, 20, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fet1y"]
 atlas = ExtResource("2_mycpm")
@@ -67,6 +88,26 @@ region = Rect2(108, 0, 18, 16)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_t2uin")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_60ora")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sr8js")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ftohj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q7ebb")
+}],
+"loop": false,
+"name": &"boom",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_fet1y")
 }, {
 "duration": 0.9,
@@ -89,7 +130,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"default",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -118,12 +159,10 @@ animations = [{
 "speed": 15.0
 }]
 
-[node name="PlayerBullet" type="CharacterBody2D"]
+[node name="PlayerBullet" type="Area2D"]
 z_index = 5
 collision_layer = 16
-collision_mask = 44
-platform_floor_layers = 4294967234
-platform_wall_layers = 2
+collision_mask = 160
 script = ExtResource("1_1q3ka")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -131,3 +170,5 @@ shape = SubResource("CircleShape2D_mycpm")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_1q3ka")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

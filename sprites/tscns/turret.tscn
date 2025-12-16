@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bxbxxvkyn1qiw"]
+[gd_scene load_steps=20 format=3 uid="uid://bxbxxvkyn1qiw"]
 
 [ext_resource type="Script" uid="uid://c4ugjfyxlonol" path="res://sprites/scripts/turret.gd" id="1_44tbv"]
 [ext_resource type="Texture2D" uid="uid://bpmaesl3t71h3" path="res://assets/enemy/turret.png" id="2_bpepy"]
@@ -139,6 +139,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bpepy"]
 size = Vector2(18, 18)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qyvr6"]
+size = Vector2(15, 15)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_qyvr6"]
 radius = 160.0
 
@@ -154,6 +157,13 @@ autoplay = "left"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_bpepy")
+
+[node name="BodyArea2D" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyArea2D"]
+shape = SubResource("RectangleShape2D_qyvr6")
 
 [node name="DetectorArea2D" type="Area2D" parent="."]
 collision_layer = 4

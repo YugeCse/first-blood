@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://bu0oiv8b0bb31"]
+[gd_scene load_steps=53 format=3 uid="uid://bu0oiv8b0bb31"]
 
 [ext_resource type="Script" uid="uid://7v86wpn4d6vs" path="res://sprites/scripts/player.gd" id="1_ti7od"]
 [ext_resource type="Texture2D" uid="uid://dselj4x3fck4w" path="res://assets/player/john_idle.png" id="2_rkemy"]
@@ -329,13 +329,17 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lm2uk"]
-size = Vector2(16, 21)
+size = Vector2(16, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k38cv"]
+size = Vector2(16, 20)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l7xvl"]
 radius = 20.0
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_mask = 34
+platform_on_leave = 2
 script = ExtResource("1_ti7od")
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
@@ -345,7 +349,7 @@ autoplay = "idle"
 frame_progress = 0.8971632
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
-position = Vector2(-1, 1.5)
+position = Vector2(-1, 2)
 shape = SubResource("RectangleShape2D_lm2uk")
 
 [node name="FollowCamera2D" type="Camera2D" parent="."]
@@ -354,6 +358,15 @@ limit_top = 0
 limit_right = 2000
 limit_bottom = 210
 position_smoothing_enabled = true
+
+[node name="BodyArea2D" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyArea2D"]
+position = Vector2(-1, 2)
+shape = SubResource("RectangleShape2D_k38cv")
+debug_color = Color(0.54677653, 0.5567508, 0.28419435, 0.41960785)
 
 [node name="DetectorArea2D" type="Area2D" parent="."]
 collision_mask = 12

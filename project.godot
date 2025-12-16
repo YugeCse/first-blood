@@ -36,6 +36,7 @@ window/stretch/scale=3.0
 
 Enemy=""
 Player=""
+EnemyBullet=""
 
 [input]
 
@@ -91,6 +92,8 @@ ui_shoot={
 2d_physics/layer_4="enemy"
 2d_physics/layer_5="player_bullet"
 2d_physics/layer_6="enemy_bullet"
+2d_physics/layer_7="player_body"
+2d_physics/layer_8="enemy_body"
 
 [rendering]
 

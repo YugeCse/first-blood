@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://cm6tulftvh8w7"]
+[gd_scene load_steps=33 format=3 uid="uid://cm6tulftvh8w7"]
 
 [ext_resource type="Script" uid="uid://cnb85w66lwoth" path="res://sprites/scripts/enemy.gd" id="1_u2tar"]
 [ext_resource type="Texture2D" uid="uid://ju3icwfti0du" path="res://assets/enemy/grunt_death.png" id="2_ha57j"]
@@ -194,12 +194,16 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nugqd"]
+size = Vector2(16, 20)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_ha57j"]
 radius = 120.0
 
 [node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "collision_shape") groups=["Enemy"]]
 collision_layer = 8
 collision_mask = 19
+platform_on_leave = 2
 script = ExtResource("1_u2tar")
 sprite = NodePath("AnimatedSprite")
 collision_shape = NodePath("CollisionShape")
@@ -211,8 +215,17 @@ shape = SubResource("RectangleShape2D_ha57j")
 sprite_frames = SubResource("SpriteFrames_vnllh")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.5121176
+frame_progress = 0.8705954
 flip_h = true
+
+[node name="BodyArea2D" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyArea2D"]
+position = Vector2(1, 2)
+shape = SubResource("RectangleShape2D_nugqd")
+debug_color = Color(0.6407898, 0.5184502, 0.233206, 0.41960785)
 
 [node name="DetectorArea2D" type="Area2D" parent="."]
 collision_layer = 8
