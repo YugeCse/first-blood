@@ -77,6 +77,11 @@ animations = [{
 "name": &"boom",
 "speed": 10.0
 }, {
+"frames": [],
+"loop": true,
+"name": &"boom1",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 0.6,
 "texture": SubResource("AtlasTexture_glmyp")
@@ -115,5 +120,6 @@ shape = SubResource("CircleShape2D_q7fhf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_yqi1a")
+animation = &"boom1"
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

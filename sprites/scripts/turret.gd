@@ -151,5 +151,6 @@ func _on_detector_area_2d_area_exited(area: Area2D) -> void:
 		shoot_timer.paused = true
 
 func _on_shoot_timer_timeout() -> void:
-	if not spy_player: return
+	if not spy_player or\
+		collision_shape.disabled: return
 	shoot(shoot_degress) #开始射击

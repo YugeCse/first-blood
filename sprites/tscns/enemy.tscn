@@ -1,9 +1,10 @@
-[gd_scene load_steps=33 format=3 uid="uid://cm6tulftvh8w7"]
+[gd_scene load_steps=36 format=3 uid="uid://cm6tulftvh8w7"]
 
 [ext_resource type="Script" uid="uid://cnb85w66lwoth" path="res://sprites/scripts/enemy.gd" id="1_u2tar"]
 [ext_resource type="Texture2D" uid="uid://ju3icwfti0du" path="res://assets/enemy/grunt_death.png" id="2_ha57j"]
 [ext_resource type="Texture2D" uid="uid://bbn18e5sjg6nn" path="res://assets/enemy/grunt_idle.png" id="2_mxw5s"]
 [ext_resource type="Texture2D" uid="uid://bqim54t0qufv5" path="res://assets/enemy/grunt_run.png" id="3_ha57j"]
+[ext_resource type="Texture2D" uid="uid://wtjoismy5d0s" path="res://assets/enemy/grunt_shoot.png" id="5_nugqd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ha57j"]
 size = Vector2(22, 28)
@@ -104,6 +105,14 @@ region = Rect2(208, 0, 26, 22)
 atlas = ExtResource("3_ha57j")
 region = Rect2(234, 0, 26, 22)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_xjiu4"]
+atlas = ExtResource("5_nugqd")
+region = Rect2(0, 0, 26, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gsynf"]
+atlas = ExtResource("5_nugqd")
+region = Rect2(26, 0, 26, 22)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_vnllh"]
 animations = [{
 "frames": [{
@@ -192,6 +201,17 @@ animations = [{
 "loop": true,
 "name": &"run",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xjiu4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gsynf")
+}],
+"loop": false,
+"name": &"shoot",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nugqd"]
@@ -215,7 +235,7 @@ shape = SubResource("RectangleShape2D_ha57j")
 sprite_frames = SubResource("SpriteFrames_vnllh")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.8705954
+frame_progress = 0.48063368
 flip_h = true
 
 [node name="BodyArea2D" type="Area2D" parent="."]

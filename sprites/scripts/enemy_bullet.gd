@@ -42,13 +42,21 @@ func _get_collision_cirle() -> CircleShape2D:
 	return collision_shape.shape as CircleShape2D
 
 ## 发生爆炸
-func _boom():
+func boom():
+	if collision_shape.disabled:
+		return #已经是待销毁状态了
 	collision_shape.disabled = true
-	sprite.animation_finished.disconnect(_boom)
+	sprite.animation_finished.disconnect(boom)
 	sprite.play(&'boom')
+	sprite.set(&'modulate',Color(0.907, 0.588, 0.86, 0.929))
 	sprite.animation_finished.connect(queue_free)
 
 func _on_area_entered(area: Area2D) -> void:
 	var parent = area.get_parent()
+	if not parent: 
+		if area is PlayerBullet:
+			boom()
+			area.boom()
+		return
 	if parent is Player: #如果碰到玩家了
-		_boom() #销毁这个子弹组件
+		boom() #销毁这个子弹组件

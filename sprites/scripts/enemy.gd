@@ -9,8 +9,8 @@ var action = EnemyState.Action.idle
 ## 移动方向
 var direction: Vector2 = Vector2.ZERO
 
-## 朝向，-1:向左，1:向右
-var facing: int = -1.0
+## 是否正在射击
+var is_shooting: bool = false
 
 ## 血量
 @export_range(0, 1000)
@@ -99,7 +99,8 @@ func patrol(delta: float):
 
 ## 执行追击，这个过程会执行射击
 func chase():
-	sprite.play('idle')
+	if not is_shooting:
+		sprite.play('idle')
 	var dir = global_position - spy_player.global_position
 	if dir.x > 0:
 		direction.x = 1.0
@@ -114,6 +115,7 @@ func chase():
 
 ## 执行射击
 func shoot():
+	sprite.play('shoot')
 	# 使用 cos/sin 得到方向向量
 	var dir = Vector2(-direction.x, 0.0)
 	var offset = dir.normalized() * 15.0
@@ -214,6 +216,19 @@ func _on_detector_area_2d_area_exited(area: Area2D) -> void:
 		print('玩家离开敌人({name})监视范围'.format({'name': name}))
 
 func _on_shoot_timer_timeout() -> void:
+	if action == EnemyState.Action.dead:
+		if shoot_timer:
+			shoot_timer.stop()
+		return
+	if shoot_timer:
+		if not shoot_timer.paused:
+			shoot_timer.stop()
+	is_shooting = true
+	shoot() #发射子弹
+	await sprite.animation_finished
+	is_shooting = false
 	if shoot_timer:
 		shoot_timer.wait_time = randf_range(1.0, 1.5)
-	shoot() #发射子弹
+		if shoot_timer.paused:
+			shoot_timer.paused = false
+		shoot_timer.start()
