@@ -2589,3 +2589,7 @@ position = Vector2(1498, 186)
 z_index = 2
 position = Vector2(10, 100)
 platform_floor_layers = 4294967294
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+position = Vector2(-97, -189)
+color = Color(0.29402778, 0.29402778, 0.29402775, 1)

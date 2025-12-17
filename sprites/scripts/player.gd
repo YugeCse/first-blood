@@ -79,14 +79,18 @@ func _handle_control_move(_delta: float):
 	#endregion
 	#region 处理用户输入
 	var is_moving = false #是否正在移动
-	move_dir = Input.get_vector(&'ui_left', &'ui_right', &'ui_up', &'ui_down')
+	move_dir = Input.get_vector(\
+		&'ui_left', &'ui_right', &'ui_up', &'ui_down')
 	if move_dir != Vector2.ZERO:
-		move_dir = move_dir.normalized()
 		if move_dir.x != 0:
 			facing = sign(move_dir.x)
-	is_moving = move_dir.x != 0 #被按下时表示正在移动
+	#玩家面向的角度
+	var facing_degress = \
+		roundi(wrapf(rad_to_deg(move_dir.angle()), 0, 360))
+	is_moving = move_dir.x != 0.0 #被按下时表示正在移动
 	#处理跳跃逻辑
-	if Input.is_action_just_pressed(&'ui_jump'):
+	if facing_degress in [0, 180] and\
+		Input.is_action_just_pressed(&'ui_jump'):
 		if is_on_floor(): #如果在地面上，可以执行跳跃
 			if jump_counter == 0:
 				jump_counter = 1 #标记已经跳过一次了
@@ -98,24 +102,31 @@ func _handle_control_move(_delta: float):
 			velocity.y = -jump_secondary_height
 			jump_counter = -1 #标记此时不能再跳了
 	#region 处理子弹发射的相关逻辑
-	var is_shoot: bool = false
-	if Input.is_action_just_pressed(&'ui_shoot'):
-		is_shoot = true
-		shoot() #发射子弹
-	#玩家面向的角度
-	var facing_degress = \
-		wrapf(rad_to_deg(move_dir.angle()), 0, 360)
-	print('玩家朝向角度：', facing_degress)
+	var is_shoot = facing_degress != 90 and\
+		Input.is_action_just_pressed(&'ui_shoot')
 	if is_jumping: #如果正在跳跃
 		sprite.play(&'jump') #播放跳的动画
-	elif not is_shoot: #如果没有射击
-		if not is_moving:
+	if not is_shoot: #如果没有射击
+		if facing_degress in [225, 315]:
+				sprite.play(&'aim_up')
+		elif facing_degress in [45, 135]:
+			sprite.play(&'aim_down')
+		elif facing_degress == 270:
+			sprite.play(&'stand_aim_up')
+		elif not is_moving:
 			sprite.play(&'idle')
 		else: sprite.play(&'run')
-	else:
-		if is_moving:
+	else: #如果射击了
+		if facing_degress in [225, 315]:
+			sprite.play(&'aim_up')
+		elif facing_degress in [45, 135]:
+			sprite.play(&'aim_down')
+		elif facing_degress == 270:
+			sprite.play(&'stand_aim_up')
+		elif is_moving:
 			sprite.play(&'run_shoot')
 		else: sprite.play(&'stand_shoot')
+	if is_shoot: shoot() #发射子弹
 	#endregion
 	velocity.x = move_dir.x * speed
 	sprite.flip_h = false if facing == 1 else true
@@ -137,18 +148,22 @@ func _set_position_clamp():
 
 ## 发射子弹
 func shoot():
-	var degress = 0.0 if facing == 1 else 180.0
-	var angle_radians = deg_to_rad(degress)
-	# 使用 cos/sin 得到方向向量
-	var dir = Vector2(cos(angle_radians),\
-		sin(angle_radians)).normalized()
+	var target_dir = \
+		move_dir if(move_dir != Vector2.ZERO and\
+			move_dir != Vector2.DOWN) else Vector2(float(facing), 0)
+	var facing_degress = \
+		roundi(wrapf(rad_to_deg(target_dir.angle()), 0, 360))
 	var bullet = bullet_resource.instantiate() as PlayerBullet
-	var offset = Vector2.ZERO
-	if degress == 0.0:
-		offset = Vector2(15.0, 5.0)
-	elif degress == 180.0:
-		offset = Vector2(-15.0, 5.0)
-	bullet.direction = dir
+	var dir = Vector2.from_angle(\
+		deg_to_rad(facing_degress))
+	var offset = dir * 16.0
+	if facing_degress in [0, 180]:
+		offset.y += 3.0
+	elif facing_degress == 315:
+		offset.x += 5.0
+	elif facing_degress in [45, 135]:
+		offset += dir * 8.0
+	bullet.direction = target_dir
 	bullet.global_position = global_position + offset
 	get_tree().current_scene.add_child_to_camera(bullet)
 
