@@ -1,6 +1,32 @@
-[gd_scene load_steps=2 format=3 uid="uid://23dkse8jpl62"]
+[gd_scene load_steps=3 format=3 uid="uid://23dkse8jpl62"]
 
 [ext_resource type="Script" uid="uid://dhqne2kawbsdi" path="res://scenes/scripts/splash_scene.gd" id="1_av5we"]
+[ext_resource type="Texture2D" uid="uid://codignnivbey8" path="res://assets/titlescreen/CreditsScreen.png" id="2_qynjc"]
 
-[node name="SplashScene" type="Node2D"]
+[node name="SplashScene" type="Control"]
+clip_contents = true
+custom_minimum_size = Vector2(320, 180)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_av5we")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_qynjc")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 376.0
+offset_top = 704.0
+offset_right = 814.0
+offset_bottom = 750.0
+theme_override_font_sizes/font_size = 30

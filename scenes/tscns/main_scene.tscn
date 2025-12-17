@@ -2587,5 +2587,5 @@ position = Vector2(1498, 186)
 
 [node name="Player" parent="Camera2D" instance=ExtResource("3_aqrb5")]
 z_index = 2
-position = Vector2(10, 104)
+position = Vector2(10, 100)
 platform_floor_layers = 4294967294
