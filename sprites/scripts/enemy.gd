@@ -59,7 +59,7 @@ func _ready() -> void:
 	if life_blood_max < 0.0:
 		life_blood_max = 100.0
 	sprite.play("idle") #显示静止状态
-	sprite.flip_h = true #朝玩家方向
+	sprite.flip_h = false #朝玩家方向
 	shoot_timer.paused = true
 	_draw_life_blood_in_edit_mode()
 
@@ -70,6 +70,9 @@ func _physics_process(delta: float) -> void:
 	_detect_position_clamp() #检测坐标越界处理
 	_draw_life_blood_in_edit_mode()
 	if Engine.is_editor_hint(): return #编辑模式下不处理逻辑
+	if not is_on_floor():
+		velocity.y += 9.8
+	else: velocity.y = 0.0
 	if action == EnemyState.Action.idle:
 		if (sprite.animation as StringName)\
 			.get_basename() != 'idle':
@@ -86,7 +89,7 @@ func patrol(delta: float):
 	if not patrol_path or\
 		not patrol_path_follow:
 		sprite.play(&'idle')
-		sprite.flip_h = true if direction.x < 0 else false
+		sprite.flip_h = true if direction.x <= 0 else false
 		return #没有设置巡逻路径，直接返回
 	sprite.play(&'run') #执行动画
 	if is_on_floor(): #如果是在地板上，就不受重力作用

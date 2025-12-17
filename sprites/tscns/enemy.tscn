@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://wtjoismy5d0s" path="res://assets/enemy/grunt_shoot.png" id="5_nugqd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ha57j"]
-size = Vector2(22, 28)
+size = Vector2(16, 22)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vnllh"]
 atlas = ExtResource("2_ha57j")
@@ -229,13 +229,14 @@ sprite = NodePath("AnimatedSprite")
 collision_shape = NodePath("CollisionShape")
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0)
 shape = SubResource("RectangleShape2D_ha57j")
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vnllh")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.48063368
+frame_progress = 0.83710593
 flip_h = true
 
 [node name="BodyArea2D" type="Area2D" parent="."]
