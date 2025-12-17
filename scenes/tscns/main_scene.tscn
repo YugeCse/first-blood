@@ -2377,7 +2377,7 @@ physics_quadrant_size = 8
 
 [node name="Turret" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
 position = Vector2(207, 67)
-spy_radius = 120.0
+spy_radius = 130.0
 
 [node name="Turret2" parent="Camera2D/EnemyContainer" instance=ExtResource("14_x4yan")]
 position = Vector2(464, 138)

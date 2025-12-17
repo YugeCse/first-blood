@@ -79,11 +79,7 @@ func _handle_control_move(_delta: float):
 	#endregion
 	#region 处理用户输入
 	var is_moving = false #是否正在移动
-	move_dir = Vector2(
-		Input.get_action_strength(&'ui_right') -\
-		Input.get_action_strength(&'ui_left'),
-		Input.get_action_strength(&'ui_down') -\
-		Input.get_action_strength(&'ui_up'))
+	move_dir = Input.get_vector(&'ui_left', &'ui_right', &'ui_up', &'ui_down')
 	if move_dir != Vector2.ZERO:
 		move_dir = move_dir.normalized()
 		if move_dir.x != 0:

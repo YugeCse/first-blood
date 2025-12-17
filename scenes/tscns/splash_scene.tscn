@@ -51,3 +51,11 @@ theme_override_styles/background = SubResource("StyleBoxFlat_er8jx")
 theme_override_styles/fill = SubResource("StyleBoxFlat_gyj6c")
 value = 50.0
 show_percentage = false
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+position = Vector2(-345, -690)
+color = Color(0.5132329, 0.5132329, 0.5132329, 1)
+energy = 1.1
+shadow_enabled = true
+shadow_color = Color(0.098098494, 0.098098524, 0.09809851, 0)
+shadow_filter = 1
