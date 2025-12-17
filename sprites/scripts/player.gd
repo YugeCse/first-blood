@@ -65,7 +65,7 @@ func _physics_process(delta: float) -> void:
 	_handle_control_move(delta) #处理控制移动
 
 ## 处理控制移动
-func _handle_control_move(delta: float):
+func _handle_control_move(_delta: float):
 	#region 控制重力逻辑
 	# 把 velocity 当作像素/秒来管理：水平速度不乘 delta，重力乘 delta
 	if not is_on_floor():

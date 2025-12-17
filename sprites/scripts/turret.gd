@@ -44,7 +44,7 @@ func _ready() -> void:
 	_update_spy_area() #更新监视范围
 	sprite.play('left')  #方向朝向玩家来的方向
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if Engine.is_editor_hint() or\
 		is_destory: return
 	_update_spy_area() #更新监视范围
