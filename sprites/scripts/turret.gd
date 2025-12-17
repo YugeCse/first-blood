@@ -110,7 +110,7 @@ func hurt(crack: float):
 ## 被损坏
 func destroy():
 	is_destory = true
-	collision_shape.disabled = true
+	collision_shape.set_deferred(&'disabled', true)
 	shoot_timer.stop()
 	sprite.play('dead')
 	print('炮台(', name , ')被损坏')

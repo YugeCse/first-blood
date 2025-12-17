@@ -142,7 +142,7 @@ func hurt(crack: float):
 ## 敌人被毁坏
 func destory():
 	action = EnemyState.Action.dead
-	collision_shape.disabled = true
+	collision_shape.set_deferred(&'disabled', true)
 	sprite.play('dead')
 	sprite.animation_finished.connect(queue_free)
 

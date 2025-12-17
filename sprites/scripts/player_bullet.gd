@@ -42,7 +42,7 @@ func _get_collision_cirle() -> CircleShape2D:
 func boom():
 	if collision_shape.disabled:
 		return #已经是待销毁状态了
-	collision_shape.disabled = true
+	collision_shape.set_deferred(&'disabled', true)
 	sprite.animation_finished.disconnect(boom)
 	sprite.play(&'boom')
 	sprite.animation_finished.connect(queue_free)
