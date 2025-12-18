@@ -24,7 +24,7 @@ func _ready() -> void:
 	start_position = global_position
 	sprite.rotate(direction.angle())
 	sprite.play('default')
-	sprite.animation_finished.connect(boom)
+	sprite.animation_finished.connect(queue_free)
 
 func _physics_process(delta: float) -> void:
 	var collision_radius = _get_collision_cirle().radius

@@ -13,6 +13,10 @@ var life_boold_max: float = 300
 @export_range(100, 1000)
 var spy_radius: float = 100.0
 
+## 是否被激活
+@export
+var is_active: bool
+
 ## 被检测的玩家
 var spy_player: Player
 
@@ -43,6 +47,7 @@ func _ready() -> void:
 		life_boold_max = life_blood
 	_update_spy_area() #更新监视范围
 	sprite.play('left')  #方向朝向玩家来的方向
+	set_active(false) #设置为未激活模式
 
 func _physics_process(_delta: float) -> void:
 	if Engine.is_editor_hint() or\
@@ -133,14 +138,15 @@ func _update_spy_area():
 	detector_area.add_child(detector_shape)
 
 ## 设置是否激活
-func set_active(is_active: bool):
-	if not is_active:
+func set_active(active: bool):
+	if is_active == active: return
+	if not active:
 		if shoot_timer and\
 			not shoot_timer.is_stopped():
 			shoot_timer.stop()
 		if sprite.is_playing(): sprite.stop()
-	set_process(is_active)
-	set_physics_process(is_active)
+	set_process(active)
+	set_physics_process(active)
 
 func _on_detector_area_2d_area_entered(area: Area2D) -> void:
 	var area_parent = area.get_parent()

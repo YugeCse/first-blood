@@ -28,6 +28,10 @@ var patrol_speed: float = 10.0
 @export_range(1.0, 1000)
 var gravity_speed: float = 9.8
 
+## 是否被激活
+@export
+var is_active: bool
+
 ## 巡逻路径
 @export
 var patrol_path: Path2D
@@ -62,6 +66,7 @@ func _ready() -> void:
 	sprite.flip_h = false #朝玩家方向
 	shoot_timer.paused = true
 	_draw_life_blood_in_edit_mode()
+	set_active(false) #设置为未激活模式
 
 func _enter_tree() -> void:
 	_draw_life_blood_in_edit_mode()
@@ -105,15 +110,15 @@ func chase():
 	if not is_shooting:
 		sprite.play('idle')
 	var dir = global_position - spy_player.global_position
-	if dir.x > 0:
+	if dir.x >= 0:
 		direction.x = 1.0
 		sprite.flip_h = true
-		print('玩家在他的前方: ', dir.x)
+		#print('玩家在他的前方: ', dir.x)
 	elif dir.x < 0:
 		sprite.flip_h = false
 		direction.x = -1.0
-		print('玩家在他的后方', dir.x)
-	else: print('玩家在他的正侧方', dir.x)
+		#print('玩家在他的后方', dir.x)
+	#else: print('玩家在他的正侧方', dir.x)
 	_start_shoot_timer() #启动射击定时器
 
 ## 执行射击
@@ -201,12 +206,15 @@ func _stop_shoot_timer():
 		shoot_timer.stop()
 
 ## 设置是否激活
-func set_active(is_active: bool):
-	if not is_active:
+func set_active(value: bool):
+	if is_active == value: return
+	if not value:
 		_stop_shoot_timer()
-		if sprite.is_playing(): sprite.stop()
-	set_process(is_active)
-	set_physics_process(is_active)
+		if sprite.is_playing(): 
+			sprite.stop()
+	self.is_active = value
+	set_process(value)
+	set_physics_process(value)
 
 func _on_detector_area_2d_area_entered(area: Area2D) -> void:
 	var parent = area.get_parent()

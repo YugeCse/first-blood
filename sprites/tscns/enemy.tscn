@@ -225,6 +225,7 @@ collision_layer = 8
 collision_mask = 19
 platform_on_leave = 2
 script = ExtResource("1_u2tar")
+is_active = null
 sprite = NodePath("AnimatedSprite")
 collision_shape = NodePath("CollisionShape")
 
@@ -236,8 +237,7 @@ shape = SubResource("RectangleShape2D_ha57j")
 sprite_frames = SubResource("SpriteFrames_vnllh")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.83710593
-flip_h = true
+frame_progress = 0.32947505
 
 [node name="BodyArea2D" type="Area2D" parent="."]
 collision_layer = 128

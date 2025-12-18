@@ -21,7 +21,7 @@ func _ready() -> void:
 		sprite.play(&'level2')
 	else: sprite.play(&'default')
 	sprite.rotate(direction.angle())
-	sprite.animation_finished.connect(boom)
+	sprite.animation_finished.connect(queue_free)
 
 func _physics_process(delta: float) -> void:
 	var collision_radius = _get_collision_cirle().radius
@@ -43,7 +43,7 @@ func boom():
 	if collision_shape.disabled:
 		return #已经是待销毁状态了
 	collision_shape.set_deferred(&'disabled', true)
-	sprite.animation_finished.disconnect(boom)
+	sprite.animation_finished.disconnect(queue_free)
 	sprite.play(&'boom')
 	sprite.animation_finished.connect(queue_free)
 
