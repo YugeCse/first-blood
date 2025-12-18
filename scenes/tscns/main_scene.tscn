@@ -1,15 +1,18 @@
-[gd_scene load_steps=46 format=4 uid="uid://ch2wthxe3euso"]
+[gd_scene load_steps=49 format=4 uid="uid://ch2wthxe3euso"]
 
 [ext_resource type="Script" uid="uid://bgsml851ggl8l" path="res://scenes/scripts/main_scene.gd" id="1_iqqi7"]
 [ext_resource type="Texture2D" uid="uid://blio11u6qg3js" path="res://assets/tileset.png" id="2_ajs4e"]
 [ext_resource type="Texture2D" uid="uid://ybn66p51l2q7" path="res://assets/titlescreen/main_title_bg.png" id="2_hdif8"]
 [ext_resource type="PackedScene" uid="uid://bu0oiv8b0bb31" path="res://sprites/tscns/player.tscn" id="3_aqrb5"]
 [ext_resource type="Texture2D" uid="uid://ctmfm7yj0fdsm" path="res://assets/ui/ui_medal_life.png" id="3_hktbw"]
+[ext_resource type="Texture2D" uid="uid://bl0v8pr38cuq1" path="res://assets/ui/player_icon_idle.png" id="4_dj8av"]
 [ext_resource type="Texture2D" uid="uid://dmwgrxb6tv01p" path="res://assets/background/jungle_tree1.png" id="4_ehh3e"]
 [ext_resource type="Texture2D" uid="uid://b2u7p3yhhu4qj" path="res://assets/background/jungle_bg_trees.png" id="4_ti3i2"]
+[ext_resource type="Texture2D" uid="uid://c41fsgm28agmx" path="res://assets/ui/life_empty.png" id="5_80ns1"]
 [ext_resource type="Texture2D" uid="uid://bssm3lvacmqq2" path="res://assets/background/clouds1.png" id="5_py70p"]
 [ext_resource type="Texture2D" uid="uid://pbsl40kfu1qo" path="res://assets/background/jungle_paralax_bg1.png" id="5_x4yan"]
 [ext_resource type="Texture2D" uid="uid://82dn3orp7kb4" path="res://assets/background/jungle_tree2.png" id="6_1rb06"]
+[ext_resource type="Texture2D" uid="uid://c6wpumijxy8y6" path="res://assets/ui/life_unit.png" id="6_4e1pt"]
 [ext_resource type="Texture2D" uid="uid://c24ynggguxc1n" path="res://assets/background/jungle_paralax_bg2.png" id="6_rf4d2"]
 [ext_resource type="Texture2D" uid="uid://cdr64ovupbud5" path="res://assets/background/jungle_tree1_bg.png" id="7_hktbw"]
 [ext_resource type="Texture2D" uid="uid://domyowyggclnu" path="res://assets/background/jungle_tree2_bg.png" id="8_icrl2"]
@@ -2622,6 +2625,28 @@ stretch_mode = 4
 layout_mode = 2
 texture = ExtResource("3_hktbw")
 stretch_mode = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Camera2D/HUDContainer"]
+offset_left = 12.0
+offset_top = 32.0
+offset_right = 112.0
+offset_bottom = 45.0
+
+[node name="TextureRect" type="TextureRect" parent="Camera2D/HUDContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_dj8av")
+stretch_mode = 2
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Camera2D/HUDContainer/HBoxContainer"]
+modulate = Color(1, 1, 1, 0.8627451)
+self_modulate = Color(1, 1, 1, 0.9411765)
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+step = 0.01
+value = 100.0
+nine_patch_stretch = true
+texture_under = ExtResource("5_80ns1")
+texture_progress = ExtResource("6_4e1pt")
 
 [node name="MapContainer" type="Node2D" parent="Camera2D"]
 
