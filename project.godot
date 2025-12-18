@@ -32,6 +32,12 @@ window/size/viewport_height=840
 window/stretch/aspect="expand"
 window/stretch/scale=3.0
 
+[file_customization]
+
+folder_colors={
+"res://assets/audio/": "yellow"
+}
+
 [global_group]
 
 Enemy=""
