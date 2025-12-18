@@ -132,6 +132,16 @@ func _update_spy_area():
 	detector_shape.shape = spy_shape
 	detector_area.add_child(detector_shape)
 
+## 设置是否激活
+func set_active(is_active: bool):
+	if not is_active:
+		if shoot_timer and\
+			not shoot_timer.is_stopped():
+			shoot_timer.stop()
+		if sprite.is_playing(): sprite.stop()
+	set_process(is_active)
+	set_physics_process(is_active)
+
 func _on_detector_area_2d_area_entered(area: Area2D) -> void:
 	var area_parent = area.get_parent()
 	if not area_parent: return

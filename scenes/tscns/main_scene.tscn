@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=4 uid="uid://ch2wthxe3euso"]
+[gd_scene load_steps=39 format=4 uid="uid://ch2wthxe3euso"]
 
 [ext_resource type="Script" uid="uid://bgsml851ggl8l" path="res://scenes/scripts/main_scene.gd" id="1_iqqi7"]
 [ext_resource type="Texture2D" uid="uid://blio11u6qg3js" path="res://assets/tileset.png" id="2_ajs4e"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://cm6tulftvh8w7" path="res://sprites/tscns/enemy.tscn" id="16_hktbw"]
 [ext_resource type="Texture2D" uid="uid://ckvm6kvt3uh5c" path="res://assets/props/plant.png" id="16_jkd1u"]
 [ext_resource type="Texture2D" uid="uid://qtpbb7niufbg" path="res://assets/props/skullpanel.png" id="17_ujx1k"]
+[ext_resource type="Script" uid="uid://bucie1xwmbqm1" path="res://shared/manager/enemy_manager.gd" id="21_8c82h"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hdif8"]
 texture = ExtResource("2_ajs4e")
@@ -2881,3 +2882,8 @@ position = Vector2(1498, 186)
 z_index = 2
 position = Vector2(10, 100)
 platform_floor_layers = 4294967294
+
+[node name="EnemyManager" type="Node" parent="." node_paths=PackedStringArray("viewport")]
+script = ExtResource("21_8c82h")
+viewport = NodePath("..")
+metadata/_custom_type_script = "uid://bucie1xwmbqm1"

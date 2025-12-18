@@ -200,6 +200,14 @@ func _stop_shoot_timer():
 	if not shoot_timer.is_stopped():
 		shoot_timer.stop()
 
+## 设置是否激活
+func set_active(is_active: bool):
+	if not is_active:
+		_stop_shoot_timer()
+		if sprite.is_playing(): sprite.stop()
+	set_process(is_active)
+	set_physics_process(is_active)
+
 func _on_detector_area_2d_area_entered(area: Area2D) -> void:
 	var parent = area.get_parent()
 	if parent is Player:
