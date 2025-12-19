@@ -3177,3 +3177,5 @@ platform_floor_layers = 4294967294
 script = ExtResource("21_8c82h")
 viewport = NodePath("..")
 metadata/_custom_type_script = "uid://bucie1xwmbqm1"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
