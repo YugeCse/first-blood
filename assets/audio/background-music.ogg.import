@@ -2,21 +2,13 @@
 
 importer="oggvorbisstr"
 type="AudioStreamOggVorbis"
-<<<<<<< HEAD
-uid="uid://b10rr0k463hr8"
+uid="uid://yrroa6uebjnb"
 path="res://.godot/imported/background-music.ogg-9e6cbd763fb2a192eef729e38338f67e.oggvorbisstr"
-=======
-uid="uid://ddqbjae8461hx"
-valid=false
->>>>>>> 6f37cba (#增加背景音乐)
 
 [deps]
 
 source_file="res://assets/audio/background-music.ogg"
-<<<<<<< HEAD
 dest_files=["res://.godot/imported/background-music.ogg-9e6cbd763fb2a192eef729e38338f67e.oggvorbisstr"]
-=======
->>>>>>> 6f37cba (#增加背景音乐)
 
 [params]
 
