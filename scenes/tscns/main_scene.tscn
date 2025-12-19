@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=4 uid="uid://ch2wthxe3euso"]
+[gd_scene load_steps=50 format=4 uid="uid://ch2wthxe3euso"]
 
 [ext_resource type="Script" uid="uid://bgsml851ggl8l" path="res://scenes/scripts/main_scene.gd" id="1_iqqi7"]
 [ext_resource type="Texture2D" uid="uid://blio11u6qg3js" path="res://assets/tileset.png" id="2_ajs4e"]
@@ -25,6 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://cpnsomhoybqwu" path="res://assets/tiles_spritesheet.png" id="16_s1bfa"]
 [ext_resource type="Texture2D" uid="uid://qtpbb7niufbg" path="res://assets/props/skullpanel.png" id="17_ujx1k"]
 [ext_resource type="Script" uid="uid://bucie1xwmbqm1" path="res://shared/manager/enemy_manager.gd" id="21_8c82h"]
+[ext_resource type="AudioStream" uid="uid://b10rr0k463hr8" path="res://assets/audio/background-music.ogg" id="26_80ns1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hdif8"]
 texture = ExtResource("2_ajs4e")
@@ -3178,4 +3179,7 @@ script = ExtResource("21_8c82h")
 viewport = NodePath("..")
 metadata/_custom_type_script = "uid://bucie1xwmbqm1"
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("26_80ns1")
+autoplay = true
+playback_type = 1
