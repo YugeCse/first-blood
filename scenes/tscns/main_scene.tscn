@@ -3179,7 +3179,11 @@ script = ExtResource("21_8c82h")
 viewport = NodePath("..")
 metadata/_custom_type_script = "uid://bucie1xwmbqm1"
 
+<<<<<<< HEAD
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("26_80ns1")
 autoplay = true
 playback_type = 1
+=======
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+>>>>>>> 6f37cba (#增加背景音乐)
