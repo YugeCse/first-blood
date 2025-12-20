@@ -39,6 +39,9 @@ var _is_neigbor_active: bool = false
 ## 已经飞行了的时间
 var _fly_time: float = 0.0
 
+## 下落爆炸等待时间
+var _fall_bom_time: float = 0.15
+
 ## 飞行速度
 var _fly_speed: float = 100.0
 
@@ -76,22 +79,36 @@ func _process(delta: float) -> void:
 		var distance = global_position\
 			.distance_to(_start_fly_position)
 		if distance < _max_fly_distance:
-			if state == State.idle and _fly_time > 0.5:
-				state = State.bom
 			global_position += _fly_direction * _fly_speed * delta
 		else:
+			if state == State.bom: return #已经爆炸了，直接返回
 			if not _is_attach_max_distance:
 				_is_attach_max_distance = true
-				_fly_direction = Vector2(1 if randi_range(0, 1) == 0 else -1, 0)
-			var velocity = _fly_direction * _fly_direction
-			velocity.y += 98.0 #重力加速度
-			global_position += velocity * delta #更新新的位置数据
+				_fall_bom_time = randf_range(0.1, 0.3)
+				_fly_direction.x = 1 if randi_range(0, 1) == 1 else -1
+			if state == State.idle and\
+				_fall_bom_time and _fly_time > _fall_bom_time:
+				_show_bom_effect() #显示爆炸效果
+				return #爆炸了就不能继续飞行了，要返回
+			_fly_direction.y = 1.0 #重力加速度计算
+			var velocity = Vector2(_fly_speed * _fly_direction.x, 0.0)
+			velocity.y += 98.0 #使用重力加速度
+			global_position += velocity * delta #重新更新坐标位置
 
 ## 获取爆炸影响矩形数据
 func _get_bom_effect_area_rect() -> Rect2:
 	var shape = bom_collision_shape\
 		.shape as RectangleShape2D
 	return Rect2(global_position, shape.size)
+
+## 显示爆炸效果
+func _show_bom_effect() -> void:
+	state = State.bom
+	self.set_deferred(&'monitoring', false)
+	self.set_deferred(&'monitorable', false)
+	bom_sprite.play(&'default')
+	bom_area_detector.set_deferred(&'monitoring', true)
+	bom_area_detector.set_deferred(&'monitorable', true)
 
 ## 爆炸帧的变更事件
 func _on_bom_sprite_frame_changed():
@@ -103,7 +120,8 @@ func _on_bom_sprite_frame_changed():
 				.get_nodes_in_group('Barrel')
 			var neigbors = barrel_nodes.filter(func(n): \
 				return n != self and\
-					(n as Barrel)._get_bom_effect_area_rect()\
+					n.state == State.idle and\
+					n._get_bom_effect_area_rect()\
 					.intersects(cur_rect))
 			if not neigbors or neigbors.size() == 0: return
 			for neigbor in neigbors:
@@ -112,6 +130,8 @@ func _on_bom_sprite_frame_changed():
 				neigbor._fly_direction = Vector2.from_angle(\
 					deg_to_rad(randf_range(190, 350)))
 				neigbor._start_fly_position = neigbor.global_position
+				neigbor._fly_time = 0.0
+				neigbor._is_attach_max_distance = false
 		return
 	bom_area_detector.set_deferred(&'monitoring', false)
 	bom_area_detector.set_deferred(&'monitorable', false)
@@ -120,12 +140,7 @@ func _on_bom_sprite_frame_changed():
 func _on_area_entered(area: Area2D) -> void:
 	if area is PlayerBullet: #如果与子弹发生碰撞，跳转为爆炸模式
 		area.boom() #子弹也发生爆炸
-		state = State.bom
-		self.set_deferred(&'monitoring', false)
-		self.set_deferred(&'monitorable', false)
-		bom_sprite.play(&'default')
-		bom_area_detector.set_deferred(&'monitoring', true)
-		bom_area_detector.set_deferred(&'monitorable', true)
+		_show_bom_effect() #显示爆炸效果
 		
 ## 爆炸物与其他发生碰撞，一般值得把敌人或者玩家炸死
 func _on_bom_area_2d_body_entered(body: Node2D) -> void:
