@@ -7,11 +7,11 @@ var action: PlayerState.Action = PlayerState.Action.idle
 
 ## 血量
 @export_range(100, 10000)
-var life_blood: float = 100.0
+var life_blood: float = 200.0
 
 ## 最大血量
 @export_range(100, 10000)
-var life_blood_max: float = 100.0
+var life_blood_max: float = 200.0
 
 ## 玩家移动速度
 @export_range(30, 300)
@@ -167,6 +167,12 @@ func shoot():
 	bullet.global_position = global_position + offset
 	get_tree().current_scene.add_child_to_camera(bullet)
 
+## 收到伤害
+func hurt(crack: float):
+	life_blood = clampf(\
+		life_blood - crack, 0, life_blood_max)
+	if life_blood <= 0.0: print('玩家血量用完了')
+	
 ## 获取碰撞区域的矩形大小
 func _get_collision_shape_rect() -> Rect2:
 	var collider_shape = \

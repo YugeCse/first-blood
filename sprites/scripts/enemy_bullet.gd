@@ -60,3 +60,4 @@ func _on_area_entered(area: Area2D) -> void:
 		return
 	if parent is Player: #如果碰到玩家了
 		boom() #销毁这个子弹组件
+		parent.hurt(randf_range(10, 20))

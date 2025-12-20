@@ -101,6 +101,9 @@ ui_shoot={
 2d_physics/layer_6="enemy_bullet"
 2d_physics/layer_7="player_body"
 2d_physics/layer_8="enemy_body"
+2d_physics/layer_9="food_prop"
+2d_physics/layer_10="barrel_prop"
+2d_physics/layer_11="normal_prop"
 
 [rendering]
 
