@@ -222,7 +222,7 @@ radius = 120.0
 
 [node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "collision_shape") groups=["Enemy"]]
 collision_layer = 8
-collision_mask = 19
+collision_mask = 531
 platform_on_leave = 2
 script = ExtResource("1_u2tar")
 sprite = NodePath("AnimatedSprite")
@@ -236,7 +236,7 @@ shape = SubResource("RectangleShape2D_ha57j")
 sprite_frames = SubResource("SpriteFrames_vnllh")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.5084509
+frame_progress = 0.01965737
 flip_h = true
 
 [node name="BodyArea2D" type="Area2D" parent="."]

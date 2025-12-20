@@ -2,12 +2,16 @@
 class_name Turret extends StaticBody2D
 
 ## 生命血量
-@export_range(100, 500)
-var life_blood: float = 300
+@export_range(100, 300)
+var life_blood: float = 200
 
 ## 生命最大血量
 @export_range(100, 500)
-var life_boold_max: float = 300
+var life_boold_max: float = 500
+
+## 血量是否随机
+@export
+var life_blood_rand: bool = true
 
 ## 监视范围
 @export_range(100, 1000)
@@ -47,6 +51,7 @@ var bullet_resource = preload("res://sprites/tscns/enemy_bullet.tscn")
 var explosion_sprite_frames = preload('res://assets/anim/explosion_sprite_frames.tres')
 
 func _ready() -> void:
+	life_blood = randf_range(100, 300)
 	if life_boold_max < life_blood:
 		life_boold_max = life_blood
 	_update_spy_area() #更新监视范围
