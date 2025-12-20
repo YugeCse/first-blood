@@ -36,8 +36,8 @@ var state: Barrel.State = Barrel.State.idle
 func _ready() -> void:
 	bom_sprite.animation_finished\
 		.connect(func(): state = State.destroy)
-	bom_area_detector.monitoring = false
-	bom_area_detector.monitorable = false
+	bom_area_detector.set_deferred(&'monitoring', false)
+	bom_area_detector.set_deferred(&'monitorable', false)
 
 func _process(delta: float) -> void:
 	if state == State.idle:
@@ -51,12 +51,13 @@ func _process(delta: float) -> void:
 ## 本地与其他物品发生碰撞，一般特指与子弹碰撞
 func _on_area_entered(area: Area2D) -> void:
 	if area is PlayerBullet: #如果与子弹发生碰撞，跳转为爆炸模式
+		area.boom() #子弹也发生爆炸
 		state = State.bom
-		self.monitoring = false
-		self.monitorable = false
+		self.set_deferred(&'monitoring', false)
+		self.set_deferred(&'monitorable', false)
 		bom_sprite.play(&'default')
-		bom_area_detector.monitoring = true
-		bom_area_detector.monitorable = true
+		bom_area_detector.set_deferred(&'monitoring', true)
+		bom_area_detector.set_deferred(&'monitorable', true)
 		
 
 ## 爆炸物与其他发生碰撞，一般值得把敌人或者玩家炸死
