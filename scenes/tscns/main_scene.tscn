@@ -802,7 +802,7 @@ _data = {
 }
 point_count = 3
 
-[node name="MainScene" type="Control" node_paths=PackedStringArray("hudContainer", "player_life_progress_bar")]
+[node name="MainScene" type="Control" node_paths=PackedStringArray("hud_container", "life_container", "player_life_progress_bar")]
 clip_contents = true
 custom_minimum_size = Vector2(2000, 210)
 layout_mode = 3
@@ -810,18 +810,34 @@ anchors_preset = 0
 offset_right = 2000.0
 offset_bottom = 210.0
 script = ExtResource("1_iqqi7")
-hudContainer = NodePath("HUDContainer")
+hud_container = NodePath("HUDContainer")
+life_container = NodePath("HUDContainer/LifeContainer")
 player_life_progress_bar = NodePath("HUDContainer/HBoxContainer/TextureProgressBar")
+
+[node name="DefaultBackgound" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [node name="HUDContainer" type="CanvasLayer" parent="."]
 layer = 0
 follow_viewport_enabled = true
 
 [node name="LifeContainer" type="HBoxContainer" parent="HUDContainer"]
-offset_left = 12.0
+layout_direction = 2
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -46.0
 offset_top = 12.0
-offset_right = 44.0
+offset_right = -14.0
 offset_bottom = 27.0
+grow_horizontal = 0
+size_flags_horizontal = 8
 
 [node name="TextureRect" type="TextureRect" parent="HUDContainer/LifeContainer"]
 layout_mode = 2
@@ -840,9 +856,9 @@ stretch_mode = 4
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HUDContainer"]
 offset_left = 12.0
-offset_top = 32.0
+offset_top = 12.0
 offset_right = 112.0
-offset_bottom = 45.0
+offset_bottom = 25.0
 
 [node name="TextureRect" type="TextureRect" parent="HUDContainer/HBoxContainer"]
 layout_mode = 2
@@ -1169,55 +1185,55 @@ parameters/looping = true
 
 [connection signal="area_entered" from="MapContainer/DecorationMapLayer/RedBarrel" to="MapContainer/DecorationMapLayer/RedBarrel" method="_on_area_entered"]
 [connection signal="area_entered" from="MapContainer/DecorationMapLayer/Barrel" to="MapContainer/DecorationMapLayer/Barrel" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40758" to="MapContainer/DecorationMapLayer/@Area2D@40758" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40759" to="MapContainer/DecorationMapLayer/@Area2D@40759" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40760" to="MapContainer/DecorationMapLayer/@Area2D@40760" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40761" to="MapContainer/DecorationMapLayer/@Area2D@40761" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40762" to="MapContainer/DecorationMapLayer/@Area2D@40762" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40763" to="MapContainer/DecorationMapLayer/@Area2D@40763" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40764" to="MapContainer/DecorationMapLayer/@Area2D@40764" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40765" to="MapContainer/DecorationMapLayer/@Area2D@40765" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40766" to="MapContainer/DecorationMapLayer/@Area2D@40766" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40767" to="MapContainer/DecorationMapLayer/@Area2D@40767" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40768" to="MapContainer/DecorationMapLayer/@Area2D@40768" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40769" to="MapContainer/DecorationMapLayer/@Area2D@40769" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40770" to="MapContainer/DecorationMapLayer/@Area2D@40770" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40771" to="MapContainer/DecorationMapLayer/@Area2D@40771" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40772" to="MapContainer/DecorationMapLayer/@Area2D@40772" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40773" to="MapContainer/DecorationMapLayer/@Area2D@40773" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40774" to="MapContainer/DecorationMapLayer/@Area2D@40774" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40775" to="MapContainer/DecorationMapLayer/@Area2D@40775" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40776" to="MapContainer/DecorationMapLayer/@Area2D@40776" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40777" to="MapContainer/DecorationMapLayer/@Area2D@40777" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40778" to="MapContainer/DecorationMapLayer/@Area2D@40778" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40779" to="MapContainer/DecorationMapLayer/@Area2D@40779" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40780" to="MapContainer/DecorationMapLayer/@Area2D@40780" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40781" to="MapContainer/DecorationMapLayer/@Area2D@40781" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40782" to="MapContainer/DecorationMapLayer/@Area2D@40782" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40783" to="MapContainer/DecorationMapLayer/@Area2D@40783" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40784" to="MapContainer/DecorationMapLayer/@Area2D@40784" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40785" to="MapContainer/DecorationMapLayer/@Area2D@40785" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40786" to="MapContainer/DecorationMapLayer/@Area2D@40786" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40787" to="MapContainer/DecorationMapLayer/@Area2D@40787" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40788" to="MapContainer/DecorationMapLayer/@Area2D@40788" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40789" to="MapContainer/DecorationMapLayer/@Area2D@40789" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40790" to="MapContainer/DecorationMapLayer/@Area2D@40790" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40791" to="MapContainer/DecorationMapLayer/@Area2D@40791" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40792" to="MapContainer/DecorationMapLayer/@Area2D@40792" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40793" to="MapContainer/DecorationMapLayer/@Area2D@40793" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40794" to="MapContainer/DecorationMapLayer/@Area2D@40794" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40795" to="MapContainer/DecorationMapLayer/@Area2D@40795" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40796" to="MapContainer/DecorationMapLayer/@Area2D@40796" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40797" to="MapContainer/DecorationMapLayer/@Area2D@40797" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40798" to="MapContainer/DecorationMapLayer/@Area2D@40798" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40799" to="MapContainer/DecorationMapLayer/@Area2D@40799" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40800" to="MapContainer/DecorationMapLayer/@Area2D@40800" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40801" to="MapContainer/DecorationMapLayer/@Area2D@40801" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40802" to="MapContainer/DecorationMapLayer/@Area2D@40802" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40803" to="MapContainer/DecorationMapLayer/@Area2D@40803" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40804" to="MapContainer/DecorationMapLayer/@Area2D@40804" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40805" to="MapContainer/DecorationMapLayer/@Area2D@40805" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40806" to="MapContainer/DecorationMapLayer/@Area2D@40806" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40807" to="MapContainer/DecorationMapLayer/@Area2D@40807" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40808" to="MapContainer/DecorationMapLayer/@Area2D@40808" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40809" to="MapContainer/DecorationMapLayer/@Area2D@40809" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110253" to="MapContainer/DecorationMapLayer/@Area2D@110253" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110254" to="MapContainer/DecorationMapLayer/@Area2D@110254" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110255" to="MapContainer/DecorationMapLayer/@Area2D@110255" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110256" to="MapContainer/DecorationMapLayer/@Area2D@110256" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110257" to="MapContainer/DecorationMapLayer/@Area2D@110257" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110258" to="MapContainer/DecorationMapLayer/@Area2D@110258" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110259" to="MapContainer/DecorationMapLayer/@Area2D@110259" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110260" to="MapContainer/DecorationMapLayer/@Area2D@110260" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110261" to="MapContainer/DecorationMapLayer/@Area2D@110261" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110262" to="MapContainer/DecorationMapLayer/@Area2D@110262" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110263" to="MapContainer/DecorationMapLayer/@Area2D@110263" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110264" to="MapContainer/DecorationMapLayer/@Area2D@110264" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110265" to="MapContainer/DecorationMapLayer/@Area2D@110265" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110266" to="MapContainer/DecorationMapLayer/@Area2D@110266" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110267" to="MapContainer/DecorationMapLayer/@Area2D@110267" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110268" to="MapContainer/DecorationMapLayer/@Area2D@110268" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110269" to="MapContainer/DecorationMapLayer/@Area2D@110269" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110270" to="MapContainer/DecorationMapLayer/@Area2D@110270" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110271" to="MapContainer/DecorationMapLayer/@Area2D@110271" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110272" to="MapContainer/DecorationMapLayer/@Area2D@110272" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110273" to="MapContainer/DecorationMapLayer/@Area2D@110273" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110274" to="MapContainer/DecorationMapLayer/@Area2D@110274" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110275" to="MapContainer/DecorationMapLayer/@Area2D@110275" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110276" to="MapContainer/DecorationMapLayer/@Area2D@110276" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110277" to="MapContainer/DecorationMapLayer/@Area2D@110277" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110278" to="MapContainer/DecorationMapLayer/@Area2D@110278" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110279" to="MapContainer/DecorationMapLayer/@Area2D@110279" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110280" to="MapContainer/DecorationMapLayer/@Area2D@110280" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110281" to="MapContainer/DecorationMapLayer/@Area2D@110281" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110282" to="MapContainer/DecorationMapLayer/@Area2D@110282" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110283" to="MapContainer/DecorationMapLayer/@Area2D@110283" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110284" to="MapContainer/DecorationMapLayer/@Area2D@110284" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110285" to="MapContainer/DecorationMapLayer/@Area2D@110285" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110286" to="MapContainer/DecorationMapLayer/@Area2D@110286" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110287" to="MapContainer/DecorationMapLayer/@Area2D@110287" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110288" to="MapContainer/DecorationMapLayer/@Area2D@110288" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110289" to="MapContainer/DecorationMapLayer/@Area2D@110289" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110290" to="MapContainer/DecorationMapLayer/@Area2D@110290" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110291" to="MapContainer/DecorationMapLayer/@Area2D@110291" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110292" to="MapContainer/DecorationMapLayer/@Area2D@110292" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110293" to="MapContainer/DecorationMapLayer/@Area2D@110293" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110294" to="MapContainer/DecorationMapLayer/@Area2D@110294" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110295" to="MapContainer/DecorationMapLayer/@Area2D@110295" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110296" to="MapContainer/DecorationMapLayer/@Area2D@110296" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110297" to="MapContainer/DecorationMapLayer/@Area2D@110297" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110298" to="MapContainer/DecorationMapLayer/@Area2D@110298" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110299" to="MapContainer/DecorationMapLayer/@Area2D@110299" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110300" to="MapContainer/DecorationMapLayer/@Area2D@110300" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110301" to="MapContainer/DecorationMapLayer/@Area2D@110301" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110302" to="MapContainer/DecorationMapLayer/@Area2D@110302" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110303" to="MapContainer/DecorationMapLayer/@Area2D@110303" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@110304" to="MapContainer/DecorationMapLayer/@Area2D@110304" method="_on_area_entered"]

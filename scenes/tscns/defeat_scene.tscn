@@ -1,0 +1,77 @@
+[gd_scene load_steps=10 format=3 uid="uid://0kqr8phbfdhm"]
+
+[ext_resource type="Script" uid="uid://vq0hmqddr62w" path="res://scenes/scripts/defeat_scene.gd" id="1_cwjor"]
+[ext_resource type="Texture2D" uid="uid://dyyebdcij3l8" path="res://assets/titlescreen/GameOverScreen.png" id="1_guubc"]
+[ext_resource type="Texture2D" uid="uid://ce4b8te15mf3i" path="res://assets/titlescreen/GameOverScreen-still.png" id="2_ouk6v"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ouk6v"]
+atlas = ExtResource("1_guubc")
+region = Rect2(0, 0, 320, 180)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cwjor"]
+atlas = ExtResource("1_guubc")
+region = Rect2(320, 0, 320, 180)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tvdhg"]
+atlas = ExtResource("1_guubc")
+region = Rect2(640, 0, 320, 180)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i3f1e"]
+atlas = ExtResource("1_guubc")
+region = Rect2(960, 0, 320, 180)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tpvti"]
+atlas = ExtResource("2_ouk6v")
+region = Rect2(0, 0, 320, 180)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tpvti"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ouk6v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cwjor")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tvdhg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i3f1e")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tpvti")
+}],
+"loop": true,
+"name": &"still",
+"speed": 5.0
+}]
+
+[node name="GameOverScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cwjor")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_tpvti")
+animation = &"still"
+autoplay = "default"
+centered = false

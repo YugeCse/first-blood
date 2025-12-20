@@ -6,8 +6,8 @@ class_name Player extends CharacterBody2D
 var action: PlayerState.Action = PlayerState.Action.idle
 
 ## 开枪射击的时间限制
-@export_range(0.2, 1.0)
-var shoot_time_limit: float = 0.5
+@export_range(0.02, 1.0)
+var shoot_time_limit: float = 0.3
 
 ## 血量
 @export_range(100, 10000)
@@ -197,10 +197,12 @@ func hurt(crack: float):
 		life_blood - crack, 0, life_blood_max)
 	if life_blood <= 0.0:
 		dead() #玩家角色死亡
-		action = PlayerState.Action.dead
 
 ## 玩家角色死亡
 func dead():
+	if action != PlayerState.Action.dead:
+		action = PlayerState.Action.dead
+	else: return #玩家角色已经死亡了
 	collision_shape.set_deferred(&'disabled', true)
 	$BodyArea2D.set_deferred(&'monitoring', false)
 	$BodyArea2D.set_deferred(&'monitorable', false)
@@ -213,7 +215,6 @@ func dead():
 	sprite.play(&'dead_soul')
 	await sprite.animation_finished
 	GlobalSignals.on_player_dead.emit(global_position)
-	queue_free() #从节点移除该玩家
 	
 ## 获取碰撞区域的矩形大小
 func _get_collision_shape_rect() -> Rect2:

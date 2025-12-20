@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://23dkse8jpl62"]
+[gd_scene load_steps=15 format=3 uid="uid://23dkse8jpl62"]
 
 [ext_resource type="Script" uid="uid://dhqne2kawbsdi" path="res://scenes/scripts/splash_scene.gd" id="1_av5we"]
 [ext_resource type="Texture2D" uid="uid://codignnivbey8" path="res://assets/titlescreen/CreditsScreen.png" id="2_qynjc"]
 [ext_resource type="Theme" uid="uid://bn38qm2xrw4ml" path="res://shared/themes/splash_progress_bar.tres" id="3_er8jx"]
+[ext_resource type="Texture2D" uid="uid://ybn66p51l2q7" path="res://assets/titlescreen/main_title_bg.png" id="4_2jgj0"]
+[ext_resource type="Texture2D" uid="uid://d1wi81ynjd5bq" path="res://assets/titlescreen/title_screen.png" id="5_2jgj0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_er8jx"]
 corner_radius_top_left = 5
@@ -17,6 +19,56 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_xip0o"]
+atlas = ExtResource("5_2jgj0")
+region = Rect2(0, 0, 320, 180)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w32qm"]
+atlas = ExtResource("5_2jgj0")
+region = Rect2(320, 0, 320, 180)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p0ens"]
+atlas = ExtResource("5_2jgj0")
+region = Rect2(640, 0, 320, 180)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jvmpy"]
+atlas = ExtResource("5_2jgj0")
+region = Rect2(960, 0, 320, 180)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fhwij"]
+atlas = ExtResource("5_2jgj0")
+region = Rect2(1280, 0, 320, 180)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ufsmj"]
+atlas = ExtResource("5_2jgj0")
+region = Rect2(1600, 0, 320, 180)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ddm5b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xip0o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w32qm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p0ens")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jvmpy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fhwij")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ufsmj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="SplashScene" type="Control"]
 clip_contents = true
 custom_minimum_size = Vector2(320, 180)
@@ -28,7 +80,17 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_av5we")
 
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
 [node name="TextureRect" type="TextureRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -52,10 +114,18 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_gyj6c")
 value = 50.0
 show_percentage = false
 
-[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
-position = Vector2(-345, -690)
-color = Color(0.5132329, 0.5132329, 0.5132329, 1)
-energy = 1.1
-shadow_enabled = true
-shadow_color = Color(0.098098494, 0.098098524, 0.09809851, 0)
-shadow_filter = 1
+[node name="TextureRect2" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_2jgj0")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="SplashAnimatedSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ddm5b")
+centered = false

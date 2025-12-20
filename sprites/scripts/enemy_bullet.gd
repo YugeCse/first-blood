@@ -24,7 +24,7 @@ func _ready() -> void:
 	start_position = global_position
 	sprite.rotate(direction.angle())
 	sprite.play('default')
-	sprite.animation_finished.connect(boom)
+	sprite.animation_finished.connect(queue_free)
 
 func _physics_process(delta: float) -> void:
 	var collision_radius = _get_collision_cirle().radius
@@ -46,10 +46,11 @@ func boom():
 	if collision_shape.disabled:
 		return #已经是待销毁状态了
 	collision_shape.set_deferred(&'disabled', true)
-	sprite.animation_finished.disconnect(boom)
-	sprite.play(&'boom')
+	if sprite.animation_finished.is_connected(queue_free):
+		sprite.animation_finished.disconnect(queue_free)
+	sprite.play(&'boom') #播放爆炸效果
+	sprite.animation_finished.connect(queue_free) #设置从节点删除
 	sprite.set(&'modulate',Color(0.907, 0.588, 0.86, 0.929))
-	sprite.animation_finished.connect(queue_free)
 
 func _on_area_entered(area: Area2D) -> void:
 	var parent = area.get_parent()

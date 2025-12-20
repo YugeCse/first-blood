@@ -17,6 +17,8 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="FirstBlood"
 run/main_scene="uid://23dkse8jpl62"
 config/features=PackedStringArray("4.5", "GL Compatibility")
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/image="uid://bvibbjh46eboq"
 config/icon="res://icon.svg"
 
 [autoload]
@@ -28,11 +30,11 @@ GlobalSignals="*res://autoloads/global_signals.gd"
 
 [display]
 
-window/size/viewport_width=1200
+window/size/viewport_width=1120
 window/size/viewport_height=840
 window/stretch/mode="viewport"
-window/stretch/aspect="ignore"
-window/stretch/scale=3.5
+window/stretch/aspect="expand"
+window/stretch/scale=3.0
 
 [file_customization]
 
