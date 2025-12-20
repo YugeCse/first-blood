@@ -8,7 +8,7 @@
 size = Vector2(13, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n08ew"]
-size = Vector2(65, 65)
+size = Vector2(60, 60)
 
 [node name="Barrel" type="Area2D" node_paths=PackedStringArray("sprite", "default_collision_shape", "bom_sprite", "bom_area_detector", "bom_collision_shape") groups=["Barrel"]]
 collision_layer = 512
@@ -33,6 +33,7 @@ frame = 11
 frame_progress = 1.0
 
 [node name="BomArea2D" type="Area2D" parent="AnimatedSprite2D"]
+collision_mask = 13
 monitoring = false
 monitorable = false
 

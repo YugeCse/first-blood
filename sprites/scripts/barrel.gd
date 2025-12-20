@@ -22,6 +22,10 @@ var default_collision_shape: CollisionShape2D
 @export
 var bom_sprite: AnimatedSprite2D
 
+## 爆炸伤害
+@export_range(10, 50)
+var bom_attack: float = 50.0
+
 ## 爆炸范围检测对象
 @export
 var bom_area_detector: Area2D
@@ -62,6 +66,7 @@ var _is_attach_max_distance: bool = false
 var bom_effect_audio_stream = preload('res://assets/audio/explosion_effect.ogg')
 
 func _ready() -> void:
+	bom_attack = randf_range(10.0, 50.0)
 	bom_sprite.animation_finished\
 		.connect(func(): state = State.destroy)
 	bom_area_detector.set_deferred(&'monitoring', false)
@@ -123,6 +128,7 @@ func _show_bom_effect() -> void:
 ## 爆炸帧的变更事件
 func _on_bom_sprite_frame_changed():
 	var cur_rect = _get_bom_effect_area_rect()
+	#如果爆炸进度超过90%了，就不会造成伤害了
 	if bom_sprite.frame_progress < 0.9:
 		if not _is_neigbor_active:
 			_is_neigbor_active = true
@@ -151,7 +157,18 @@ func _on_area_entered(area: Area2D) -> void:
 	if area is PlayerBullet: #如果与子弹发生碰撞，跳转为爆炸模式
 		area.boom() #子弹也发生爆炸
 		_show_bom_effect() #显示爆炸效果
-		
+
 ## 爆炸物与其他发生碰撞，一般值得把敌人或者玩家炸死
 func _on_bom_area_2d_body_entered(body: Node2D) -> void:
-	pass # Replace with function body.
+	var distance = global_position\
+		.distance_to(body.global_position)
+	var bom_effect_radius = _get_bom_effect_area_rect().size.x
+	var percent = absf(distance) / absf(bom_effect_radius)
+	var hurt = clampf(percent * bom_attack, 0, bom_attack)
+	if body is Turret: #炮台被炸伤
+		body.hurt(hurt)
+	elif body is Enemy: #敌人受伤
+		body.hurt(hurt)
+	elif body is Player:
+		body.hurt(hurt) #玩家受伤
+	

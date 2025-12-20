@@ -23,6 +23,7 @@ func _process(_delta: float) -> void:
 	if Input.is_anything_pressed(): #点击任何按键，继续游戏
 		GlobalConfigs.reset_player_data()
 		get_tree().change_scene_to_file('res://scenes/tscns/splash_scene.tscn')
+		return
 	var visible_rect_size = get_viewport().get_visible_rect().size
 	var target_scale = minf(visible_rect_size.x /_image_size.x,\
 		visible_rect_size.y /_image_size.y)

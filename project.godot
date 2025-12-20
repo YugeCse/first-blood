@@ -36,6 +36,10 @@ window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 window/stretch/scale=3.0
 
+[editor]
+
+movie_writer/movie_file="/Users/hwang/Downloads/未命名.avi"
+
 [file_customization]
 
 folder_colors={

@@ -708,7 +708,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"run",
-"speed": 10.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -781,7 +781,7 @@ script = ExtResource("1_ti7od")
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_iofu1")
-animation = &"defeated_ng"
+animation = &"stand_shoot"
 autoplay = "idle"
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]

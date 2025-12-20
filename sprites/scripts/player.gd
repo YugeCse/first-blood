@@ -166,6 +166,7 @@ func _set_position_clamp():
 		global_position.x = max_x
 	if global_position.y >= max_y:
 		print('玩家已经跳崖了，Go Die!')
+		GlobalSignals.on_player_dead.emit(global_position)
 
 ## 玩家角色发射子弹
 func shoot():
@@ -197,6 +198,8 @@ func hurt(crack: float):
 		life_blood - crack, 0, life_blood_max)
 	if life_blood <= 0.0:
 		dead() #玩家角色死亡
+		return
+	sprite.play(&'hit_hurt') #播放受伤的动画
 
 ## 玩家角色死亡
 func dead():
