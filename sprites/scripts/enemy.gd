@@ -182,6 +182,7 @@ func _draw() -> void:
 	var size = _get_collision_rect().size
 	var blood_width = 15.0
 	var draw_position = Vector2(-7.5, -size.y/2.0)
+	draw_rect(Rect2(draw_position, Vector2(blood_width, 2.0)), Color.WEB_GRAY)
 	draw_rect(Rect2(draw_position, Vector2(blood_width *  life_percent, 2.0)), Color.RED)
 	draw_rect(Rect2(draw_position, Vector2(blood_width, 2.0)), Color.WEB_GRAY, false, 0.5)
 

@@ -130,7 +130,7 @@ func _on_bom_sprite_frame_changed():
 	var cur_rect = _get_bom_effect_area_rect()
 	#如果爆炸进度超过60%了，就不会造成伤害了
 	#在小于60%这个阶段会对周边物品/人造成伤害
-	if bom_sprite.frame_progress < 0.6:
+	if bom_sprite.frame_progress < 0.38:
 		if not _is_neigbor_active:
 			_is_neigbor_active = true
 			var barrel_nodes = get_tree()\
