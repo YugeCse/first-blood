@@ -19,3 +19,20 @@ var player_score: float = 0.0
 
 ## 玩家道具背包
 var player_props: Array = []
+
+
+## 地图物理层
+enum MapPhysicLayer {
+	
+	## 地面
+	floor = 0,
+	
+	## 食物类
+	food = 1,
+	
+	## 油桶/化学桶
+	barrel = 2,
+	
+	## 普通物品
+	normal = 3
+}

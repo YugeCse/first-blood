@@ -162,7 +162,7 @@ animations = [{
 [node name="PlayerBullet" type="Area2D"]
 z_index = 5
 collision_layer = 16
-collision_mask = 160
+collision_mask = 1952
 script = ExtResource("1_1q3ka")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

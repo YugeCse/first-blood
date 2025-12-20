@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://dsunq0b2atby7"]
+
+[ext_resource type="Texture2D" uid="uid://cxxy6tr3dq3hi" path="res://assets/props/red_barrel.png" id="1_dxg3s"]
+[ext_resource type="Script" uid="uid://dvxl5ij1lmi3o" path="res://sprites/scripts/barrel.gd" id="1_x8i0f"]
+[ext_resource type="SpriteFrames" uid="uid://c2xvp83025l6m" path="res://assets/anim/bom_sprite_frames.tres" id="2_sf75r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dxg3s"]
+size = Vector2(13, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sf75r"]
+size = Vector2(65, 65)
+
+[node name="RedBarrel" type="Area2D" node_paths=PackedStringArray("sprite", "default_collision_shape", "bom_sprite", "bom_area_detector", "bom_collision_shape")]
+collision_layer = 512
+collision_mask = 16
+script = ExtResource("1_x8i0f")
+is_red = true
+sprite = NodePath("Sprite2D")
+default_collision_shape = NodePath("CollisionShape2D")
+bom_sprite = NodePath("AnimatedSprite2D")
+bom_area_detector = NodePath("AnimatedSprite2D/BomArea2D")
+bom_collision_shape = NodePath("AnimatedSprite2D/BomArea2D/CollisionShape2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_dxg3s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_dxg3s")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = ExtResource("2_sf75r")
+frame = 11
+frame_progress = 1.0
+
+[node name="BomArea2D" type="Area2D" parent="AnimatedSprite2D"]
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/BomArea2D"]
+shape = SubResource("RectangleShape2D_sf75r")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="AnimatedSprite2D/BomArea2D" to="." method="_on_bom_area_2d_body_entered"]

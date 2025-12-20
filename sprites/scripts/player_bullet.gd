@@ -48,12 +48,12 @@ func boom():
 	sprite.animation_finished.connect(queue_free)
 
 func _on_area_entered(area: Area2D) -> void:
-	var parent = area.get_parent()
-	if not parent: 
-		if area is EnemyBullet:
-			boom()
-			area.boom()
+	if area is EnemyBullet:
+		boom()
+		area.boom()
 		return
+	var parent = area.get_parent()
+	if not parent: return
 	var fire_crack = 10.0
 	if is_strong_fire:
 		fire_crack = randf_range(20.0, 60.0)
