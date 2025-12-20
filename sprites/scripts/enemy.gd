@@ -63,7 +63,7 @@ func _ready() -> void:
 	if life_blood_max < 0.0:
 		life_blood_max = 100.0
 	sprite.play("idle") #显示静止状态
-	sprite.flip_h = false #朝玩家方向
+	sprite.flip_h = true #朝玩家方向
 	shoot_timer.paused = true
 	_draw_life_blood_in_edit_mode()
 	set_active(false) #设置为未激活模式

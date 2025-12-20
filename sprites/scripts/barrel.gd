@@ -57,6 +57,10 @@ var _start_fly_position: Vector2
 ## 是否到达最大距离了
 var _is_attach_max_distance: bool = false
 
+## 爆炸声的音频数据
+@onready
+var bom_effect_audio_stream = preload('res://assets/audio/explosion_effect.ogg')
+
 func _ready() -> void:
 	bom_sprite.animation_finished\
 		.connect(func(): state = State.destroy)
@@ -103,6 +107,12 @@ func _get_bom_effect_area_rect() -> Rect2:
 
 ## 显示爆炸效果
 func _show_bom_effect() -> void:
+	var audio_player = AudioStreamPlayer.new()
+	audio_player.stream = bom_effect_audio_stream
+	audio_player.autoplay = true
+	audio_player.playback_type = AudioServer.PLAYBACK_TYPE_STREAM
+	add_child(audio_player) #添加到树节点中
+	
 	state = State.bom
 	self.set_deferred(&'monitoring', false)
 	self.set_deferred(&'monitorable', false)

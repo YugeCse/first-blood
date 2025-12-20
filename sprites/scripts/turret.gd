@@ -42,6 +42,10 @@ var detector_area: Area2D = $DetectorArea2D
 @onready
 var bullet_resource = preload("res://sprites/tscns/enemy_bullet.tscn")
 
+## 爆炸效果的图帧
+@onready
+var explosion_sprite_frames = preload('res://assets/anim/explosion_sprite_frames.tres')
+
 func _ready() -> void:
 	if life_boold_max < life_blood:
 		life_boold_max = life_blood
@@ -114,12 +118,25 @@ func hurt(crack: float):
 
 ## 被损坏
 func destroy():
-	is_destory = true
+	if not is_destory:
+		is_destory = true
+		_show_explosion_effect() #显示爆炸效果
 	collision_shape.set_deferred(&'disabled', true)
-	shoot_timer.stop()
+	if shoot_timer and\
+		not shoot_timer.is_stopped():
+		shoot_timer.stop()
 	sprite.play('dead')
-	print('炮台(', name , ')被损坏')
+	print('提示：炮台(', name , ')已经损坏')
 
+## 显示爆炸效果
+func _show_explosion_effect() -> void:
+	var animated_sprite = AnimatedSprite2D.new()
+	animated_sprite.sprite_frames = explosion_sprite_frames
+	animated_sprite.animation_finished\
+		.connect(animated_sprite.queue_free)
+	animated_sprite.autoplay = &'default' #播放默认动画
+	add_child(animated_sprite) #添加到数据节点中
+	
 ## 更新监视范围
 func _update_spy_area():
 	var spy_shape: CircleShape2D

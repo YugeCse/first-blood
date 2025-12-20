@@ -16,7 +16,11 @@ var sprite = $AnimatedSprite2D
 @onready
 var collision_shape = $CollisionShape2D
 
+@onready
+var shoot_effect_audio_stream = preload('res://assets/audio/shoot_effect.ogg')
+
 func _ready() -> void:
+	_play_shoot_effect_audio() #播放射击音频效果
 	if is_strong_fire:
 		sprite.play(&'level2')
 	else: sprite.play(&'default')
@@ -47,17 +51,27 @@ func boom():
 	sprite.play(&'boom')
 	sprite.animation_finished.connect(queue_free)
 
+## 播放射击音频效果
+func _play_shoot_effect_audio() -> void:
+	var audio_player = AudioStreamPlayer.new()
+	audio_player.stream = shoot_effect_audio_stream
+	audio_player.pitch_scale = 1.6
+	audio_player.playback_type = AudioServer.PLAYBACK_TYPE_STREAM
+	audio_player.autoplay = true
+	add_child(audio_player) #添加到树节点中
+	audio_player.finished.connect(audio_player.queue_free)
+
 func _on_area_entered(area: Area2D) -> void:
-	if area is EnemyBullet:
-		boom()
-		area.boom()
+	if area is EnemyBullet: #如果与敌方子弹碰撞
+		boom(); area.boom()
 		return
+	#如果碰撞来自其他包含它的父类对象
 	var parent = area.get_parent()
 	if not parent: return
 	var fire_crack = 10.0
 	if is_strong_fire:
-		fire_crack = randf_range(20.0, 60.0)
-	else: fire_crack = randf_range(10.0, 40.0)
+		fire_crack = randf_range(30.0, 60.0)
+	else: fire_crack = randf_range(10.0, 30.0)
 	if parent is Turret: #如果是炮台
 		parent.hurt(fire_crack)
 		boom() #发生碰撞，需要删除

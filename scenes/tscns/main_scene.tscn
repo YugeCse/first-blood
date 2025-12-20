@@ -1,9 +1,8 @@
-[gd_scene load_steps=44 format=4 uid="uid://ch2wthxe3euso"]
+[gd_scene load_steps=43 format=4 uid="uid://ch2wthxe3euso"]
 
 [ext_resource type="Script" uid="uid://bgsml851ggl8l" path="res://scenes/scripts/main_scene.gd" id="1_iqqi7"]
 [ext_resource type="Texture2D" uid="uid://blio11u6qg3js" path="res://assets/tileset.png" id="2_ajs4e"]
 [ext_resource type="Texture2D" uid="uid://ybn66p51l2q7" path="res://assets/titlescreen/main_title_bg.png" id="2_hdif8"]
-[ext_resource type="PackedScene" uid="uid://bu0oiv8b0bb31" path="res://sprites/tscns/player.tscn" id="3_aqrb5"]
 [ext_resource type="Texture2D" uid="uid://ctmfm7yj0fdsm" path="res://assets/ui/ui_medal_life.png" id="3_hktbw"]
 [ext_resource type="Texture2D" uid="uid://bl0v8pr38cuq1" path="res://assets/ui/player_icon_idle.png" id="4_dj8av"]
 [ext_resource type="Texture2D" uid="uid://dmwgrxb6tv01p" path="res://assets/background/jungle_tree1.png" id="4_ehh3e"]
@@ -746,6 +745,7 @@ texture = ExtResource("17_ujx1k")
 texture_region_size = Vector2i(5, 16)
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_o6n58"]
+scenes/1/scene = ExtResource("14_x4yan")
 scenes/2/scene = ExtResource("22_4e1pt")
 scenes/3/scene = ExtResource("18_5ntw0")
 
@@ -774,7 +774,7 @@ point_count = 3
 
 [sub_resource type="Curve2D" id="Curve2D_hktbw"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -70, 1, 0, 0, 0, 0, 0, 0)
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -80, 1, 0, 0, 0, 0, 0, 0)
 }
 point_count = 3
 
@@ -802,7 +802,7 @@ _data = {
 }
 point_count = 3
 
-[node name="MainScene" type="Control"]
+[node name="MainScene" type="Control" node_paths=PackedStringArray("hudContainer", "player_life_progress_bar")]
 clip_contents = true
 custom_minimum_size = Vector2(2000, 210)
 layout_mode = 3
@@ -810,6 +810,55 @@ anchors_preset = 0
 offset_right = 2000.0
 offset_bottom = 210.0
 script = ExtResource("1_iqqi7")
+hudContainer = NodePath("HUDContainer")
+player_life_progress_bar = NodePath("HUDContainer/HBoxContainer/TextureProgressBar")
+
+[node name="HUDContainer" type="CanvasLayer" parent="."]
+layer = 0
+follow_viewport_enabled = true
+
+[node name="LifeContainer" type="HBoxContainer" parent="HUDContainer"]
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 44.0
+offset_bottom = 27.0
+
+[node name="TextureRect" type="TextureRect" parent="HUDContainer/LifeContainer"]
+layout_mode = 2
+texture = ExtResource("3_hktbw")
+stretch_mode = 4
+
+[node name="TextureRect2" type="TextureRect" parent="HUDContainer/LifeContainer"]
+layout_mode = 2
+texture = ExtResource("3_hktbw")
+stretch_mode = 4
+
+[node name="TextureRect3" type="TextureRect" parent="HUDContainer/LifeContainer"]
+layout_mode = 2
+texture = ExtResource("3_hktbw")
+stretch_mode = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUDContainer"]
+offset_left = 12.0
+offset_top = 32.0
+offset_right = 112.0
+offset_bottom = 45.0
+
+[node name="TextureRect" type="TextureRect" parent="HUDContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_dj8av")
+stretch_mode = 2
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="HUDContainer/HBoxContainer"]
+modulate = Color(1, 1, 1, 0.8627451)
+self_modulate = Color(1, 1, 1, 0.9411765)
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+step = 0.01
+value = 100.0
+nine_patch_stretch = true
+texture_under = ExtResource("5_80ns1")
+texture_progress = ExtResource("6_4e1pt")
 
 [node name="Background" type="ColorRect" parent="."]
 custom_minimum_size = Vector2(10000, 210)
@@ -866,53 +915,6 @@ offset_right = 320.0
 offset_bottom = 180.0
 texture = ExtResource("2_hdif8")
 
-[node name="HUDContainer" type="CanvasLayer" parent="."]
-layer = 0
-follow_viewport_enabled = true
-
-[node name="LifeContainer" type="HBoxContainer" parent="HUDContainer"]
-offset_left = 12.0
-offset_top = 12.0
-offset_right = 44.0
-offset_bottom = 27.0
-
-[node name="TextureRect" type="TextureRect" parent="HUDContainer/LifeContainer"]
-layout_mode = 2
-texture = ExtResource("3_hktbw")
-stretch_mode = 4
-
-[node name="TextureRect2" type="TextureRect" parent="HUDContainer/LifeContainer"]
-layout_mode = 2
-texture = ExtResource("3_hktbw")
-stretch_mode = 4
-
-[node name="TextureRect3" type="TextureRect" parent="HUDContainer/LifeContainer"]
-layout_mode = 2
-texture = ExtResource("3_hktbw")
-stretch_mode = 4
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HUDContainer"]
-offset_left = 12.0
-offset_top = 32.0
-offset_right = 112.0
-offset_bottom = 45.0
-
-[node name="TextureRect" type="TextureRect" parent="HUDContainer/HBoxContainer"]
-layout_mode = 2
-texture = ExtResource("4_dj8av")
-stretch_mode = 2
-
-[node name="TextureProgressBar" type="TextureProgressBar" parent="HUDContainer/HBoxContainer"]
-modulate = Color(1, 1, 1, 0.8627451)
-self_modulate = Color(1, 1, 1, 0.9411765)
-custom_minimum_size = Vector2(60, 0)
-layout_mode = 2
-step = 0.01
-value = 100.0
-nine_patch_stretch = true
-texture_under = ExtResource("5_80ns1")
-texture_progress = ExtResource("6_4e1pt")
-
 [node name="MapContainer" type="Node2D" parent="."]
 
 [node name="BackendTileMapLayer" type="TileMapLayer" parent="MapContainer"]
@@ -927,11 +929,6 @@ physics_quadrant_size = 8
 [node name="DecorationMapLayer" type="TileMapLayer" parent="MapContainer"]
 tile_map_data = PackedByteArray("AAAZABUAAAANAAoAAAAdABUAAAARAAoAAAAaABUAAAAPAAoAAAAaABYAAAAPAAsAAAAaABcAAAAPAAwAAAAbABUAAAAPAAoAAAAbABYAAAAPAAsAAAAbABcAAAAPAAwAAAAcABUAAAAPAAoAAAAcABYAAAAPAAsAAAAcABcAAAAPAAwAAABEABUAAAAPAAoAAABEABYAAAAPAAsAAABEABcAAAAPAAwAAABFABUAAAAPAAoAAABFABYAAAAPAAsAAABFABcAAAAPAAwAAABGABUAAAAPAAoAAABGABYAAAAPAAsAAABGABcAAAAPAAwAAABHABUAAAARAAoAAABDABUAAAANAAoAAABWABUAAAANAAoAAABaABUAAAARAAoAAABXABUAAAAPAAoAAABXABYAAAAPAAsAAABXABcAAAAPAAwAAABYABUAAAAPAAoAAABYABYAAAAPAAsAAABYABcAAAAPAAwAAABZABUAAAAPAAoAAABZABYAAAAPAAsAAABZABcAAAAPAAwAAABdABUAAAAPAAoAAABdABYAAAAPAAsAAABdABcAAAAPAAwAAABeABUAAAAPAAoAAABeABYAAAAPAAsAAABeABcAAAAPAAwAAABfABUAAAAPAAoAAABfABYAAAAPAAsAAABfABcAAAAPAAwAAABgABUAAAAPAAoAAABgABYAAAAPAAsAAABgABcAAAAPAAwAAABhABUAAAARAAoAAABcABUAAAANAAoAAAB+ABMAAAAPAAoAAAB+ABQAAAAPAAsAAAB+ABUAAAAPAAwAAAB/ABMAAAAPAAoAAAB/ABQAAAAPAAsAAAB/ABUAAAAPAAwAAACAABMAAAAPAAoAAACAABQAAAAPAAsAAACAABUAAAAPAAwAAAB9ABMAAAANAAoAAACBABMAAAARAAoAAACnABUAAAARAAoAAACiABUAAAANAAoAAACjABUAAAAPAAoAAACjABYAAAAPAAsAAACjABcAAAAPAAwAAACkABUAAAAPAAoAAACkABYAAAAPAAsAAACkABcAAAAPAAwAAAClABUAAAAPAAoAAAClABYAAAAPAAsAAAClABcAAAAPAAwAAACmABUAAAAPAAoAAACmABYAAAAPAAsAAACmABcAAAAPAAwAAADXABUAAAAPAAoAAADXABYAAAAPAAsAAADXABcAAAAPAAwA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")
 tile_set = SubResource("TileSet_sif1n")
-
-[node name="EnemyManager" type="Node" parent="." node_paths=PackedStringArray("viewport")]
-script = ExtResource("21_8c82h")
-viewport = NodePath("..")
-metadata/_custom_type_script = "uid://bucie1xwmbqm1"
 
 [node name="EnemyContainer" type="Node2D" parent="."]
 
@@ -982,10 +979,6 @@ spy_radius = 120.0
 position = Vector2(1862, 125)
 spy_radius = 120.0
 
-[node name="Enemy" parent="EnemyContainer" instance=ExtResource("16_hktbw")]
-position = Vector2(508, 165)
-is_active = false
-
 [node name="PatrolEnemyPath2D" type="Path2D" parent="EnemyContainer"]
 position = Vector2(224, 36)
 curve = SubResource("Curve2D_icrl2")
@@ -996,7 +989,6 @@ progress = 18.019999
 rotates = false
 
 [node name="Enemy" parent="EnemyContainer/PatrolEnemyPath2D/PatrolEnemyPathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
-is_active = false
 patrol_path = NodePath("../..")
 patrol_path_follow = NodePath("..")
 
@@ -1005,12 +997,12 @@ position = Vector2(341, 166)
 curve = SubResource("Curve2D_hktbw")
 
 [node name="PatrolEnemy2PathFollow2D" type="PathFollow2D" parent="EnemyContainer/PatrolEnemy2Path2D"]
-position = Vector2(-49.76875, 0.7109821)
+position = Vector2(-49.76511, 0.6220639)
 progress = 49.76
 rotates = false
 
-[node name="Enemy2" parent="EnemyContainer/PatrolEnemy2Path2D/PatrolEnemy2PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
-is_active = false
+[node name="Enemy" parent="EnemyContainer/PatrolEnemy2Path2D/PatrolEnemy2PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
+patrol_speed = 12.0
 patrol_path = NodePath("../..")
 patrol_path_follow = NodePath("..")
 
@@ -1019,40 +1011,30 @@ position = Vector2(500, 110)
 curve = SubResource("Curve2D_hktbw")
 
 [node name="PatrolEnemy3PathFollow2D" type="PathFollow2D" parent="EnemyContainer/PatrolEnemy3Path2D"]
-position = Vector2(-49.76875, 0.7109821)
+position = Vector2(-49.76511, 0.6220639)
 progress = 49.76
 rotates = false
 
-[node name="Enemy3" parent="EnemyContainer/PatrolEnemy3Path2D/PatrolEnemy3PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
-is_active = false
+[node name="Enemy" parent="EnemyContainer/PatrolEnemy3Path2D/PatrolEnemy3PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
 patrol_path = NodePath("../..")
 patrol_path_follow = NodePath("..")
 
 [node name="Enemy4" parent="EnemyContainer" instance=ExtResource("16_hktbw")]
 position = Vector2(362, 62)
-is_active = false
-
-[node name="Enemy5" parent="EnemyContainer" instance=ExtResource("16_hktbw")]
-position = Vector2(635, 167)
-is_active = false
 
 [node name="PatrolEnemy4Path2D" type="Path2D" parent="EnemyContainer"]
 position = Vector2(750, 94)
 curve = SubResource("Curve2D_hktbw")
 
 [node name="PatrolEnemy4PathFollow2D" type="PathFollow2D" parent="EnemyContainer/PatrolEnemy4Path2D"]
-position = Vector2(-49.76875, 0.7109821)
+position = Vector2(-49.76511, 0.6220639)
 progress = 49.76
 rotates = false
 
 [node name="Enemy" parent="EnemyContainer/PatrolEnemy4Path2D/PatrolEnemy4PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
-is_active = false
+patrol_speed = 15.0
 patrol_path = NodePath("../..")
 patrol_path_follow = NodePath("..")
-
-[node name="Enemy6" parent="EnemyContainer" instance=ExtResource("16_hktbw")]
-position = Vector2(678, 166)
-is_active = false
 
 [node name="PatrolEnemy5Path2D" type="Path2D" parent="EnemyContainer"]
 position = Vector2(850, 165)
@@ -1064,33 +1046,19 @@ progress = 27.72
 rotates = false
 
 [node name="Enemy" parent="EnemyContainer/PatrolEnemy5Path2D/PatrolEnemy5PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
-is_active = false
 patrol_path = NodePath("../..")
 patrol_path_follow = NodePath("..")
-
-[node name="Enemy7" parent="EnemyContainer" instance=ExtResource("16_hktbw")]
-position = Vector2(894, 159)
-is_active = false
-
-[node name="Enemy8" parent="EnemyContainer" instance=ExtResource("16_hktbw")]
-position = Vector2(959, 126)
-is_active = false
-
-[node name="Enemy9" parent="EnemyContainer" instance=ExtResource("16_hktbw")]
-position = Vector2(1098, 165)
-is_active = false
 
 [node name="PatrolEnemy6Path2D" type="Path2D" parent="EnemyContainer"]
 position = Vector2(1290, 165)
 curve = SubResource("Curve2D_hktbw")
 
 [node name="PatrolEnemy6PathFollow2D" type="PathFollow2D" parent="EnemyContainer/PatrolEnemy6Path2D"]
-position = Vector2(-43.248516, 0.61783594)
+position = Vector2(-63.261684, 0.79077107)
 progress = 96.76944
 rotates = false
 
 [node name="Enemy" parent="EnemyContainer/PatrolEnemy6Path2D/PatrolEnemy6PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
-is_active = false
 patrol_path = NodePath("../..")
 patrol_path_follow = NodePath("..")
 
@@ -1099,38 +1067,26 @@ position = Vector2(1260, 165)
 curve = SubResource("Curve2D_4jd7c")
 
 [node name="PatrolEnemy7PathFollow2D" type="PathFollow2D" parent="EnemyContainer/PatrolEnemy7Path2D"]
-position = Vector2(-63.95549, 0)
-progress = 63.956882
+position = Vector2(-108.007195, 0)
+progress = 108.00001
 rotates = false
 
 [node name="Enemy" parent="EnemyContainer/PatrolEnemy7Path2D/PatrolEnemy7PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
-is_active = false
+patrol_speed = 15.0
 patrol_path = NodePath("../..")
 patrol_path_follow = NodePath("..")
-
-[node name="Enemy10" parent="EnemyContainer" instance=ExtResource("16_hktbw")]
-position = Vector2(1150, 134)
-is_active = false
-
-[node name="Enemy11" parent="EnemyContainer" instance=ExtResource("16_hktbw")]
-position = Vector2(1223, 132)
-is_active = false
-
-[node name="Enemy12" parent="EnemyContainer" instance=ExtResource("16_hktbw")]
-position = Vector2(1290, 131)
-is_active = false
 
 [node name="PatrolEnemy8Path2D" type="Path2D" parent="EnemyContainer"]
 position = Vector2(1300, 46)
 curve = SubResource("Curve2D_hktbw")
 
 [node name="PatrolEnemy8PathFollow2D" type="PathFollow2D" parent="EnemyContainer/PatrolEnemy8Path2D"]
-position = Vector2(-9.291633, 0.13273762)
+position = Vector2(-9.217068, 0.11521335)
 progress = 9.2004595
 rotates = false
 
 [node name="Enemy" parent="EnemyContainer/PatrolEnemy8Path2D/PatrolEnemy8PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
-is_active = false
+patrol_speed = 12.0
 patrol_path = NodePath("../..")
 patrol_path_follow = NodePath("..")
 
@@ -1139,12 +1095,12 @@ position = Vector2(1530, 86)
 curve = SubResource("Curve2D_hktbw")
 
 [node name="PatrolEnemy9PathFollow2D" type="PathFollow2D" parent="EnemyContainer/PatrolEnemy9Path2D"]
-position = Vector2(-9.291633, 0.13273762)
+position = Vector2(-9.217068, 0.11521335)
 progress = 9.2004595
 rotates = false
 
 [node name="Enemy" parent="EnemyContainer/PatrolEnemy9Path2D/PatrolEnemy9PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
-is_active = false
+patrol_speed = 13.0
 patrol_path = NodePath("../..")
 patrol_path_follow = NodePath("..")
 
@@ -1153,18 +1109,14 @@ position = Vector2(1530, 126)
 curve = SubResource("Curve2D_hktbw")
 
 [node name="PatrolEnemy10PathFollow2D" type="PathFollow2D" parent="EnemyContainer/PatrolEnemy10Path2D"]
-position = Vector2(-50.137177, 0.7162454)
+position = Vector2(-50.13494, 0.62668675)
 progress = 50.130962
 rotates = false
 
 [node name="Enemy" parent="EnemyContainer/PatrolEnemy10Path2D/PatrolEnemy10PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
-is_active = false
+patrol_speed = 12.0
 patrol_path = NodePath("../..")
 patrol_path_follow = NodePath("..")
-
-[node name="Enemy13" parent="EnemyContainer" instance=ExtResource("16_hktbw")]
-position = Vector2(1498, 186)
-is_active = false
 
 [node name="PatrolEnemy11Path2D" type="Path2D" parent="EnemyContainer"]
 position = Vector2(1754, 165)
@@ -1176,9 +1128,9 @@ progress = 78.69175
 rotates = false
 
 [node name="Enemy" parent="EnemyContainer/PatrolEnemy11Path2D/PatrolEnemy11PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
-is_active = false
+patrol_speed = 15.0
 patrol_path = NodePath("../..")
-patrol_path_follow = NodePath("../../../PatrolEnemy12Path2D/PatrolEnemy12PathFollow2D")
+patrol_path_follow = NodePath("..")
 
 [node name="PatrolEnemy12Path2D" type="Path2D" parent="EnemyContainer"]
 position = Vector2(1924, 165)
@@ -1190,74 +1142,82 @@ progress = 50.130962
 rotates = false
 
 [node name="Enemy" parent="EnemyContainer/PatrolEnemy12Path2D/PatrolEnemy12PathFollow2D" node_paths=PackedStringArray("patrol_path", "patrol_path_follow") instance=ExtResource("16_hktbw")]
-is_active = false
+patrol_speed = 16.0
 patrol_path = NodePath("../..")
 patrol_path_follow = NodePath("..")
 
-[node name="Player" parent="." instance=ExtResource("3_aqrb5")]
-z_index = 2
-position = Vector2(10, 100)
-platform_floor_layers = 4294967294
+[node name="Enemy" parent="EnemyContainer" instance=ExtResource("16_hktbw")]
+position = Vector2(1827, 64)
 
-[node name="BackgroundAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+[node name="Enemy2" parent="EnemyContainer" instance=ExtResource("16_hktbw")]
+position = Vector2(1855, 94)
+
+[node name="Enemy3" parent="EnemyContainer" instance=ExtResource("16_hktbw")]
+position = Vector2(1771, 165)
+
+[node name="EnemyManager" type="Node" parent="." node_paths=PackedStringArray("viewport")]
+script = ExtResource("21_8c82h")
+viewport = NodePath("..")
+metadata/_custom_type_script = "uid://bucie1xwmbqm1"
+
+[node name="BackgroundAudioPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("26_80ns1")
 pitch_scale = 0.8
 autoplay = true
-attenuation = 0.000106268606
 playback_type = 1
 parameters/looping = true
 
 [connection signal="area_entered" from="MapContainer/DecorationMapLayer/RedBarrel" to="MapContainer/DecorationMapLayer/RedBarrel" method="_on_area_entered"]
 [connection signal="area_entered" from="MapContainer/DecorationMapLayer/Barrel" to="MapContainer/DecorationMapLayer/Barrel" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21525" to="MapContainer/DecorationMapLayer/@Area2D@21525" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21526" to="MapContainer/DecorationMapLayer/@Area2D@21526" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21527" to="MapContainer/DecorationMapLayer/@Area2D@21527" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21528" to="MapContainer/DecorationMapLayer/@Area2D@21528" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21529" to="MapContainer/DecorationMapLayer/@Area2D@21529" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21530" to="MapContainer/DecorationMapLayer/@Area2D@21530" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21531" to="MapContainer/DecorationMapLayer/@Area2D@21531" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21532" to="MapContainer/DecorationMapLayer/@Area2D@21532" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21533" to="MapContainer/DecorationMapLayer/@Area2D@21533" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21534" to="MapContainer/DecorationMapLayer/@Area2D@21534" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21535" to="MapContainer/DecorationMapLayer/@Area2D@21535" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21536" to="MapContainer/DecorationMapLayer/@Area2D@21536" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21537" to="MapContainer/DecorationMapLayer/@Area2D@21537" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21538" to="MapContainer/DecorationMapLayer/@Area2D@21538" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21539" to="MapContainer/DecorationMapLayer/@Area2D@21539" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21540" to="MapContainer/DecorationMapLayer/@Area2D@21540" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21541" to="MapContainer/DecorationMapLayer/@Area2D@21541" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21542" to="MapContainer/DecorationMapLayer/@Area2D@21542" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21543" to="MapContainer/DecorationMapLayer/@Area2D@21543" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21544" to="MapContainer/DecorationMapLayer/@Area2D@21544" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21545" to="MapContainer/DecorationMapLayer/@Area2D@21545" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21546" to="MapContainer/DecorationMapLayer/@Area2D@21546" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21547" to="MapContainer/DecorationMapLayer/@Area2D@21547" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21548" to="MapContainer/DecorationMapLayer/@Area2D@21548" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21549" to="MapContainer/DecorationMapLayer/@Area2D@21549" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21550" to="MapContainer/DecorationMapLayer/@Area2D@21550" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21551" to="MapContainer/DecorationMapLayer/@Area2D@21551" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21552" to="MapContainer/DecorationMapLayer/@Area2D@21552" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21553" to="MapContainer/DecorationMapLayer/@Area2D@21553" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21554" to="MapContainer/DecorationMapLayer/@Area2D@21554" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21555" to="MapContainer/DecorationMapLayer/@Area2D@21555" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21556" to="MapContainer/DecorationMapLayer/@Area2D@21556" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21557" to="MapContainer/DecorationMapLayer/@Area2D@21557" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21558" to="MapContainer/DecorationMapLayer/@Area2D@21558" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21559" to="MapContainer/DecorationMapLayer/@Area2D@21559" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21560" to="MapContainer/DecorationMapLayer/@Area2D@21560" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21561" to="MapContainer/DecorationMapLayer/@Area2D@21561" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21562" to="MapContainer/DecorationMapLayer/@Area2D@21562" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21563" to="MapContainer/DecorationMapLayer/@Area2D@21563" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21564" to="MapContainer/DecorationMapLayer/@Area2D@21564" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21565" to="MapContainer/DecorationMapLayer/@Area2D@21565" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21566" to="MapContainer/DecorationMapLayer/@Area2D@21566" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21567" to="MapContainer/DecorationMapLayer/@Area2D@21567" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21568" to="MapContainer/DecorationMapLayer/@Area2D@21568" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21569" to="MapContainer/DecorationMapLayer/@Area2D@21569" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21570" to="MapContainer/DecorationMapLayer/@Area2D@21570" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21571" to="MapContainer/DecorationMapLayer/@Area2D@21571" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21572" to="MapContainer/DecorationMapLayer/@Area2D@21572" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21573" to="MapContainer/DecorationMapLayer/@Area2D@21573" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21574" to="MapContainer/DecorationMapLayer/@Area2D@21574" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21575" to="MapContainer/DecorationMapLayer/@Area2D@21575" method="_on_area_entered"]
-[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@21576" to="MapContainer/DecorationMapLayer/@Area2D@21576" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40758" to="MapContainer/DecorationMapLayer/@Area2D@40758" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40759" to="MapContainer/DecorationMapLayer/@Area2D@40759" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40760" to="MapContainer/DecorationMapLayer/@Area2D@40760" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40761" to="MapContainer/DecorationMapLayer/@Area2D@40761" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40762" to="MapContainer/DecorationMapLayer/@Area2D@40762" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40763" to="MapContainer/DecorationMapLayer/@Area2D@40763" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40764" to="MapContainer/DecorationMapLayer/@Area2D@40764" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40765" to="MapContainer/DecorationMapLayer/@Area2D@40765" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40766" to="MapContainer/DecorationMapLayer/@Area2D@40766" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40767" to="MapContainer/DecorationMapLayer/@Area2D@40767" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40768" to="MapContainer/DecorationMapLayer/@Area2D@40768" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40769" to="MapContainer/DecorationMapLayer/@Area2D@40769" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40770" to="MapContainer/DecorationMapLayer/@Area2D@40770" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40771" to="MapContainer/DecorationMapLayer/@Area2D@40771" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40772" to="MapContainer/DecorationMapLayer/@Area2D@40772" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40773" to="MapContainer/DecorationMapLayer/@Area2D@40773" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40774" to="MapContainer/DecorationMapLayer/@Area2D@40774" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40775" to="MapContainer/DecorationMapLayer/@Area2D@40775" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40776" to="MapContainer/DecorationMapLayer/@Area2D@40776" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40777" to="MapContainer/DecorationMapLayer/@Area2D@40777" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40778" to="MapContainer/DecorationMapLayer/@Area2D@40778" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40779" to="MapContainer/DecorationMapLayer/@Area2D@40779" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40780" to="MapContainer/DecorationMapLayer/@Area2D@40780" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40781" to="MapContainer/DecorationMapLayer/@Area2D@40781" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40782" to="MapContainer/DecorationMapLayer/@Area2D@40782" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40783" to="MapContainer/DecorationMapLayer/@Area2D@40783" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40784" to="MapContainer/DecorationMapLayer/@Area2D@40784" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40785" to="MapContainer/DecorationMapLayer/@Area2D@40785" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40786" to="MapContainer/DecorationMapLayer/@Area2D@40786" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40787" to="MapContainer/DecorationMapLayer/@Area2D@40787" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40788" to="MapContainer/DecorationMapLayer/@Area2D@40788" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40789" to="MapContainer/DecorationMapLayer/@Area2D@40789" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40790" to="MapContainer/DecorationMapLayer/@Area2D@40790" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40791" to="MapContainer/DecorationMapLayer/@Area2D@40791" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40792" to="MapContainer/DecorationMapLayer/@Area2D@40792" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40793" to="MapContainer/DecorationMapLayer/@Area2D@40793" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40794" to="MapContainer/DecorationMapLayer/@Area2D@40794" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40795" to="MapContainer/DecorationMapLayer/@Area2D@40795" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40796" to="MapContainer/DecorationMapLayer/@Area2D@40796" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40797" to="MapContainer/DecorationMapLayer/@Area2D@40797" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40798" to="MapContainer/DecorationMapLayer/@Area2D@40798" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40799" to="MapContainer/DecorationMapLayer/@Area2D@40799" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40800" to="MapContainer/DecorationMapLayer/@Area2D@40800" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40801" to="MapContainer/DecorationMapLayer/@Area2D@40801" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40802" to="MapContainer/DecorationMapLayer/@Area2D@40802" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40803" to="MapContainer/DecorationMapLayer/@Area2D@40803" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40804" to="MapContainer/DecorationMapLayer/@Area2D@40804" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40805" to="MapContainer/DecorationMapLayer/@Area2D@40805" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40806" to="MapContainer/DecorationMapLayer/@Area2D@40806" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40807" to="MapContainer/DecorationMapLayer/@Area2D@40807" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40808" to="MapContainer/DecorationMapLayer/@Area2D@40808" method="_on_area_entered"]
+[connection signal="area_entered" from="MapContainer/DecorationMapLayer/@Area2D@40809" to="MapContainer/DecorationMapLayer/@Area2D@40809" method="_on_area_entered"]

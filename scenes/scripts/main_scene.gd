@@ -1,40 +1,45 @@
 ## 主场景组件
 class_name MainScene extends Control
 
-var current_window_scale: float = 3.0
-
 ## 玩家对象
-@onready
-var player = $Player
+var player: Player
 
-## 玩家生命进度条
+## HUD显示控件对象
+@export
+var hudContainer: CanvasLayer
+
+## 玩家生命进度条对象
+@export
+var player_life_progress_bar: TextureProgressBar
+
+## 玩家场景资源包
 @onready
-var player_life_progress_bar: TextureProgressBar = $HUDContainer/HBoxContainer/TextureProgressBar
+var player_scene_packed = preload('res://sprites/tscns/player.tscn')
 
 func _ready() -> void:
-	current_window_scale = ProjectSettings\
-		.get_setting('display/window/stretch/scale')
+	_create_player_hero(Vector2(0, 50.0)) #创建玩家角色
+	GlobalSignals.on_game_over.connect(_on_game_over)
+	GlobalSignals.on_player_dead.connect(_on_player_dead)
 
 func _physics_process(_delta: float) -> void:
-	#var vr_size = get_viewport().get_visible_rect().size
-	#var scale_value = vr_size.y / GlobalConfigs.DESIGN_MAP_HEIGHT
-	#if current_window_scale != scale_value:
-		#set_window_scale(scale_value)
-		#current_window_scale = scale_value
 	if player: #如果玩家还存在
 		player_life_progress_bar.value =\
 			(player.life_blood / player.life_blood_max) * 100.0
-	$HUDContainer.offset.x = absf(get_screen_position().x)
+	hudContainer.offset.x = absf(get_screen_position().x)
+
+## 游戏结束时的监听方法
+func _on_game_over() -> void:
+	pass
+
+## 玩家角色死亡时的监听方法
+func _on_player_dead(location: Vector2) -> void:
+	_create_player_hero(location) #创建玩家角色
+
+## 创建玩家角色
+func _create_player_hero(location: Vector2) -> void:
+	player = player_scene_packed.instantiate()
+	player.global_position = location
+	add_child_to_camera(player) #添加玩家到数据节点
 
 ## 把子节点添加到相机中
-func add_child_to_camera(child: Node) -> void:
-	add_child(child)
-
-func set_window_scale(scale_value: float):
-	var target_scale = clamp(scale_value, 0.5, 5.0)
-	# 更新项目设置
-	ProjectSettings.set_setting(\
-		"display/window/stretch/scale", target_scale)
-	# 应用缩放
-	get_tree().root.content_scale_factor = target_scale
-	print("窗口缩放设置为: ", target_scale)
+func add_child_to_camera(child: Node) -> void: add_child(child)
