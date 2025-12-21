@@ -45,6 +45,9 @@ var facing: int = 1
 ## 移动方向
 var move_dir: Vector2 = Vector2.ZERO
 
+## 是否是趴下
+var _is_move_down: bool = false
+
 ## 玩家射击角度
 var shoot_degress: float = 0.0
 
@@ -104,21 +107,29 @@ func _handle_control_move(_delta: float):
 	var facing_degress = \
 		roundi(wrapf(rad_to_deg(move_dir.angle()), 0, 360))
 	is_moving = move_dir.x != 0.0 #被按下时表示正在移动
-	
+	var is_get_down = move_dir == Vector2.DOWN
 	#处理跳跃逻辑
-	if facing_degress in [0, 180] and\
+	if (facing_degress in [0, 180] or is_get_down) and\
 		Input.is_action_just_pressed(&'ui_jump'):
 		if is_on_floor(): #如果在地面上，可以执行跳跃
-			if jump_counter == 0:
-				jump_counter = 1 #标记已经跳过一次了
-			velocity.y = -jump_height
-			is_jumping = true #标记正在跳跃
+			if not is_get_down: #如果不是趴下状态
+				if jump_counter == 0:
+					jump_counter = 1 #标记已经跳过一次了
+				velocity.y = -jump_height
+				is_jumping = true #标记正在跳跃
+			else: #禁用当前的碰撞行形状
+				collision_shape.set_deferred(&'disabled', true)
+				get_tree().create_timer(0.1)\
+					.timeout.connect(func():\
+					collision_shape.set_deferred(&'disabled', false))
 		else: #此时在天空中，判断是否能够二次跳跃
+			if is_get_down: 
+				return #已经是趴下状态，不能在空中跳了
 			if not(jump_counter == 1 and is_jumping):
 				return #已经完成第二次跳跃，直接返回
 			velocity.y = -jump_secondary_height
 			jump_counter = -1 #标记此时不能再跳了
-
+	_update_body_area_shape(is_get_down) #更新碰撞区域
 	#region 处理子弹发射的相关逻辑
 	var allow_shoot = \
 		Time.get_unix_time_from_system() -\
@@ -228,7 +239,23 @@ func dead():
 	await sprite.animation_finished
 	await get_tree().create_timer(1.2).timeout
 	GlobalSignals.on_player_dead.emit(global_position)
-	
+
+## 更新身体与子弹碰撞的矩形形状
+func _update_body_area_shape(is_move_down: bool):
+	if _is_move_down == is_move_down:\
+		return #状态没变，不需要操作
+	var body_area_collision_shape =\
+		$BodyArea2D/CollisionShape2D
+	_is_move_down = is_move_down #更新趴着状态
+	var shape = RectangleShape2D.new()
+	if not is_move_down: #未趴下的时候，高度不减，无偏移
+		shape.size = Vector2(16.0, 20.0)
+		body_area_collision_shape.position = Vector2.ZERO
+	else:
+		shape.size = Vector2(20.0, 8.0)
+		body_area_collision_shape.position = Vector2(0, 6.5)
+	body_area_collision_shape.shape = shape
+
 ## 获取碰撞区域的矩形大小
 func _get_collision_shape_rect() -> Rect2:
 	var collider_shape = \

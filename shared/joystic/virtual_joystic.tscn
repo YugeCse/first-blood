@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dudiaww77be4f"]
+
+[ext_resource type="Script" uid="uid://ntmbauyf18ti" path="res://shared/joystic/virtual_joystic.gd" id="1_uvy2k"]
+
+[node name="VirtualJoystick" type="CanvasLayer" unique_id=597073123]
+script = ExtResource("1_uvy2k")
+
+[node name="Container" type="Control" parent="." unique_id=533239382]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="InputArea" type="ColorRect" parent="." unique_id=1874677978]
+offset_right = 40.0
+offset_bottom = 40.0

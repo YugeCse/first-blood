@@ -16,6 +16,10 @@ var life_container: HBoxContainer
 @export
 var player_life_progress_bar: TextureProgressBar
 
+## 游戏摇杆
+@onready
+var joystick := $HUDContainer/VirtualJoystic
+
 ## 玩家场景资源包
 @onready
 var player_scene_packed = preload('res://sprites/tscns/player.tscn')

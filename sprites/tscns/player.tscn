@@ -1,4 +1,4 @@
-[gd_scene load_steps=117 format=3 uid="uid://bu0oiv8b0bb31"]
+[gd_scene format=3 uid="uid://bu0oiv8b0bb31"]
 
 [ext_resource type="Script" uid="uid://7v86wpn4d6vs" path="res://sprites/scripts/player.gd" id="1_ti7od"]
 [ext_resource type="Texture2D" uid="uid://6bkp8rehtemf" path="res://assets/player/john_run_shoot_up_diag.png" id="2_3t2vp"]
@@ -772,40 +772,40 @@ size = Vector2(16, 22)
 size = Vector2(16, 20)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l7xvl"]
-radius = 20.0
+radius = 16.0
 
-[node name="Player" type="CharacterBody2D" groups=["Player"]]
+[node name="Player" type="CharacterBody2D" unique_id=1159946890 groups=["Player"]]
 collision_mask = 34
 platform_wall_layers = 2
 script = ExtResource("1_ti7od")
 
-[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="." unique_id=698854222]
 sprite_frames = SubResource("SpriteFrames_iofu1")
 animation = &"stand_shoot"
 autoplay = "idle"
 
-[node name="CollisionShape" type="CollisionShape2D" parent="."]
+[node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=1656206850]
 position = Vector2(-1, 2)
 shape = SubResource("RectangleShape2D_lm2uk")
 
-[node name="FollowCamera2D" type="Camera2D" parent="."]
+[node name="FollowCamera2D" type="Camera2D" parent="." unique_id=1657304697]
 limit_left = 0
 limit_top = 0
 limit_right = 2000
 limit_bottom = 210
 position_smoothing_enabled = true
 
-[node name="BodyArea2D" type="Area2D" parent="."]
+[node name="BodyArea2D" type="Area2D" parent="." unique_id=397652339]
 collision_layer = 64
 collision_mask = 32
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyArea2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyArea2D" unique_id=1737942648]
 position = Vector2(-1, 2)
 shape = SubResource("RectangleShape2D_k38cv")
 debug_color = Color(0.54677653, 0.5567508, 0.28419435, 0.41960785)
 
-[node name="DetectorArea2D" type="Area2D" parent="."]
+[node name="DetectorArea2D" type="Area2D" parent="." unique_id=1155993048]
 collision_mask = 12
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectorArea2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectorArea2D" unique_id=722025135]
 shape = SubResource("CircleShape2D_l7xvl")
