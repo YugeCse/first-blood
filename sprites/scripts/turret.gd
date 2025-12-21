@@ -40,6 +40,9 @@ var sprite = $Sprite2D
 var collision_shape = $CollisionShape2D
 
 @onready
+var body_area = $BodyArea2D
+
+@onready
 var detector_area: Area2D = $DetectorArea2D
 
 ## 子弹资源
@@ -126,6 +129,8 @@ func destroy():
 	if not is_destory:
 		is_destory = true
 		_show_explosion_effect() #显示爆炸效果
+	body_area.set_deferred(&'monitoring', false)
+	body_area.set_deferred(&'monitorable', false)
 	collision_shape.set_deferred(&'disabled', true)
 	if shoot_timer and\
 		not shoot_timer.is_stopped():

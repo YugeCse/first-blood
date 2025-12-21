@@ -165,7 +165,7 @@ func _set_position_clamp():
 	elif global_position.x >= max_x:
 		global_position.x = max_x
 	if global_position.y >= max_y:
-		print('玩家已经跳崖了，Go Die!')
+		#print('玩家已经跳崖了，Go Die!')
 		GlobalSignals.on_player_dead.emit(global_position)
 
 ## 玩家角色发射子弹
