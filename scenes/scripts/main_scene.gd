@@ -27,6 +27,15 @@ var player_scene_packed = preload('res://sprites/tscns/player.tscn')
 func _ready() -> void:
 	#touch_joystick.visible =\
 		#OS.get_name() in ['Android', 'iOS']
+	joystick.visible = true
+	joystick.shoot_pressed\
+		.connect(func(): Input.action_press(&'ui_shoot'))
+	joystick.shoot_released\
+		.connect(func(): Input.action_release(&'ui_shoot'))
+	joystick.jump_pressed\
+		.connect(func(): Input.action_press(&'ui_jump'))
+	joystick.jump_released\
+		.connect(func(): Input.action_release(&'ui_jump'))
 	_create_player_hero(Vector2(0, 50.0)) #创建玩家角色
 	GlobalSignals.on_game_over.connect(_on_game_over)
 	GlobalSignals.on_player_dead.connect(_on_player_dead)

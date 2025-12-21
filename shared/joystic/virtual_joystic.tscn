@@ -14,3 +14,19 @@ offset_bottom = 40.0
 [node name="InputArea" type="ColorRect" parent="." unique_id=1874677978]
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="RightButtons" type="Control" parent="." unique_id=529655228]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="JumpButtonArea" type="ColorRect" parent="RightButtons" unique_id=630682602]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ShootButtonArea" type="ColorRect" parent="RightButtons" unique_id=1787799272]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
