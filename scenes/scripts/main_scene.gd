@@ -44,10 +44,6 @@ func _on_player_dead(location: Vector2) -> void:
 	var life_count = clampi(origin_life_count - 1, 0, 999)
 	var diff_count = origin_life_count - life_count
 	if diff_count == 1: #如果少了一条生命
-		var child_count = life_container.get_child_count()
-		if child_count > 0: #如果还有子组件，则执行删除
-			life_container.remove_child(\
-				life_container.get_child(0))
 		if player and origin_life_count > 1: #防止结束时的视角变化
 			player.queue_free()
 			player = null
@@ -67,6 +63,10 @@ func _create_player_hero(\
 	player.z_index = 1000
 	player.global_position = location
 	add_child_to_camera(player) #添加玩家到数据节点
+	var child_count = life_container.get_child_count()
+	if child_count > 0: #如果还有子组件，则执行删除
+		life_container.remove_child(\
+			life_container.get_child(0))
 	player_life_progress_bar.value = 100.0 #生命数恢复100%
 
 ## 把子节点添加到相机中
