@@ -1,6 +1,8 @@
 ## 敌人子弹组件
 class_name EnemyBullet extends Area2D
 
+enum OwnerType { turret, grunt }
+
 ## 子弹移动速度
 @export
 var speed: float = 200.0
@@ -8,6 +10,9 @@ var speed: float = 200.0
 ## 子弹移动方向
 @export
 var direction: Vector2 = Vector2.LEFT
+
+## 子弹拥有者类型
+var owner_type: OwnerType
 
 ## 记录子弹的起始位置
 var start_position: Vector2
@@ -54,11 +59,13 @@ func boom():
 
 func _on_area_entered(area: Area2D) -> void:
 	var parent = area.get_parent()
-	if not parent: 
+	if not parent: #如果是子弹间发生的盆装
 		if area is PlayerBullet:
-			boom()
-			area.boom()
+			boom(); area.boom()
 		return
 	if parent is Player: #如果碰到玩家了
 		boom() #销毁这个子弹组件
-		parent.hurt(randf_range(10, 20))
+		if not owner_type: return
+		if owner_type == OwnerType.turret:
+			parent.hurt(randf_range(10, 20))
+		else: parent.hurt(randf_range(5, 15))

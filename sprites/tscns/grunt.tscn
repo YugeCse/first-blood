@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://cm6tulftvh8w7"]
+[gd_scene format=3 uid="uid://cm6tulftvh8w7"]
 
 [ext_resource type="Script" uid="uid://cnb85w66lwoth" path="res://sprites/scripts/grunt.gd" id="1_u2tar"]
 [ext_resource type="Texture2D" uid="uid://ju3icwfti0du" path="res://assets/enemy/grunt_death.png" id="2_ha57j"]
@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://wtjoismy5d0s" path="res://assets/enemy/grunt_shoot.png" id="5_nugqd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ha57j"]
-size = Vector2(16, 22)
+size = Vector2(16, 18)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vnllh"]
 atlas = ExtResource("2_ha57j")
@@ -220,7 +220,7 @@ size = Vector2(16, 20)
 [sub_resource type="CircleShape2D" id="CircleShape2D_ha57j"]
 radius = 120.0
 
-[node name="Grunt" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "collision_shape") groups=["Enemy"]]
+[node name="Grunt" type="CharacterBody2D" unique_id=1531908231 node_paths=PackedStringArray("sprite", "collision_shape") groups=["Enemy"]]
 collision_layer = 8
 collision_mask = 531
 platform_on_leave = 2
@@ -228,34 +228,34 @@ script = ExtResource("1_u2tar")
 sprite = NodePath("AnimatedSprite")
 collision_shape = NodePath("CollisionShape")
 
-[node name="CollisionShape" type="CollisionShape2D" parent="."]
+[node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=1472386492]
 position = Vector2(1, 0)
 shape = SubResource("RectangleShape2D_ha57j")
 
-[node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite" type="AnimatedSprite2D" parent="." unique_id=823426079]
 sprite_frames = SubResource("SpriteFrames_vnllh")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.9502305
+frame_progress = 0.40150395
 flip_h = true
 
-[node name="BodyArea2D" type="Area2D" parent="."]
+[node name="BodyArea2D" type="Area2D" parent="." unique_id=53579601]
 collision_layer = 128
 collision_mask = 16
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyArea2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyArea2D" unique_id=510500678]
 position = Vector2(1, 2)
 shape = SubResource("RectangleShape2D_nugqd")
 debug_color = Color(0.6407898, 0.5184502, 0.233206, 0.41960785)
 
-[node name="DetectorArea2D" type="Area2D" parent="."]
+[node name="DetectorArea2D" type="Area2D" parent="." unique_id=662123866]
 collision_layer = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectorArea2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectorArea2D" unique_id=1656165409]
 shape = SubResource("CircleShape2D_ha57j")
 debug_color = Color(0, 0.6, 0.69803923, 0.08627451)
 
-[node name="ShootTimer" type="Timer" parent="."]
+[node name="ShootTimer" type="Timer" parent="." unique_id=2094497951]
 autostart = true
 
 [connection signal="area_entered" from="DetectorArea2D" to="." method="_on_detector_area_2d_area_entered"]

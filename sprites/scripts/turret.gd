@@ -114,6 +114,7 @@ func shoot(degress: float):
 	var offset = dir.normalized() * 15.0
 	var bullet = bullet_resource.instantiate() as EnemyBullet
 	bullet.direction = dir
+	bullet.owner_type = EnemyBullet.OwnerType.grunt
 	bullet.global_position = global_position + offset
 	get_tree().current_scene.add_child_to_camera(bullet)
 

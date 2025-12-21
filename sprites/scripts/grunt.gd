@@ -130,6 +130,7 @@ func shoot():
 	offset.y = 5.0 #调整枪与子弹的垂直坐标数据
 	var bullet = bullet_resource.instantiate() as EnemyBullet
 	bullet.direction = dir
+	bullet.owner_type = EnemyBullet.OwnerType.grunt
 	bullet.global_position = global_position + offset
 	get_tree().current_scene.add_child_to_camera(bullet)
 	
@@ -152,7 +153,13 @@ func destory():
 	action = EnemyState.Action.dead
 	collision_shape.set_deferred(&'disabled', true)
 	sprite.play('dead')
-	sprite.animation_finished.connect(queue_free)
+	sprite.animation_finished.connect(_remove_from_tree)
+
+## 从树节点中删除自己
+func _remove_from_tree():
+	if patrol_path:
+		patrol_path.queue_free()
+	else: queue_free()
 
 ## 获取碰撞区域矩形大小(相对于全局坐标而言)
 func _get_collision_rect()->Rect2:

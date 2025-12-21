@@ -51,6 +51,9 @@ var shoot_degress: float = 0.0
 ## 上一次的射击时间
 var _last_shoot_time: float = 0.0
 
+## 是否变成了灵魂
+var _is_changed_soul: bool = false
+
 ## 玩家关联的精灵节点
 @onready
 var sprite = $AnimatedSprite
@@ -68,23 +71,28 @@ func _ready() -> void:
 	$FollowCamera2D.make_current() #设置相机跟随
 
 func _physics_process(delta: float) -> void:
-	if action != PlayerState.Action.dead:
-		_handle_control_move(delta) #处理控制移动
-	_set_position_clamp() #设置坐标限制
+	_handle_control_move(delta) #处理控制移动
 
 ## 处理控制移动
 func _handle_control_move(_delta: float):
+	#region 变成了灵魂
+	if _is_changed_soul: #如果变成了灵魂
+		velocity.x = 0.0
+		velocity.y -= gravity_speed
+		move_and_slide()
+		return
+	#endregion
+	_set_position_clamp() #设置坐标限制
 	#region 控制重力逻辑
 	# 把 velocity 当作像素/秒来管理：水平速度不乘 delta，重力乘 delta
-	if not is_on_floor():
-		#有重力加速度
-		velocity.y += gravity_speed
-	else:
-		# 当在地面上时，把垂直速度清零，避免累积
+	if is_on_floor(): #当在地面上时，把垂直速度清零，避免累积
 		velocity.y = 0.0
 		jump_counter = 0
 		is_jumping = false
+	else: velocity.y += gravity_speed #有重力加速度
 	#endregion
+	# 当玩家角色已经死亡，则直接返回
+	if action == PlayerState.Action.dead: return
 	#region 处理用户输入
 	var is_moving = false #是否正在移动
 	move_dir = Input.get_vector(\
@@ -216,7 +224,9 @@ func dead():
 	sprite.play(&'dead')
 	await sprite.animation_finished
 	sprite.play(&'dead_soul')
+	_is_changed_soul = true #变成了灵魂
 	await sprite.animation_finished
+	await get_tree().create_timer(1.2).timeout
 	GlobalSignals.on_player_dead.emit(global_position)
 	
 ## 获取碰撞区域的矩形大小
