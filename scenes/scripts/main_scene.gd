@@ -36,6 +36,7 @@ func _physics_process(_delta: float) -> void:
 ## 游戏结束时的监听方法
 func _on_game_over() -> void:
 	print('游戏结束了，玩家角色生命已经用完！切换到提示页面！')
+	await get_tree().create_timer(3.0).timeout
 	get_tree().change_scene_to_file('res://scenes/tscns/defeat_scene.tscn')
 
 ## 玩家角色死亡时的监听方法
