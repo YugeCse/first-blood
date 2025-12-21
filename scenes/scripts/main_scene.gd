@@ -8,6 +8,7 @@ var player: Player
 @export
 var hud_container: CanvasLayer
 
+## 玩家生命数容器对象
 @export
 var life_container: HBoxContainer
 
@@ -20,10 +21,12 @@ var player_life_progress_bar: TextureProgressBar
 var player_scene_packed = preload('res://sprites/tscns/player.tscn')
 
 func _ready() -> void:
+	#touch_joystick.visible =\
+		#OS.get_name() in ['Android', 'iOS']
 	_create_player_hero(Vector2(0, 50.0)) #创建玩家角色
 	GlobalSignals.on_game_over.connect(_on_game_over)
 	GlobalSignals.on_player_dead.connect(_on_player_dead)
-
+	
 func _physics_process(_delta: float) -> void:
 	if player: #如果玩家还存在
 		player_life_progress_bar.value =\
@@ -61,6 +64,7 @@ func _create_player_hero(\
 	if from_sky: location.y = 0.0
 	if not player:
 		player = player_scene_packed.instantiate()
+	player.z_index = 1000
 	player.global_position = location
 	add_child_to_camera(player) #添加玩家到数据节点
 	player_life_progress_bar.value = 100.0 #生命数恢复100%

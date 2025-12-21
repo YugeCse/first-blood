@@ -18,6 +18,7 @@ config/name="FirstBlood"
 run/main_scene="uid://23dkse8jpl62"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/fullsize=false
 boot_splash/image="uid://bvibbjh46eboq"
 config/icon="res://icon.svg"
 
@@ -33,7 +34,6 @@ GlobalSignals="*res://autoloads/global_signals.gd"
 window/size/viewport_width=1120
 window/size/viewport_height=840
 window/stretch/mode="viewport"
-window/stretch/aspect="expand"
 window/stretch/scale=3.0
 
 [editor]
@@ -100,6 +100,10 @@ ui_shoot={
 ]
 }
 
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
 [layer_names]
 
 2d_render/layer_1="sun_light"
@@ -119,3 +123,4 @@ ui_shoot={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true

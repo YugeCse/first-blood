@@ -30,6 +30,10 @@ var shoot_degress: float = 180.0
 ## 是否损坏
 var is_destory: bool = false
 
+## 发射间隔时间
+@export
+var shoot_span_time: float = 1.0
+
 @onready
 var shoot_timer = $ShootTimer
 
@@ -57,6 +61,8 @@ func _ready() -> void:
 	life_blood = randf_range(100, 300)
 	if life_boold_max < life_blood:
 		life_boold_max = life_blood
+	if shoot_timer and shoot_span_time:
+		shoot_timer.wait_time = shoot_span_time
 	_update_spy_area() #更新监视范围
 	sprite.play('left')  #方向朝向玩家来的方向
 	set_active(false) #设置为未激活模式

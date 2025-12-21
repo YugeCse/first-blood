@@ -75,7 +75,7 @@ func _on_area_entered(area: Area2D) -> void:
 	if parent is Turret: #如果是炮台
 		parent.hurt(fire_crack)
 		boom() #发生碰撞，需要删除
-	elif parent is Enemy: #如果是敌人
+	elif parent is Grunt: #如果是敌人
 		if is_strong_fire:
 			parent.hurt(fire_crack)
 		else: parent.hurt(fire_crack)

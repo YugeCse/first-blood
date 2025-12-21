@@ -179,7 +179,7 @@ func _on_bom_area_2d_body_entered(body: Node2D) -> void:
 	var hurt = clampf(percent * bom_attack, 0, bom_attack)
 	if body is Turret: #炮台被炸伤
 		body.hurt(hurt)
-	elif body is Enemy: #敌人受伤
+	elif body is Grunt: #敌人受伤
 		body.hurt(hurt)
 	elif body is Player:
 		body.hurt(hurt) #玩家受伤

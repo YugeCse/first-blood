@@ -14,11 +14,11 @@ var _current_img_scale: float
 
 var _image_size = Vector2(320, 180)
 
-@onready
-var sprite: AnimatedSprite2D = $AnimatedSprite2D
-
 ## 主场景
 var main_scene_path = 'res://scenes/tscns/main_scene.tscn'
+
+@onready
+var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 ## 主场景加载进度条
 @onready

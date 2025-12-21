@@ -1,6 +1,6 @@
 ## 敌人组件
 @tool
-class_name Enemy extends CharacterBody2D
+class_name Grunt extends CharacterBody2D
 
 ## 当前行为
 @export
