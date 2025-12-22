@@ -31,9 +31,10 @@ GlobalSignals="*res://autoloads/global_signals.gd"
 
 [display]
 
-window/size/viewport_width=1320
-window/size/viewport_height=960
+window/size/viewport_width=1460
+window/size/viewport_height=720
 window/stretch/mode="viewport"
+window/stretch/aspect="expand"
 window/stretch/scale=3.0
 
 [editor]

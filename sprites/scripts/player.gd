@@ -209,7 +209,7 @@ func shoot():
 	bullet.direction =\
 		dir if target_dir == Vector2.DOWN else target_dir
 	bullet.global_position = global_position + offset
-	get_tree().current_scene.add_child_to_camera(bullet)
+	get_parent().add_child(bullet) #让他的容器来添加这个控件
 
 ## 玩家角色受到伤害
 func hurt(crack: float):

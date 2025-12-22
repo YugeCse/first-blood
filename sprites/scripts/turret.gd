@@ -116,7 +116,7 @@ func shoot(degress: float):
 	bullet.direction = dir
 	bullet.owner_type = EnemyBullet.OwnerType.grunt
 	bullet.global_position = global_position + offset
-	get_tree().current_scene.add_child_to_camera(bullet)
+	get_parent().add_child(bullet) #让他的容器来添加这个控件
 
 ## 被打击
 ## [br]

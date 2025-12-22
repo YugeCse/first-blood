@@ -132,7 +132,9 @@ func shoot():
 	bullet.direction = dir
 	bullet.owner_type = EnemyBullet.OwnerType.grunt
 	bullet.global_position = global_position + offset
-	get_tree().current_scene.add_child_to_camera(bullet)
+	if not patrol_path:
+		get_parent().add_child(bullet) #让他的容器来添加这个控件
+	else: patrol_path.get_parent().add_child(bullet) #让他的容器来添加这个控件
 	
 ## 受到伤害
 ## [br]

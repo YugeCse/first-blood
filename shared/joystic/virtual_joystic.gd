@@ -36,6 +36,7 @@ const DIRECTION_NAMES_CN = {
 @export var input_area_size: Vector2 = Vector2(300, 200)
 @export var snap_to_8_directions: bool = true
 @export var simulate_keyboard: bool = true
+@export var full_screen_touch: bool = true  # 是否全屏触摸
 
 # 按钮设置
 @export_group("按钮设置")
@@ -65,11 +66,8 @@ const DIRECTION_NAMES_CN = {
 @export var shoot_action: String = "ui_select"     # 射击动作
 
 # 信号
-#@warning_ignore('unused_signal')
 #signal joystick_moved(direction: Vector2, direction_enum: JoystickDirection)
-#@warning_ignore('unused_signal')
 #signal joystick_released
-#@warning_ignore('unused_signal')
 #signal joystick_pressed
 signal button_pressed(button_name: String)  # 按钮按下信号
 signal button_released(button_name: String) # 按钮释放信号
@@ -100,15 +98,18 @@ var last_mouse_state: bool = false  # 记录上次鼠标状态
 @onready var right_buttons: Control = $RightButtons
 @onready var jump_button: ColorRect = $RightButtons/JumpButtonArea
 @onready var shoot_button: ColorRect = $RightButtons/ShootButtonArea
+@onready var full_screen_area: ColorRect = $FullScreenArea  # 新增全屏触摸区域
 
 func _ready():
 	print("虚拟控制器初始化...")
 	print("跳跃按键:", jump_action)
 	print("射击按键:", shoot_action)
+	print("全屏触摸:", full_screen_touch)
 	
 	setup_joystick()
 	setup_input_area()
 	setup_buttons()
+	setup_full_screen_area()
 	
 	if not visible_when_inactive:
 		container.visible = false
@@ -137,6 +138,16 @@ func setup_input_area():
 		)
 	
 	input_area.color = input_area_color
+
+func setup_full_screen_area():
+	# 设置全屏触摸区域
+	var viewport_size = get_viewport().get_visible_rect().size
+	full_screen_area.position = Vector2.ZERO
+	full_screen_area.size = viewport_size
+	full_screen_area.color = Color(0, 0, 0, 0)  # 完全透明
+	full_screen_area.mouse_filter = Control.MOUSE_FILTER_STOP
+	
+	print("全屏触摸区域大小:", viewport_size)
 
 func setup_buttons():
 	var viewport_size = get_viewport().get_visible_rect().size
@@ -275,6 +286,7 @@ func _input(event):
 func handle_touch_event(event: InputEventScreenTouch):
 	var touch_pos = event.position
 	
+	# 检查是否在按钮区域
 	if event.pressed:
 		if is_point_in_colorrect(touch_pos, jump_button) and jump_touch_id == -1:
 			jump_touch_id = event.index
@@ -285,9 +297,26 @@ func handle_touch_event(event: InputEventScreenTouch):
 			_on_button_down(shoot_button, "shoot")
 			return
 	
-	var input_area_rect = Rect2(input_area.global_position, input_area.size)
-	
-	if event.pressed and touch_id == -1:
+	# 检查是否在全屏触摸区域
+	if full_screen_touch and event.pressed and touch_id == -1:
+		# 全屏模式：任意位置都可以触发摇杆
+		touch_id = event.index
+		is_pressed = true
+		
+		if dynamic_joystick:
+			# 动态摇杆：在触摸位置显示
+			container.position = touch_pos - Vector2(joystick_radius, joystick_radius)
+			container.visible = true
+		elif not visible_when_inactive:
+			container.visible = true
+		
+		joystick_pos = container.global_position + Vector2(joystick_radius, joystick_radius)
+		update_joystick(touch_pos)
+		
+	# 原有限制区域逻辑（保留用于非全屏模式）
+	elif not full_screen_touch and event.pressed and touch_id == -1:
+		var input_area_rect = Rect2(input_area.global_position, input_area.size)
+		
 		if dynamic_joystick or input_area_rect.has_point(touch_pos):
 			touch_id = event.index
 			is_pressed = true
@@ -300,7 +329,8 @@ func handle_touch_event(event: InputEventScreenTouch):
 			
 			joystick_pos = container.global_position + Vector2(joystick_radius, joystick_radius)
 			update_joystick(touch_pos)
-			
+	
+	# 触摸释放
 	elif not event.pressed:
 		if event.index == jump_touch_id:
 			jump_touch_id = -1
@@ -547,6 +577,7 @@ func _process(_delta):
 		print("摇杆向量:", input_vector)
 		print("跳跃按钮:", is_jump_pressed)
 		print("射击按钮:", is_shoot_pressed)
+		print("全屏触摸:", full_screen_touch)
 	
 	if not OS.has_feature("mobile"):
 		handle_mouse_input()
@@ -575,11 +606,13 @@ func handle_mouse_input():
 	
 	# 摇杆的鼠标处理
 	if current_mouse_state and touch_id == -1:
-		var mouse_event = InputEventScreenTouch.new()
-		mouse_event.pressed = true
-		mouse_event.position = mouse_pos
-		mouse_event.index = 0
-		handle_touch_event(mouse_event)
+		# 在PC上，只有鼠标不在按钮区域时才触发摇杆
+		if not mouse_over_jump and not mouse_over_shoot:
+			var mouse_event = InputEventScreenTouch.new()
+			mouse_event.pressed = true
+			mouse_event.position = mouse_pos
+			mouse_event.index = 0
+			handle_touch_event(mouse_event)
 	elif not current_mouse_state and touch_id == 0:
 		var mouse_event = InputEventScreenTouch.new()
 		mouse_event.pressed = false
@@ -602,6 +635,7 @@ func _on_viewport_size_changed():
 		
 		setup_input_area()
 		setup_buttons()
+		setup_full_screen_area()
 
 func get_direction() -> Vector2:
 	return input_vector

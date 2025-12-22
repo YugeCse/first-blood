@@ -5,6 +5,10 @@
 [node name="VirtualJoystick" type="CanvasLayer" unique_id=597073123]
 script = ExtResource("1_uvy2k")
 
+[node name="FullScreenArea" type="ColorRect" parent="." unique_id=1681535732]
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="Container" type="Control" parent="." unique_id=533239382]
 layout_mode = 3
 anchors_preset = 0
