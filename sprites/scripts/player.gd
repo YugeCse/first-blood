@@ -225,11 +225,11 @@ func dead():
 	if action != PlayerState.Action.dead:
 		action = PlayerState.Action.dead
 	else: return #玩家角色已经死亡了
-	collision_shape.set_deferred(&'disabled', true)
 	$BodyArea2D.set_deferred(&'monitoring', false)
 	$BodyArea2D.set_deferred(&'monitorable', false)
 	$DetectorArea2D.set_deferred(&'monitoring', false)
 	$DetectorArea2D.set_deferred(&'monitorable', false)
+	# collision_shape.set_deferred(&'disabled', true)
 	sprite.play(&'defeated')
 	await sprite.animation_finished	
 	sprite.play(&'dead')

@@ -25,9 +25,9 @@ var joystick := $HUDContainer/VirtualJoystic
 var player_scene_packed = preload('res://sprites/tscns/player.tscn')
 
 func _ready() -> void:
-	#touch_joystick.visible =\
-		#OS.get_name() in ['Android', 'iOS']
-	joystick.visible = true
+	#joystick.visible = true
+	joystick.visible =\
+		OS.get_name() in ['Android', 'iOS']
 	joystick.shoot_pressed\
 		.connect(func(): Input.action_press(&'ui_shoot'))
 	joystick.shoot_released\
