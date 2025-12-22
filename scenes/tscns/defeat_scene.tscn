@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://0kqr8phbfdhm"]
+[gd_scene format=3 uid="uid://0kqr8phbfdhm"]
 
 [ext_resource type="Script" uid="uid://vq0hmqddr62w" path="res://scenes/scripts/defeat_scene.gd" id="1_cwjor"]
 [ext_resource type="Texture2D" uid="uid://dyyebdcij3l8" path="res://assets/titlescreen/GameOverScreen.png" id="1_guubc"]
@@ -52,7 +52,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="GameOverScene" type="Control"]
+[node name="DefeatScene" type="Control" unique_id=536146094]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,7 +61,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_cwjor")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=1128621972]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -70,7 +70,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1091857470]
 sprite_frames = SubResource("SpriteFrames_tpvti")
 animation = &"still"
 autoplay = "default"
