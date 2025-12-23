@@ -46,7 +46,6 @@ game_viewport = NodePath("..")
 game_viewport_container = NodePath("../..")
 
 [node name="VirtualJoystic" parent="." unique_id=1620645665 instance=ExtResource("6_4jd7c")]
-visible = false
 joystick_radius = 50.0
 handle_radius = 23.0
 deadzone = 0.1

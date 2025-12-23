@@ -36,10 +36,6 @@ var player_life_progress_bar: TextureProgressBar
 var player_scene_packed = preload('res://sprites/tscns/player.tscn')
 
 func _ready() -> void:
-	#joystick.visible = true
-	var is_run_in_mobilde =\
-		OS.get_name() in ['Android', 'iOS']
-	joystick.visible = is_run_in_mobilde
 	#joystick.shoot_pressed\
 		#.connect(func(): Input.action_press(&'ui_shoot'))
 	#joystick.shoot_released\

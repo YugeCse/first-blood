@@ -46,7 +46,8 @@ movie_writer/movie_file="/Users/hwang/Downloads/未命名.avi"
 folder_colors={
 "res://assets/": "yellow",
 "res://assets/anim/": "orange",
-"res://assets/audio/": "yellow"
+"res://assets/audio/": "yellow",
+"res://docs/": "purple"
 }
 
 [global_group]
