@@ -16,8 +16,11 @@ var viewport: SubViewport = $ViewportContainer/Viewport
 var viewport_container: SubViewportContainer = $ViewportContainer
 
 func _ready() -> void:
+	var support_web := OS.has_feature('web')
+	var support_touchscreen := DisplayServer.is_touchscreen_available()
 	_is_run_in_mobile =\
-		OS.get_name() in ['Android', 'iOS']
+		OS.get_name() in ['Android', 'iOS'] or\
+			(support_web and support_touchscreen)
 	_viewport_default_size = viewport.size #获取原有的默认大小
 	if not _is_run_in_mobile:
 		_adjust_viewport_size() #调整视窗尺寸信息
