@@ -85,8 +85,12 @@ func _create_grunt(location: Vector2, data: TileData) -> Node2D:
 	var support_patrol = data.has_custom_data('PatrolAvailable')
 	if support_patrol: #如果支持巡逻模式
 		var curve = Curve2D.new()
+		var patrol_target = data.get_custom_data('PatrolCenterIPos')
+		if patrol_target.x == 0.0: 
+			#这里对没有巡逻距离的做一个纠正行为
+			patrol_target.x = randf_range(-10.0, -25.0)
 		curve.add_point(data.get_custom_data('PatrolStartPos'))
-		curve.add_point(data.get_custom_data('PatrolCenterIPos'))
+		curve.add_point(patrol_target)
 		curve.add_point(data.get_custom_data('PatrolCenterOPos'))
 		curve.add_point(data.get_custom_data('PatrolEndPos'))
 		var path2d = Path2D.new()

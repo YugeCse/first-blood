@@ -105,7 +105,7 @@ func handle_chase_state() -> void:
 				action = EnemyState.Action.patrol
 			else: action = EnemyState.Action.idle
 		else:
-			_start_shoot_timer() #开启射击定时器
+			_start_shoot_timer(randf_range(1.0, 1.5)) #开启射击定时器
 			chase() #执行追击
 	else: #如果监视玩家丢失，则根据情况修改状态
 		if patrol_path: #支持巡逻的，才能继续巡逻
@@ -224,11 +224,12 @@ func _draw_life_blood_in_edit_mode():
 	if Engine.is_editor_hint(): queue_redraw()
 
 ## 启动射击定时器
-func _start_shoot_timer():
+func _start_shoot_timer(shoot_wait_time: float = 1.0):
 	if not shoot_timer: return
 	if shoot_timer.paused:
 		shoot_timer.paused = false
 	if not shoot_timer.is_stopped(): return
+	shoot_timer.wait_time = shoot_wait_time
 	shoot_timer.start() #启动射击定时器
 
 ## 随机不定时射击
@@ -266,7 +267,7 @@ func _on_detector_area_2d_area_entered(area: Area2D) -> void:
 	if parent is Player: #玩家进入敌人监视范围
 		spy_player = parent as Player
 		action = EnemyState.Action.chase
-		_start_shoot_timer_random() #启动射击定时器
+		#_start_shoot_timer_random() #启动射击定时器
 		print('玩家进入敌人({name})监视范围'.format({'name': name}))
 
 func _on_detector_area_2d_area_exited(area: Area2D) -> void:

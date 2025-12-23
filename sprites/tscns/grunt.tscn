@@ -235,7 +235,7 @@ shape = SubResource("RectangleShape2D_ha57j")
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="." unique_id=823426079]
 sprite_frames = SubResource("SpriteFrames_vnllh")
-animation = &"dead"
+animation = &"idle"
 autoplay = "idle"
 flip_h = true
 
