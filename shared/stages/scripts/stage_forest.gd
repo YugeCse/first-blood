@@ -7,6 +7,18 @@ var player: Player
 ## 是否调用了game-over
 var is_game_over: bool = false
 
+## 游戏摇杆
+@export
+var joystick: VirtualJoystick
+
+## 游戏视窗
+@export
+var game_viewport: SubViewport
+
+## 游戏视窗容器
+@export
+var game_viewport_container: SubViewportContainer
+
 ## HUD显示控件对象
 @export
 var hud_container: CanvasLayer
@@ -18,16 +30,6 @@ var life_container: HBoxContainer
 ## 玩家生命进度条对象
 @export
 var player_life_progress_bar: TextureProgressBar
-
-@export
-var game_viewport: SubViewport
-
-@export
-var game_viewport_container: SubViewportContainer
-
-## 游戏摇杆
-@export
-var joystick: VirtualJoystick
 
 ## 玩家场景资源包
 @onready
