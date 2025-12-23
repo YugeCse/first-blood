@@ -84,7 +84,15 @@ func _preload_main_scene() -> void:
 		ResourceLoader.ThreadLoadStatus.THREAD_LOAD_LOADED:
 			print('场景加载完成✅', progress_bar.value)
 			is_main_scene_loaded = true
-			progress_bar.value = 100.0
+			_hide_progress_bar() #隐藏progressbar
+
+## 隐藏progressbar
+func _hide_progress_bar() -> void:
+	progress_bar.value = 100.0
+	var tween = get_tree().create_tween()
+	tween.tween_property(progress_bar, 'modulate:a', 0.0, 0.8)
+	tween.play() #执行透明度动画
+	tween.finished.connect(progress_bar.queue_free)
 
 ## 显示主场景
 func _show_main_scene() -> void:
