@@ -26,7 +26,7 @@ var patrol_speed: float = 10.0
 
 ## 重力加速度
 @export_range(1.0, 1000)
-var gravity_speed: float = 9.8
+var gravity_speed: float = 98.0
 
 ## 是否被激活
 @export
@@ -75,9 +75,9 @@ func _physics_process(delta: float) -> void:
 	_detect_position_clamp() #检测坐标越界处理
 	_draw_life_blood_in_edit_mode()
 	if Engine.is_editor_hint(): return #编辑模式下不处理逻辑
-	if not is_on_floor():
-		velocity.y += 9.8
-	else: velocity.y = 0.0
+	if is_on_floor():
+		velocity.y = 0.0
+	else: velocity.y += gravity_speed * delta
 	if action == EnemyState.Action.idle:
 		if (sprite.animation as StringName)\
 			.get_basename() != 'idle':
@@ -99,7 +99,7 @@ func patrol(delta: float):
 	sprite.play(&'run') #执行动画
 	if is_on_floor(): #如果是在地板上，就不受重力作用
 		velocity.y = 0.0
-	else: velocity.y += gravity_speed
+	else: velocity.y += gravity_speed * delta
 	var patrol_progress = patrol_path_follow.progress_ratio
 	#print(name, '执行巡逻中...', patrol_progress)
 	patrol_path_follow.progress += patrol_speed * delta

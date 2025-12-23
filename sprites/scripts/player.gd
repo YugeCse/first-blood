@@ -23,7 +23,7 @@ var speed: float = 46.0
 
 ## 重力加速度
 @export_range(1.0, 1000)
-var gravity_speed: float = 9.8
+var gravity_speed: float = 98.0
 
 ## 玩家是否在跳跃中
 var is_jumping: bool = false
@@ -57,13 +57,16 @@ var _last_shoot_time: float = 0.0
 ## 是否变成了灵魂
 var _is_changed_soul: bool = false
 
+## 变成了灵魂的时间点
+var _changed_soul_time: float = 0.0
+
 ## 玩家关联的精灵节点
 @onready
-var sprite = $AnimatedSprite
+var sprite: AnimatedSprite2D = $AnimatedSprite
 
 ## 玩家的碰撞形状
 @onready
-var collision_shape = $CollisionShape
+var collision_shape: CollisionShape2D = $CollisionShape
 
 ## 子弹资源
 @onready
@@ -80,9 +83,13 @@ func _physics_process(delta: float) -> void:
 func _handle_control_move(_delta: float):
 	#region 变成了灵魂
 	if _is_changed_soul: #如果变成了灵魂
+		if _changed_soul_time > 0.15:
+			velocity = Vector2.ZERO
+			return
 		velocity.x = 0.0
-		velocity.y -= gravity_speed
+		velocity.y -= gravity_speed * _delta
 		move_and_slide()
+		_changed_soul_time += _delta
 		return
 	#endregion
 	_set_position_clamp() #设置坐标限制
@@ -236,6 +243,7 @@ func dead():
 	await sprite.animation_finished
 	sprite.play(&'dead_soul')
 	_is_changed_soul = true #变成了灵魂
+	collision_shape.set_deferred(&'disabled', true)
 	await sprite.animation_finished
 	await get_tree().create_timer(1.2).timeout
 	GlobalSignals.on_player_dead.emit(global_position)
