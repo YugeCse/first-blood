@@ -22,6 +22,7 @@ func _ready() -> void:
 	if not _is_run_in_mobile:
 		_adjust_viewport_size() #调整视窗尺寸信息
 		get_window().size_changed.connect(_adjust_viewport_size)
+	else: self.remove_child($VirtualJoystic) #移除虚拟游戏摇杆组件
 
 ## 调整视窗尺寸信息，非安卓/iOS的设备，需要根据主视窗调整大小
 func _adjust_viewport_size() -> void:

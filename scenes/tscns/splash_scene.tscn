@@ -1,23 +1,8 @@
 [gd_scene format=3 uid="uid://23dkse8jpl62"]
 
 [ext_resource type="Script" uid="uid://dhqne2kawbsdi" path="res://scenes/scripts/splash_scene.gd" id="1_av5we"]
-[ext_resource type="Texture2D" uid="uid://codignnivbey8" path="res://assets/titlescreen/CreditsScreen.png" id="2_qynjc"]
 [ext_resource type="Theme" uid="uid://bn38qm2xrw4ml" path="res://shared/themes/splash_progress_bar.tres" id="3_er8jx"]
-[ext_resource type="Texture2D" uid="uid://ybn66p51l2q7" path="res://assets/titlescreen/main_title_bg.png" id="4_2jgj0"]
 [ext_resource type="Texture2D" uid="uid://d1wi81ynjd5bq" path="res://assets/titlescreen/title_screen.png" id="5_2jgj0"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_er8jx"]
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gyj6c"]
-bg_color = Color(0.8627451, 0.48235294, 0.32941177, 0.9254902)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xip0o"]
 atlas = ExtResource("5_2jgj0")
@@ -89,42 +74,16 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=437220015]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_qynjc")
-stretch_mode = 5
-
-[node name="ProgressBar" type="ProgressBar" parent="TextureRect" unique_id=2031577566]
-visible = false
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=2031577566]
 z_index = 1
 layout_mode = 0
-offset_right = 200.0
-offset_bottom = 20.0
+offset_right = 100.0
+offset_bottom = 6.0
 theme = ExtResource("3_er8jx")
 theme_type_variation = &"ProgressBar"
 theme_override_font_sizes/font_size = 8
-theme_override_styles/background = SubResource("StyleBoxFlat_er8jx")
-theme_override_styles/fill = SubResource("StyleBoxFlat_gyj6c")
-value = 50.0
+value = 100.0
 show_percentage = false
-
-[node name="TextureRect2" type="TextureRect" parent="." unique_id=345694012]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("4_2jgj0")
-expand_mode = 4
-stretch_mode = 5
 
 [node name="SplashAnimatedSprite" type="AnimatedSprite2D" parent="." unique_id=1670614669]
 sprite_frames = SubResource("SpriteFrames_ddm5b")
