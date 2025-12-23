@@ -25,31 +25,33 @@ var life_blood_max: float = 200.0
 var patrol_speed: float = 10.0
 
 ## 重力加速度
-@export_range(1.0, 1000)
+@export_range(9.8, 1000)
 var gravity_speed: float = 98.0
 
-## 是否被激活
+## 是否被激活，默认：false
 @export
-var is_active: bool
+var is_active: bool = false
 
-## 巡逻路径
+## 巡逻路径对西那个
 @export
 var patrol_path: Path2D
 
-## 路径跟随
+## 路径跟随对象
 @export
 var patrol_path_follow: PathFollow2D
 
 ## 被监视的玩家
 var spy_player: Player
 
+## 敌人的图像显示对象
 @export
 var sprite: AnimatedSprite2D
 
+## 敌人的基础碰撞矩形对象
 @export
 var collision_shape: CollisionShape2D
 
-## 射击定时器
+## 射击定时器对象
 @onready
 var shoot_timer: Timer = $ShootTimer
 
