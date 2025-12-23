@@ -47,7 +47,10 @@ folder_colors={
 "res://assets/": "yellow",
 "res://assets/anim/": "orange",
 "res://assets/audio/": "yellow",
-"res://docs/": "purple"
+"res://autoloads/": "green",
+"res://docs/": "purple",
+"res://scenes/": "blue",
+"res://sprites/": "orange"
 }
 
 [global_group]
@@ -118,9 +121,10 @@ pointing/emulate_touch_from_mouse=true
 2d_physics/layer_6="enemy_bullet"
 2d_physics/layer_7="player_body"
 2d_physics/layer_8="enemy_body"
-2d_physics/layer_9="food_prop"
+2d_physics/layer_9="ammo_prop"
 2d_physics/layer_10="barrel_prop"
-2d_physics/layer_11="normal_prop"
+2d_physics/layer_11="crate_prop"
+2d_physics/layer_12="big_crate_prop"
 
 [rendering]
 

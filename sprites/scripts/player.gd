@@ -276,4 +276,8 @@ func _get_collision_shape_rect() -> Rect2:
 	var collider_shape = \
 		collision_shape.shape as RectangleShape2D
 	return Rect2(Vector2.ZERO, collider_shape.size)
+
+## 获得道具
+func get_prop(prop_type: Prop.PropType) -> void:
+	pass
 	

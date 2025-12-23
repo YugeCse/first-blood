@@ -20,6 +20,10 @@ var life_blood: float = 200.0
 @export_range(0, 1000)
 var life_blood_max: float = 200.0
 
+## 是否绘制血条，默认：false
+@export
+var is_draw_blood: bool = false
+
 ## 巡逻速度
 @export_range(10, 1000)
 var patrol_speed: float = 10.0
@@ -216,6 +220,7 @@ func _detect_position_clamp():
 
 ## 绘制血条图形
 func _draw() -> void:
+	if not is_draw_blood: return #不绘制血条
 	var life_percent = life_blood / life_blood_max
 	if life_percent <= 0.2 or\
 		action == EnemyState.Action.dead:
@@ -229,6 +234,7 @@ func _draw() -> void:
 
 ## 在编辑模式中绘制血条请求
 func _draw_life_blood_in_edit_mode():
+	if not is_draw_blood: return
 	if Engine.is_editor_hint(): queue_redraw()
 
 ## 启动射击定时器
