@@ -222,7 +222,7 @@ radius = 120.0
 
 [node name="Grunt" type="CharacterBody2D" unique_id=1531908231 node_paths=PackedStringArray("sprite", "collision_shape") groups=["Enemy"]]
 collision_layer = 8
-collision_mask = 531
+collision_mask = 530
 platform_on_leave = 2
 platform_wall_layers = 3
 script = ExtResource("1_u2tar")
@@ -235,14 +235,13 @@ shape = SubResource("RectangleShape2D_ha57j")
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="." unique_id=823426079]
 sprite_frames = SubResource("SpriteFrames_vnllh")
-animation = &"idle"
+animation = &"dead"
 autoplay = "idle"
-frame_progress = 0.6897894
 flip_h = true
 
 [node name="BodyArea2D" type="Area2D" parent="." unique_id=53579601]
 collision_layer = 128
-collision_mask = 16
+collision_mask = 17
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BodyArea2D" unique_id=510500678]
 position = Vector2(1, 1.5)

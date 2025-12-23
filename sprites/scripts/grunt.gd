@@ -75,6 +75,10 @@ func _physics_process(delta: float) -> void:
 	_detect_position_clamp() #检测坐标越界处理
 	_draw_life_blood_in_edit_mode()
 	if Engine.is_editor_hint(): return #编辑模式下不处理逻辑
+	handle_grunt_state(delta) #处理敌人状态
+
+## 处理敌人状态
+func handle_grunt_state(delta: float) -> void:
 	if is_on_floor(): #如果在地板上，没有纵向速度
 		velocity.y = 0.0
 	elif action != EnemyState.Action.dead:
@@ -83,20 +87,33 @@ func _physics_process(delta: float) -> void:
 	match action:
 		EnemyState.Action.idle: #休闲状态
 			sprite.play(&'idle')
-			if not spy_player: #如果没有发现敌人，修改为巡逻模式
+			#如果没有发现敌人且属可巡逻的，修改为巡逻模式
+			if not spy_player and patrol_path:
 				action = EnemyState.Action.patrol
 		EnemyState.Action.patrol: #巡逻状态
 			patrol(delta) #执行巡逻
 		EnemyState.Action.chase: #追击玩家
-			if spy_player: #如果玩家还在监视范围
-				chase() #执行追击
-			else: #如果监视玩家丢失，则根据情况修改状态
-				if patrol_path: #如果支持巡逻
-					action = EnemyState.Action.patrol
-				else: action = EnemyState.Action.idle
+			handle_chase_state() #处理追击状态
+
+## 处理敌人的追击状态，需要根据距离判断是否可以真实追击
+func handle_chase_state() -> void:
+	if spy_player: #如果玩家还在监视范围
+		var distance = global_position - spy_player.global_position
+		#获取垂直距离，如果垂直距离大于自身高度，判断为无效追击状态
+		if abs(distance.y) > _get_collision_rect().size.y:
+			if patrol_path: #支持巡逻的，才能继续巡逻
+				action = EnemyState.Action.patrol
+			else: action = EnemyState.Action.idle
+		else:
+			_start_shoot_timer() #开启射击定时器
+			chase() #执行追击
+	else: #如果监视玩家丢失，则根据情况修改状态
+		if patrol_path: #支持巡逻的，才能继续巡逻
+			action = EnemyState.Action.patrol
+		else: action = EnemyState.Action.idle
 
 ## 执行巡逻， 沿着一定的区域范围进行行走
-func patrol(delta: float):
+func patrol(delta: float) -> void:
 	if not patrol_path or\
 		not patrol_path_follow:
 		sprite.play(&'idle')
@@ -110,9 +127,9 @@ func patrol(delta: float):
 
 ## 执行追击，这个过程会执行射击
 func chase():
-	if not is_shooting:
-		sprite.play('idle')
-	var dir = global_position - spy_player.global_position
+	var distance: Vector2 =\
+		global_position - spy_player.global_position #获得距离向量
+	var dir = distance.normalized() #获得单位向量
 	if dir.x >= 0:
 		direction.x = 1.0
 		sprite.flip_h = true
@@ -122,11 +139,15 @@ func chase():
 		direction.x = -1.0
 		#print('玩家在他的后方', dir.x)
 	#else: print('玩家在他的正侧方', dir.x)
-	_start_shoot_timer() #启动射击定时器
+	if not is_shooting: #非射击状态，执行idle
+		sprite.play(&'idle')
+	else: 
+		sprite.play(&'shoot') #播放射击动画
+		sprite.animation_finished.connect(func(): is_shooting = false)
 
 ## 执行射击
 func shoot():
-	sprite.play('shoot')
+	is_shooting = true #标记正在射击
 	# 使用 cos/sin 得到方向向量
 	var dir = Vector2(-direction.x, 0.0)
 	var offset = dir.normalized() * 15.0
@@ -210,6 +231,17 @@ func _start_shoot_timer():
 	if not shoot_timer.is_stopped(): return
 	shoot_timer.start() #启动射击定时器
 
+## 随机不定时射击
+func _start_shoot_timer_random() -> void:
+	if not shoot_timer: return
+	#如果发射子弹的定时器存在
+	if shoot_timer.paused:
+		shoot_timer.paused = true
+	shoot_timer.stop()
+	shoot_timer.wait_time = randf_range(1.0, 1.5) #生成一个随机时间
+	shoot_timer.paused = false
+	shoot_timer.start()
+
 ## 停止射击定时器
 func _stop_shoot_timer():
 	if not shoot_timer: return
@@ -231,19 +263,17 @@ func set_active(value: bool):
 
 func _on_detector_area_2d_area_entered(area: Area2D) -> void:
 	var parent = area.get_parent()
-	if parent is Player:
+	if parent is Player: #玩家进入敌人监视范围
 		spy_player = parent as Player
 		action = EnemyState.Action.chase
-		_stop_shoot_timer() #停止射击定时器
+		_start_shoot_timer_random() #启动射击定时器
 		print('玩家进入敌人({name})监视范围'.format({'name': name}))
 
 func _on_detector_area_2d_area_exited(area: Area2D) -> void:
 	var parent = area.get_parent()
 	if parent is Player and parent == spy_player:
 		spy_player = null
-		if shoot_timer and not shoot_timer.paused:
-			shoot_timer.paused = true
-			shoot_timer.stop()
+		_stop_shoot_timer() #停止射击定时器
 		action = EnemyState.Action.idle
 		print('玩家离开敌人({name})监视范围'.format({'name': name}))
 
@@ -255,12 +285,5 @@ func _on_shoot_timer_timeout() -> void:
 	if shoot_timer:
 		if not shoot_timer.paused:
 			shoot_timer.stop()
-	is_shooting = true
 	shoot() #发射子弹
-	await sprite.animation_finished
-	is_shooting = false
-	if shoot_timer:
-		shoot_timer.wait_time = randf_range(1.0, 1.5)
-		if shoot_timer.paused:
-			shoot_timer.paused = false
-		shoot_timer.start()
+	_start_shoot_timer_random() #随机不定时射击

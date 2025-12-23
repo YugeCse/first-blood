@@ -128,4 +128,5 @@ stretch_mode = 5
 
 [node name="SplashAnimatedSprite" type="AnimatedSprite2D" parent="." unique_id=1670614669]
 sprite_frames = SubResource("SpriteFrames_ddm5b")
+autoplay = "default"
 centered = false
