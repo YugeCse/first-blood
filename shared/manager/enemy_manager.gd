@@ -1,9 +1,9 @@
 ## 敌人管理器
-class_name EnemyManager extends Node
+class_name EnemyManager extends Node2D
 
 ## 要绑定视窗组件
 @export
-var viewport: Control
+var factory_view: Control
 
 ## 敌人地图层
 @export
@@ -18,7 +18,8 @@ var turret_scene_packed = preload('res://sprites/tscns/turret.tscn')
 var grunt_scene_packed = preload('res://sprites/tscns/grunt.tscn')
 
 func _ready() -> void:
-	pass
+	set_process(true)
+	set_physics_process(true)
 
 func _physics_process(_delta: float) -> void:
 	var visible_rect = _get_visible_rect()
@@ -27,16 +28,20 @@ func _physics_process(_delta: float) -> void:
 
 ## 获取可见范围的矩形信息
 func _get_visible_rect() -> Rect2:
-	var active_margin = 40.0
-	var screen_position = viewport.get_screen_position()
+	var viewport_scale = get_viewport().get_parent().scale
+	var target_scale = minf(viewport_scale.x, viewport_scale.y)
+	var screen_position =\
+		factory_view.get_screen_position() / target_scale
 	var visible_rect = get_viewport().get_visible_rect()
-	var limit_min_x = absf(screen_position.x) - active_margin
-	return Rect2(Vector2(limit_min_x, 0),\
-		visible_rect.size + Vector2(active_margin * 2.0, 0.0))
+	var visible_size = visible_rect.size * target_scale
+	var active_margin = visible_size.x / 3.0 #边界处理
+	var limit_min_x = (absf(screen_position.x) - active_margin)
+	var target_size = visible_size + Vector2(active_margin * 2.0, 0.0)
+	return Rect2(Vector2(limit_min_x, 0), target_size)
 
 ## 处理视窗范围内的敌人状态
 func _handle_enemy_state_in_viewport(visible_rect: Rect2):
-	if not viewport: return #如果没有配置视窗，直接返回
+	if not factory_view: return #如果没有配置视窗，直接返回
 	var enemy_nodes = get_tree().get_nodes_in_group('Enemy')
 	if not enemy_nodes or enemy_nodes.is_empty(): return
 	for enemy_node in enemy_nodes:

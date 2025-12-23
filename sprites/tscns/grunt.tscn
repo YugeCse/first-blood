@@ -237,6 +237,7 @@ shape = SubResource("RectangleShape2D_ha57j")
 sprite_frames = SubResource("SpriteFrames_vnllh")
 animation = &"idle"
 autoplay = "idle"
+frame_progress = 0.85729563
 flip_h = true
 
 [node name="BodyArea2D" type="Area2D" parent="." unique_id=53579601]

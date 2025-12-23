@@ -99,16 +99,14 @@ func handle_grunt_state(delta: float) -> void:
 
 ## 处理敌人的追击状态，需要根据距离判断是否可以真实追击
 func handle_chase_state() -> void:
-	if spy_player: #如果玩家还在监视范围
+	if spy_player: #如果玩家还在监视范围内，根据距离计算是否要攻击
 		var distance = global_position - spy_player.global_position
 		#获取垂直距离，如果垂直距离大于自身高度，判断为无效追击状态
-		if abs(distance.y) > _get_collision_rect().size.y:
+		if absf(distance.y) > _get_collision_rect().size.y:
 			if patrol_path: #支持巡逻的，才能继续巡逻
 				action = EnemyState.Action.patrol
 			else: action = EnemyState.Action.idle
-		else:
-			_start_shoot_timer(randf_range(1.0, 1.5)) #开启射击定时器
-			chase() #执行追击
+		else: chase() #执行追击
 	else: #如果监视玩家丢失，则根据情况修改状态
 		if patrol_path: #支持巡逻的，才能继续巡逻
 			action = EnemyState.Action.patrol
@@ -121,6 +119,13 @@ func patrol(delta: float) -> void:
 		sprite.play(&'idle')
 		sprite.flip_h = true if direction.x <= 0 else false
 		return #没有设置巡逻路径，直接返回
+	if spy_player: #如果玩家还被监视
+		var shape_height = _get_collision_rect().size.y
+		var dy = absf((global_position - spy_player.global_position).y)
+		if dy <= shape_height:
+			chase() #巡逻中发现满足条件的要求，要发起追击
+			return
+	_stop_shoot_timer() #巡逻模式下，不能射击
 	sprite.play(&'run') #执行动画
 	var patrol_progress = patrol_path_follow.progress_ratio
 	#print(name, '执行巡逻中...', patrol_progress)
@@ -141,6 +146,7 @@ func chase():
 		direction.x = -1.0
 		#print('玩家在他的后方', dir.x)
 	#else: print('玩家在他的正侧方', dir.x)
+	_start_shoot_timer(randf_range(1.0, 1.5)) #开启射击定时器
 	if not is_shooting: #非射击状态，执行idle
 		sprite.play(&'idle')
 	else: 
@@ -274,8 +280,9 @@ func _on_detector_area_2d_area_entered(area: Area2D) -> void:
 
 func _on_detector_area_2d_area_exited(area: Area2D) -> void:
 	var parent = area.get_parent()
-	if parent is Player and parent == spy_player:
-		spy_player = null
+	if parent is Player:
+		if parent == spy_player:
+			spy_player = null
 		_stop_shoot_timer() #停止射击定时器
 		action = EnemyState.Action.idle
 		print('玩家离开敌人({name})监视范围'.format({'name': name}))
