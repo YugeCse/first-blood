@@ -23,7 +23,7 @@ var speed: float = 46.0
 
 ## 重力加速度
 @export_range(1.0, 1000)
-var gravity_speed: float = 98.0
+var gravity_speed: float = 500.0
 
 ## 玩家是否在跳跃中
 var is_jumping: bool = false
@@ -33,11 +33,11 @@ var jump_counter: int = 0
 
 ## 第一跳跃高度
 @export_range(10, 1000)
-var jump_height: float = 220.0
+var jump_height: float = 200.0
 
 ## 第二跳跃高度
 @export_range(10, 1000)
-var jump_secondary_height: float = 200.0
+var jump_secondary_height: float = 180.0
 
 ## 朝向, 1-向右；-1-向右
 var facing: int = 1
@@ -99,10 +99,14 @@ func _handle_control_move(_delta: float):
 		velocity.y = 0.0
 		jump_counter = 0
 		is_jumping = false
-	else: velocity.y += gravity_speed #有重力加速度
+	else:
+		velocity.y += gravity_speed * _delta #有重力加速度
 	#endregion
-	# 当玩家角色已经死亡，则直接返回
-	if action == PlayerState.Action.dead: return
+	# 当玩家角色已经死亡，则直接返回，不能继续下面的操作
+	if action == PlayerState.Action.dead:
+		velocity.x = 0.0 #没有水平速度
+		move_and_slide() #要执行落地的操作
+		return
 	#region 处理用户输入
 	var is_moving = false #是否正在移动
 	move_dir = Input.get_vector(\
@@ -124,6 +128,7 @@ func _handle_control_move(_delta: float):
 					jump_counter = 1 #标记已经跳过一次了
 				velocity.y = -jump_height
 				is_jumping = true #标记正在跳跃
+				sprite.play(&'jump') #播放跳的动画
 			else: #禁用当前的碰撞行形状
 				collision_shape.set_deferred(&'disabled', true)
 				get_tree().create_timer(0.1)\
@@ -136,6 +141,7 @@ func _handle_control_move(_delta: float):
 				return #已经完成第二次跳跃，直接返回
 			velocity.y = -jump_secondary_height
 			jump_counter = -1 #标记此时不能再跳了
+			sprite.play(&'jump') #播放跳的动画
 	_update_body_area_shape(is_get_down) #更新碰撞区域
 	#region 处理子弹发射的相关逻辑
 	var allow_shoot = \
@@ -145,8 +151,6 @@ func _handle_control_move(_delta: float):
 		 (facing_degress != 90 or \
 			move_dir == Vector2.DOWN) and\
 		Input.is_action_just_pressed(&'ui_shoot')
-	if is_jumping: #如果正在跳跃
-		sprite.play(&'jump') #播放跳的动画
 	if not is_shoot: #如果没有射击
 		if facing_degress in [225, 315]:
 			sprite.play(&'aim_up')
@@ -232,11 +236,14 @@ func dead():
 	if action != PlayerState.Action.dead:
 		action = PlayerState.Action.dead
 	else: return #玩家角色已经死亡了
+	$BodyArea2D/CollisionShape2D\
+		.set_deferred(&'disabled', true)
 	$BodyArea2D.set_deferred(&'monitoring', false)
 	$BodyArea2D.set_deferred(&'monitorable', false)
+	$DetectorArea2D/CollisionShape2D\
+		.set_deferred(&'disabled', true)
 	$DetectorArea2D.set_deferred(&'monitoring', false)
 	$DetectorArea2D.set_deferred(&'monitorable', false)
-	# collision_shape.set_deferred(&'disabled', true)
 	sprite.play(&'defeated')
 	await sprite.animation_finished	
 	sprite.play(&'dead')

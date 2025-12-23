@@ -75,19 +75,25 @@ func _physics_process(delta: float) -> void:
 	_detect_position_clamp() #检测坐标越界处理
 	_draw_life_blood_in_edit_mode()
 	if Engine.is_editor_hint(): return #编辑模式下不处理逻辑
-	if is_on_floor():
+	if is_on_floor(): #如果在地板上，没有纵向速度
 		velocity.y = 0.0
-	else: velocity.y += gravity_speed * delta
-	if action == EnemyState.Action.idle:
-		if (sprite.animation as StringName)\
-			.get_basename() != 'idle':
+	elif action != EnemyState.Action.dead:
+		velocity.y += gravity_speed * delta #受重力加速度影响
+		move_and_slide() #执行行走逻辑
+	match action:
+		EnemyState.Action.idle: #休闲状态
 			sprite.play(&'idle')
-		if not spy_player:
-			action = EnemyState.Action.patrol
-	if action == EnemyState.Action.patrol: #巡逻
-		patrol(delta) #执行巡逻
-	elif action == EnemyState.Action.chase and spy_player: #追击玩家
-		chase() #执行追击
+			if not spy_player: #如果没有发现敌人，修改为巡逻模式
+				action = EnemyState.Action.patrol
+		EnemyState.Action.patrol: #巡逻状态
+			patrol(delta) #执行巡逻
+		EnemyState.Action.chase: #追击玩家
+			if spy_player: #如果玩家还在监视范围
+				chase() #执行追击
+			else: #如果监视玩家丢失，则根据情况修改状态
+				if patrol_path: #如果支持巡逻
+					action = EnemyState.Action.patrol
+				else: action = EnemyState.Action.idle
 
 ## 执行巡逻， 沿着一定的区域范围进行行走
 func patrol(delta: float):
@@ -97,9 +103,6 @@ func patrol(delta: float):
 		sprite.flip_h = true if direction.x <= 0 else false
 		return #没有设置巡逻路径，直接返回
 	sprite.play(&'run') #执行动画
-	if is_on_floor(): #如果是在地板上，就不受重力作用
-		velocity.y = 0.0
-	else: velocity.y += gravity_speed * delta
 	var patrol_progress = patrol_path_follow.progress_ratio
 	#print(name, '执行巡逻中...', patrol_progress)
 	patrol_path_follow.progress += patrol_speed * delta
