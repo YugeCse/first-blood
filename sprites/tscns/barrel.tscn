@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://baq3gx5q8biuf"]
+[gd_scene format=3 uid="uid://baq3gx5q8biuf"]
 
 [ext_resource type="Script" uid="uid://dvxl5ij1lmi3o" path="res://sprites/scripts/barrel.gd" id="1_1o8uq"]
 [ext_resource type="Texture2D" uid="uid://bqpu7eso4h63v" path="res://assets/props/barrel.png" id="1_chwry"]
@@ -10,7 +10,7 @@ size = Vector2(13, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n08ew"]
 size = Vector2(60, 60)
 
-[node name="Barrel" type="Area2D" node_paths=PackedStringArray("sprite", "default_collision_shape", "bom_sprite", "bom_area_detector", "bom_collision_shape") groups=["Barrel"]]
+[node name="Barrel" type="Area2D" unique_id=956840638 node_paths=PackedStringArray("sprite", "default_collision_shape", "bom_sprite", "bom_area_detector", "bom_collision_shape") groups=["Barrel"]]
 collision_layer = 512
 collision_mask = 16
 script = ExtResource("1_1o8uq")
@@ -20,24 +20,24 @@ bom_sprite = NodePath("AnimatedSprite2D")
 bom_area_detector = NodePath("AnimatedSprite2D/BomArea2D")
 bom_collision_shape = NodePath("AnimatedSprite2D/BomArea2D/CollisionShape2D")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1319232554]
 texture = ExtResource("1_chwry")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=970261327]
 shape = SubResource("RectangleShape2D_chwry")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1606800068]
 visible = false
 sprite_frames = ExtResource("3_4ma4j")
 frame = 11
 frame_progress = 1.0
 
-[node name="BomArea2D" type="Area2D" parent="AnimatedSprite2D"]
+[node name="BomArea2D" type="Area2D" parent="AnimatedSprite2D" unique_id=638701901]
 collision_mask = 13
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/BomArea2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/BomArea2D" unique_id=1653189858]
 shape = SubResource("RectangleShape2D_n08ew")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

@@ -100,8 +100,9 @@ func _get_bom_effect_area_rect() -> Rect2:
 func _show_bom_effect() -> void:
 	var audio_player = AudioStreamPlayer.new()
 	audio_player.stream = bom_effect_audio_stream
-	audio_player.autoplay = true
 	audio_player.playback_type = AudioServer.PLAYBACK_TYPE_STREAM
+	audio_player.mix_target = AudioStreamPlayer.MIX_TARGET_SURROUND
+	audio_player.autoplay = true
 	add_child(audio_player) #添加到树节点中
 	# 设置当前状态为爆炸状态
 	state = State.bom

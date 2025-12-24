@@ -55,8 +55,9 @@ func boom():
 func _play_shoot_effect_audio() -> void:
 	var audio_player = AudioStreamPlayer.new()
 	audio_player.stream = shoot_effect_audio_stream
-	audio_player.pitch_scale = 1.6
+	audio_player.pitch_scale = 1.0
 	audio_player.playback_type = AudioServer.PLAYBACK_TYPE_STREAM
+	audio_player.mix_target = AudioStreamPlayer.MIX_TARGET_SURROUND
 	audio_player.autoplay = true
 	add_child(audio_player) #添加到树节点中
 	audio_player.finished.connect(audio_player.queue_free)
