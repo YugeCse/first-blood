@@ -2,7 +2,11 @@
 
 [ext_resource type="Script" uid="uid://bgsml851ggl8l" path="res://scenes/scripts/main_scene.gd" id="1_aqrb5"]
 [ext_resource type="PackedScene" uid="uid://dr8lwtyx74ix2" path="res://shared/stages/tscns/stage_forest.tscn" id="2_aqrb5"]
+[ext_resource type="Texture2D" uid="uid://beyxygtqfn51w" path="res://assets/props/crate.png" id="4_hdif8"]
 [ext_resource type="PackedScene" uid="uid://dudiaww77be4f" path="res://shared/joystic/virtual_joystic.tscn" id="6_4jd7c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ehh3e"]
+size = Vector2(16, 16)
 
 [node name="MainScene" type="ColorRect" unique_id=730815157]
 clip_contents = true
@@ -49,6 +53,8 @@ game_viewport_container = NodePath("../..")
 joystick_radius = 50.0
 handle_radius = 23.0
 deadzone = 0.1
+dynamic_joystick = true
+full_screen_touch = false
 button_size = Vector2(50, 50)
 button_alpha = 0.2
 button_active_alpha = 0.5
@@ -57,3 +63,24 @@ shoot_button_color = Color(0.8, 0.2, 0.2, 0.6431373)
 input_area_color = Color(0, 0, 0, 0)
 jump_action = "ui_jump"
 shoot_action = "ui_shoot"
+
+[node name="Prop" type="Area2D" parent="VirtualJoystic" unique_id=854452529]
+collision_layer = 1024
+
+[node name="Sprite2D" type="Sprite2D" parent="VirtualJoystic/Prop" unique_id=283787349]
+texture = ExtResource("4_hdif8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VirtualJoystic/Prop" unique_id=32085]
+shape = SubResource("RectangleShape2D_ehh3e")
+
+[node name="Prop" type="Area2D" parent="VirtualJoystic/Prop" unique_id=880833821]
+collision_layer = 1024
+
+[node name="Sprite2D" type="Sprite2D" parent="VirtualJoystic/Prop/Prop" unique_id=312760319]
+texture = ExtResource("4_hdif8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VirtualJoystic/Prop/Prop" unique_id=1948519194]
+shape = SubResource("RectangleShape2D_ehh3e")
+
+[connection signal="body_entered" from="VirtualJoystic/Prop" to="VirtualJoystic/Prop" method="_on_body_entered"]
+[connection signal="body_entered" from="VirtualJoystic/Prop/Prop" to="VirtualJoystic/Prop/Prop" method="_on_body_entered"]

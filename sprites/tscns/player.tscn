@@ -1051,3 +1051,7 @@ collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectorArea2D" unique_id=722025135]
 shape = SubResource("CircleShape2D_l7xvl")
+
+[node name="SoundEffectAudioPlayer" type="AudioStreamPlayer" parent="." unique_id=156341955]
+mix_target = 1
+playback_type = 1

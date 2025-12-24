@@ -14,16 +14,20 @@ enum PropType {
 	fire_multiply_x2
 }
 
+## 道具类型
 @export
 var type: PropType
 
 func _ready() -> void:
-	_update_texture(type)
+	_update_texture(type) #更新图像数据
 	
 func _enter_tree() -> void:
-	_update_texture(type)
+	_update_texture(type) #更新图像数据
 
+## 更新图像数据
 func _update_texture(type: PropType) -> void:
+	stretch_mode = TextureRect.STRETCH_KEEP
+	expand_mode = TextureRect.EXPAND_KEEP_SIZE
 	var target_texture: Resource
 	match type:
 		PropType.fire_strong:

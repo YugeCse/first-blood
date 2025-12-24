@@ -5,7 +5,7 @@ const CommonUtils = preload('res://shared/utils/common_utils.gd')
 
 ## 物品道具掉落概率
 const PropDropRatio: Dictionary[Prop.PropType, float] = {
-	Prop.PropType.ammo : 0.12,
+	Prop.PropType.ammo : 0.15,
 	Prop.PropType.crate : 0.25,
 	Prop.PropType.big_crate : 0.15
 }
@@ -23,10 +23,19 @@ var prop_scene_packed: PackedScene = preload("res://sprites/tscns/prop.tscn")
 
 ## 随机掉落道具[br]
 ## - auto_dismiss_time: 自动消失的时间，默认15秒[br]
+## - prop_choices: 道具生成的可选项[br]
 ## @return 生成的道具，可能为null
-func rand_drop_prop(auto_dismiss_time: float = 15.0) -> Prop:
-	var prop_types = Prop.PropType.values()
-	var rand_type = randi_range(0, prop_types.size() - 1)
+func rand_drop_prop(\
+	auto_dismiss_time: float = 15.0,
+	prop_choices: Array = Prop.PropType.values()
+) -> Prop:
+	var prop_types = prop_choices as Array[int]
+	if prop_types.size() == 0: return null
+	var rand_type: int
+	if prop_types.size() == 1:
+		rand_type = prop_types[0]
+	else:
+		rand_type = randi_range(0, prop_types.size() - 1)
 	var target_type = prop_types.get(rand_type)
 	if not PropDropRatio.has(target_type):
 		print('道具配置中没有指定的道具类型: ', target_type)

@@ -74,6 +74,10 @@ var collision_shape: CollisionShape2D = $CollisionShape
 @onready
 var bullet_resource = preload("res://sprites/tscns/player_bullet.tscn")
 
+## 拾取物品的audio资源
+@onready
+var pick_up_sth_audio_resource = preload('res://assets/audio/pick_up_sth.ogg')
+
 func _ready() -> void:
 	set_process_input(true)
 	$FollowCamera2D.make_current() #设置相机跟随
@@ -291,4 +295,6 @@ func get_prop(type: Prop.PropType) -> void:
 			pass
 		Prop.PropType.big_crate: #大木箱，也不知道会掉落什么
 			pass
+	$SoundEffectAudioPlayer.stream = pick_up_sth_audio_resource
+	$SoundEffectAudioPlayer.play()
 	GlobalSignals.on_player_get_prop.emit(type) #通知玩家获得道具，更新HUD

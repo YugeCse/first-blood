@@ -195,7 +195,8 @@ func destory():
 
 ## 从树节点中删除自己
 func _remove_from_tree():
-	var location = global_position
+	var location = global_position\
+		- Vector2(0, _get_collision_rect().size.y)
 	var parent: Node
 	if patrol_path:
 		parent = patrol_path.get_parent()
