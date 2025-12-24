@@ -195,9 +195,18 @@ func destory():
 
 ## 从树节点中删除自己
 func _remove_from_tree():
+	var location = global_position
+	var parent: Node
 	if patrol_path:
+		parent = patrol_path.get_parent()
 		patrol_path.queue_free()
-	else: queue_free()
+	else:
+		parent = get_parent()
+		queue_free()
+	var prop = PropManager.rand_drop_prop(randf_range(10.0, 15.0))
+	if not prop: return
+	prop.global_position = location
+	parent.add_child(prop) #把道具添加到界面中
 
 ## 获取碰撞区域矩形大小(相对于全局坐标而言)
 func _get_collision_rect()->Rect2:

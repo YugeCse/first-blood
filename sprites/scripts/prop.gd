@@ -16,44 +16,109 @@ enum PropType {
 @export
 var prop_type: PropType = PropType.crate
 
+## 道具自动消失时间，默认：15s
+@export
+var auto_dismiss_time: float = 15.0
+
+@onready
+var sprite: Sprite2D = $Sprite2D
+
+@onready
+var collision_shape: CollisionShape2D = $CollisionShape2D
+
+## 执行自动消失的定时器对象
+var _auto_dismiss_timer: Timer
+
 func _ready() -> void:
+	if auto_dismiss_time > 0:
+		_create_auto_dismiss_timer()
 	_update_prop_sprite(prop_type)
 
-func _enter_tree() -> void:
-	_update_prop_sprite(prop_type)
+func _physics_process(_delta: float) -> void:
+	if auto_dismiss_time <= 0:
+		_stop_auto_dismiss_timer()
+
+## 创建自动消失的定时器
+func _create_auto_dismiss_timer():
+	_auto_dismiss_timer = Timer.new()
+	_auto_dismiss_timer.wait_time = auto_dismiss_time
+	_auto_dismiss_timer.timeout.connect(_start_blink)
+	_auto_dismiss_timer.autostart = true
+	add_child(_auto_dismiss_timer) #添加到树节点中国呢
+
+## 停止自动消息的定时器
+func _stop_auto_dismiss_timer() -> void:
+	if not _auto_dismiss_timer: return
+	if not _auto_dismiss_timer.is_stopped():
+		_auto_dismiss_timer.paused = true
+		_auto_dismiss_timer.stop()
+	remove_child(_auto_dismiss_timer)
 
 ## 更新道具精灵
 func _update_prop_sprite(type: PropType) -> void:
 	var sprite_size: Vector2
 	var sprite_texture: Resource
-	match type:
-		PropType.ammo:
+	match type: #根据道具类型，做不同处理
+		PropType.ammo: #弹药
+			set_collision_layer_value(9, true)
+			set_collision_layer_value(11, false)
+			set_collision_layer_value(12, false)
 			sprite_size = Vector2(16.0, 13.0)
 			sprite_texture = load('res://assets/props/ammo.png')
-		PropType.crate:
+		PropType.crate: #木箱
+			set_collision_layer_value(9, false)
+			set_collision_layer_value(11, true)
+			set_collision_layer_value(12, false)
 			sprite_size = Vector2(16.0, 16.0)
 			sprite_texture = load('res://assets/props/crate.png')
-		PropType.big_crate:
+		PropType.big_crate: #大木箱
+			set_collision_layer_value(9, false)
+			set_collision_layer_value(11, false)
+			set_collision_layer_value(12, true)
 			sprite_size = Vector2(32.0, 16.0)
 			sprite_texture = load('res://assets/props/bigcrate.png')
 	if not sprite_texture or not sprite_size: return
-	$Sprite2D.texture = sprite_texture
+	if sprite_texture is Texture2D:
+		sprite.texture = sprite_texture
 	_update_collision_shape(sprite_size) #更新碰撞矩形形状
 
 ## 更新碰撞矩形形状
 func _update_collision_shape(size: Vector2) -> void:
 	var shape = RectangleShape2D.new()
 	shape.size = size
-	$CollisionShape2D.shape = shape
+	collision_shape.shape = shape
+
+## 执行闪烁动画
+func _start_blink() -> void:
+	_stop_auto_dismiss_timer() #先停止这个定时器
+	var tween = get_tree().create_tween()
+	tween.set_loops(3)
+	tween.tween_property(self, 'modulate:a', 0.2, 0.5)
+	tween.tween_property(self, 'modulate:a', 1.0, 0.5)
+	tween.play()
+	tween.finished.connect(_dismiss_prop) #闪烁完成后，移除该节点
+
+## 让道具消失
+func _dismiss_prop(hide_time: float = 1.0) -> void:
+	var tween = get_tree().create_tween()
+	tween.set_loops(1)
+	tween.set_parallel(true)
+	tween.tween_property(self, 'scale', 0.0, hide_time)
+	tween.tween_property(self, 'modulate:a', 0.0, hide_time)
+	tween.play()
+	tween.finished.connect(queue_free) #动画完成从节点删除
 
 ## 道具与玩家发生碰撞判断
 func _on_body_entered(body: Node2D) -> void:
-	if not body is Player: return
+	if not body is Player:
+		return #如果不是与玩家碰撞，直接返回
+	_stop_auto_dismiss_timer() #先停止这个定时器
 	(body as Player).get_prop(prop_type) #玩家获得道具
 	if prop_type == PropType.ammo: #如果是弹药道具，直接从视图删除
 		queue_free()
 		return
+	_dismiss_prop(0.2) #0.2s后隐藏并删除道具
 	#停用道具的碰撞检测
 	set_deferred(&'monitoring', false)
 	set_deferred(&'monitorable', false)
-	$CollisionShape2D.set_deferred(&'disabled', true)
+	collision_shape.set_deferred(&'disabled', true)

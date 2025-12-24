@@ -14,7 +14,7 @@ var is_main_scene_loaded: bool = false
 var _current_splash_img_scale: float
 
 ## 启动图的大小
-var _splash_image_size = Vector2(320, 180)
+var _splash_image_size = Vector2(320.0, 180.0)
 
 ## 是否进入了主场景
 var _is_enter_main_scene: bool = false

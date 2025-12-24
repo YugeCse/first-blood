@@ -1,6 +1,8 @@
 ## 玩家组件
 class_name Player extends CharacterBody2D
 
+const CommonUtils = preload('res://shared/utils/common_utils.gd')
+
 ## 玩家状态
 @export
 var action: PlayerState.Action = PlayerState.Action.idle
@@ -48,9 +50,6 @@ var move_dir: Vector2 = Vector2.ZERO
 ## 是否是趴下
 var _is_move_down: bool = false
 
-## 玩家射击角度
-var shoot_degress: float = 0.0
-
 ## 上一次的射击时间
 var _last_shoot_time: float = 0.0
 
@@ -59,6 +58,9 @@ var _is_changed_soul: bool = false
 
 ## 变成了灵魂的时间点
 var _changed_soul_time: float = 0.0
+
+## 使用强大火力支持，默认：false
+var _use_stronge_fire: bool = false
 
 ## 玩家关联的精灵节点
 @onready
@@ -141,10 +143,10 @@ func _handle_control_move(_delta: float):
 				return #已经完成第二次跳跃，直接返回
 			velocity.y = -jump_secondary_height
 			jump_counter = -1 #标记此时不能再跳了
-			sprite.play(&'jump') #播放跳的动画
+			sprite.play(&'jump'  if not _use_stronge_fire else &'jump_ng') #播放跳的动画
 	_update_body_area_shape(is_get_down) #更新碰撞区域
 	#region 处理子弹发射的相关逻辑
-	var allow_shoot = \
+	var allow_shoot =\
 		Time.get_unix_time_from_system() -\
 		 _last_shoot_time > shoot_time_limit
 	var is_shoot = allow_shoot and\
@@ -159,10 +161,10 @@ func _handle_control_move(_delta: float):
 		elif facing_degress == 270:
 			sprite.play(&'stand_aim_up')
 		elif move_dir == Vector2.DOWN:
-			sprite.play(&'crouch_aim')
+			sprite.play(&'crouch_aim' if not _use_stronge_fire else &'crouch_ng_aim')
 		elif not is_moving:
-			sprite.play(&'idle')
-		else: sprite.play(&'run')
+			sprite.play(&'idle' if not _use_stronge_fire else &'idle_ng')
+		else: sprite.play(&'run' if not _use_stronge_fire else &'run_ng')
 	else: #如果射击了
 		if facing_degress in [225, 315]:
 			sprite.play(&'aim_up')
@@ -171,13 +173,11 @@ func _handle_control_move(_delta: float):
 		elif facing_degress == 270:
 			sprite.play(&'stand_aim_up')
 		elif move_dir == Vector2.DOWN:
-			sprite.play(&'crouch_aim')
+			sprite.play(&'crouch_aim' if not _use_stronge_fire else &'crouch_ng_aim')
 		elif is_moving:
-			sprite.play(&'run_shoot')
-		else: sprite.play(&'stand_shoot')
-	if is_shoot: 
-		shoot() #发射子弹
-		_last_shoot_time = Time.get_unix_time_from_system()
+			sprite.play(&'run_shoot' if not _use_stronge_fire else &'run_shoot_ng')
+		else: sprite.play(&'stand_shoot' if not _use_stronge_fire else &'stand_shoot_ng')
+		start_shoot() #发射子弹
 	#endregion
 	velocity.x = move_dir.x * speed
 	sprite.flip_h = false if facing == 1 else true
@@ -195,11 +195,10 @@ func _set_position_clamp():
 	elif global_position.x >= max_x:
 		global_position.x = max_x
 	if global_position.y >= max_y:
-		#print('玩家已经跳崖了，Go Die!')
 		GlobalSignals.on_player_dead.emit(global_position)
 
 ## 玩家角色发射子弹
-func shoot():
+func start_shoot():
 	var target_dir = move_dir if(move_dir != Vector2.ZERO)\
 		else Vector2(float(facing), 0)
 	var facing_degress = \
@@ -220,7 +219,9 @@ func shoot():
 	bullet.direction =\
 		dir if target_dir == Vector2.DOWN else target_dir
 	bullet.global_position = global_position + offset
+	bullet.is_strong_fire = _use_stronge_fire #标记是否使用了强大火力
 	get_parent().add_child(bullet) #让他的容器来添加这个控件
+	_last_shoot_time = Time.get_unix_time_from_system() #记录上次射击的时间
 
 ## 玩家角色受到伤害
 func hurt(crack: float):
@@ -278,6 +279,16 @@ func _get_collision_shape_rect() -> Rect2:
 	return Rect2(Vector2.ZERO, collider_shape.size)
 
 ## 获得道具
-func get_prop(prop_type: Prop.PropType) -> void:
-	pass
-	
+func get_prop(type: Prop.PropType) -> void:
+	var prop_name = CommonUtils\
+		.enum_to_string(Prop.PropType, type)
+	print('玩家获得道具: {name}'.format({'name': prop_name}))
+	match type:
+		Prop.PropType.ammo: #玩家获得强大火力支持
+			_use_stronge_fire = true
+			print('哈哈哈！你的火力加强啦！')
+		Prop.PropType.crate: #木箱，不知道会掉落什么
+			pass
+		Prop.PropType.big_crate: #大木箱，也不知道会掉落什么
+			pass
+	GlobalSignals.on_player_get_prop.emit(type) #通知玩家获得道具，更新HUD

@@ -5,7 +5,7 @@ class_name DefeatScene extends Control
 var _current_img_scale: float
 
 ## 结束画面的尺寸
-var _image_size = Vector2(320, 180)
+var _image_size = Vector2(320.0, 180.0)
 
 ## 是否进入了启动页面
 var _is_enter_splash_scene: bool = false
