@@ -36,3 +36,4 @@ func _update_texture(type: PropType) -> void:
 			target_texture = load('res://assets/ui/multiplier_x2.png')
 	if not target_texture: return
 	texture = target_texture as Texture2D
+	size = (target_texture as Texture2D).get_size()

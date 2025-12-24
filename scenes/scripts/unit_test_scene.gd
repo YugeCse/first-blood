@@ -11,3 +11,4 @@ func _ready() -> void:
 		add_child(prop)
 		print('添加了一个道具：', \
 			CommonUtils.enum_to_string(Prop.PropType, prop.prop_type))
+	$UiPropTextureRect._update_texture(UiPropTextureRect.PropType.fire_strong)

@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bu0oiv8b0bb31" path="res://sprites/tscns/player.tscn" id="2_b2bbi"]
 [ext_resource type="PackedScene" uid="uid://bxbxxvkyn1qiw" path="res://sprites/tscns/turret.tscn" id="3_l3rtl"]
 [ext_resource type="Script" uid="uid://bcmcoeb08f3ge" path="res://shared/widgets/ui_prop_texture_rect.gd" id="4_b2bbi"]
+[ext_resource type="Texture2D" uid="uid://byferpsapwemn" path="res://assets/ui/ui_weapon_double_red.png" id="4_l3rtl"]
 
 [node name="UnitTestScene" type="Control" unique_id=489209989]
 layout_mode = 3
@@ -22,7 +23,11 @@ position = Vector2(691, 119)
 
 [node name="UiPropTextureRect" type="TextureRect" parent="." unique_id=1642744115]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 432.0
+offset_top = 89.0
+offset_right = 432.0
+offset_bottom = 89.0
+texture = ExtResource("4_l3rtl")
+stretch_mode = 2
 script = ExtResource("4_b2bbi")
 metadata/_custom_type_script = "uid://bcmcoeb08f3ge"
