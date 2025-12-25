@@ -28,7 +28,7 @@ var bundle: Dictionary[String, Variant]
 var auto_dismiss_time: float = 15.0
 
 @onready
-var sprite: Sprite2D = $PickArea2D/Sprite2D
+var sprite: Sprite2D = $Sprite2D
 
 @onready
 var collision_shape: CollisionShape2D = $PickArea2D/CollisionShape2D
@@ -136,14 +136,11 @@ func _dismiss_prop(hide_time: float = 1.0) -> void:
 	tween.finished.connect(queue_free) #动画完成从节点删除
 
 ## 道具与玩家发生碰撞判断
-func _on_body_entered(body: Node2D) -> void:
+func _on_pick_area_2d_body_entered(body: Node2D) -> void:
 	if not body is Player:
 		return #如果不是与玩家碰撞，直接返回
 	_stop_auto_dismiss_timer() #先停止这个定时器
 	(body as Player).get_prop(prop_type, bundle) #玩家获得道具
-	if prop_type == PropType.ammo: #如果是弹药道具，直接从视图删除
-		queue_free()
-		return
 	_dismiss_prop(0.2) #0.2s后隐藏并删除道具
 	#停用道具的碰撞检测
 	$PickArea2D.set_deferred(&'monitoring', false)
