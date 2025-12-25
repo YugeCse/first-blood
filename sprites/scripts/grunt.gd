@@ -204,7 +204,8 @@ func _remove_from_tree():
 	else:
 		parent = get_parent()
 		queue_free()
-	var prop = PropManager.rand_drop_prop(randf_range(10.0, 15.0))
+	var prop = DropPropManager\
+		.rand_drop_prop(randf_range(10.0, 15.0))
 	if not prop: return
 	prop.global_position = location
 	parent.add_child(prop) #把道具添加到界面中

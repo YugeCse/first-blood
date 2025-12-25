@@ -23,7 +23,7 @@ func _ready() -> void:
 	$ColorRect.scale = Vector2(require_scale, require_scale)
 	$TileMapLayer.scale = Vector2(require_scale, require_scale)
 	
-	var prop = PropManager.rand_drop_prop()
+	var prop = DropPropManager.rand_drop_prop()
 	if prop:
 		prop.global_position = Vector2.ZERO
 		add_child(prop)

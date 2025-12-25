@@ -28,7 +28,7 @@ GlobalConfigs="*res://autoloads/global_configs.gd"
 PlayerState="*res://autoloads/player_state.gd"
 EnemyState="*res://autoloads/enemy_state.gd"
 GlobalSignals="*res://autoloads/global_signals.gd"
-PropManager="*uid://c8wtvxas53wsr"
+DropPropManager="*uid://c8wtvxas53wsr"
 
 [display]
 
