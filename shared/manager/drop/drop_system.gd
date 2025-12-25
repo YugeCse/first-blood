@@ -72,13 +72,14 @@ func calculate_drops_weighted(enemy_type: String, drop_count: int = 1) -> Dictio
 		for item in table.base_drops:
 			current_weight += item.weight
 			if roll <= current_weight:
-				# 掉落这个物品
-				var count = rng.randi_range(item.min_count, item.max_count)
-				drops[item.prop_type] = drops.get(item.prop_type, 0) + count
-				# 从池中移除（防止重复抽取同一个物品）
-				# 如果需要允许重复，注释下面这行
-				# total_weight -= item.weight
-				break
+				if rng.randf_range(0.0, 1.0) <= item.chance:
+					# 掉落这个物品
+					var count = rng.randi_range(item.min_count, item.max_count)
+					drops[item.prop_type] = drops.get(item.prop_type, 0) + count
+					# 从池中移除（防止重复抽取同一个物品）
+					# 如果需要允许重复，注释下面这行
+					# total_weight -= item.weight
+					break
 	return drops
 
 ## 掉落选项
