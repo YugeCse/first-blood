@@ -5,9 +5,10 @@ const CommonUtils = preload('res://shared/utils/common_utils.gd')
 
 ## 物品道具掉落概率
 const PropDropRatio: Dictionary[Prop.PropType, float] = {
-	Prop.PropType.ammo : 0.15,
-	Prop.PropType.crate : 0.25,
-	Prop.PropType.big_crate : 0.15
+	Prop.PropType.nade: 0.48,
+	Prop.PropType.ammo : 0.8,
+	Prop.PropType.crate : 0.8,
+	Prop.PropType.big_crate : 0.4
 }
 
 ## 最大道具掉落数量，默认：10

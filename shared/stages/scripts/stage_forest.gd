@@ -34,17 +34,11 @@ var player_life_progress_bar: TextureProgressBar
 
 ## 玩家场景资源包
 @onready
-var player_scene_packed = preload('res://sprites/tscns/player.tscn')
+var player_scene_packed: PackedScene = preload('res://sprites/tscns/player.tscn')
 
 func _ready() -> void:
-	#joystick.shoot_pressed\
-		#.connect(func(): Input.action_press(&'ui_shoot'))
-	#joystick.shoot_released\
-		#.connect(func(): Input.action_release(&'ui_shoot'))
-	#joystick.jump_pressed\
-		#.connect(func(): Input.action_press(&'ui_jump'))
-	#joystick.jump_released\
-		#.connect(func(): Input.action_release(&'ui_jump'))
+	get_tree().create_timer(3.0).timeout\
+		.connect($HUDContainer/TipMessageContainer.queue_free)
 	hud_container.custom_viewport = game_viewport
 	get_tree().root.size_changed\
 		.connect(joystick._on_viewport_size_changed)
@@ -62,6 +56,7 @@ func _physics_process(_delta: float) -> void:
 
 ## 玩家角色死亡时的监听方法
 func _on_player_dead(location: Vector2) -> void:
+	#region 处理玩家生命数减少显示
 	var origin_life_count = GlobalConfigs.player_life_count
 	var life_count = clampi(origin_life_count - 1, 0, 999)
 	var diff_count = origin_life_count - life_count
@@ -73,11 +68,37 @@ func _on_player_dead(location: Vector2) -> void:
 	if life_count <= 0: #生命数目为0
 		GlobalSignals.on_game_over.emit() #调用游戏结束的方法
 		return
+	#endregion
 	_create_player_hero(location, true) #创建玩家角色
+	#region 修改火力类型展示
+	var fire_type_ui = _find_player_fire_type_ui_prop()
+	if not fire_type_ui:
+		var ui = UiPropTextureRect.new()
+		ui.type = UiPropTextureRect.PropType.fire_normal
+		prop_container.add_child(ui)
+	elif fire_type_ui.type != UiPropTextureRect.PropType.fire_normal:
+		fire_type_ui.type = UiPropTextureRect.PropType.fire_normal
+	#endregion
 
-## 玩家获得道具
+## 玩家获得道具[br]
+## - prop_type: 道具类型
 func _on_player_get_prop(prop_type: Prop.PropType) -> void:
-	pass
+	if prop_type == Prop.PropType.nade: #如果是纳豆(食物)
+		pass
+	elif prop_type == Prop.PropType.ammo: #如果是获取弹药道具
+		#region 修改火力类型展示
+		var fire_type_ui = _find_player_fire_type_ui_prop()
+		if not fire_type_ui:
+			var ui = UiPropTextureRect.new()
+			ui.type = UiPropTextureRect.PropType.fire_strong
+			prop_container.add_child(ui)
+		elif fire_type_ui.type != UiPropTextureRect.PropType.fire_strong:
+			fire_type_ui.type = UiPropTextureRect.PropType.fire_strong
+		#endregion
+	elif prop_type == Prop.PropType.crate: #如果是木箱
+		pass
+	elif prop_type == Prop.PropType.big_crate: #如果是大木箱
+		pass
 
 ## 创建玩家角色[br]
 ## - location 创建的位置[br]
@@ -115,3 +136,17 @@ func _add_player_life() -> void:
 		life_texture_rect.texture = life_texture
 		life_texture_rect.expand_mode = TextureRect.EXPAND_KEEP_SIZE
 		life_container.add_child(life_texture_rect)
+
+## 查找玩家火力类型的显示组件
+func _find_player_fire_type_ui_prop() -> UiPropTextureRect:
+	var fire_props =\
+		[UiPropTextureRect.PropType.fire_strong, UiPropTextureRect.PropType.fire_normal]
+	var props = prop_container.get_children()\
+		.filter(func(child):\
+			return fire_props.any(func(v): return v == (child as UiPropTextureRect).type))
+	return props[0] if props.size() >= 1 else null
+
+## 查找玩家火力强度的显示组件
+func _find_player_fire_power_ui_prop() -> UiPropTextureRect:
+	#TODO 2025.12.25 查找玩家火力展示组件
+	return null

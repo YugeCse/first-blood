@@ -1,20 +1,27 @@
 ## 道具组件
 @tool
-class_name Prop extends CharacterBody2D
+class_name Prop 
+extends CharacterBody2D
 
 ## 道具类型
 enum PropType {
+	## 纳豆(食物)
+	nade,
 	## 弹药
 	ammo,
 	## 木箱
 	crate,
 	## 大木箱
-	big_crate,
+	big_crate
 }
 
 ## 道具类型
 @export
 var prop_type: PropType = PropType.crate
+
+## 数据包
+@export
+var bundle: Dictionary[String, Variant]
 
 ## 道具自动消失时间，默认：15s
 @export
@@ -61,28 +68,44 @@ func _stop_auto_dismiss_timer() -> void:
 ## 更新道具精灵
 func _update_prop_sprite(type: PropType) -> void:
 	var sprite_texture: Resource
+	var is_nade_prop: bool = false
 	match type: #根据道具类型，做不同处理
+		PropType.nade: #纳豆
+			set_collision_layer_value(9, false)
+			set_collision_layer_value(11, false)
+			set_collision_layer_value(12, false)
+			set_collision_layer_value(13, true)
+			var is_red = randi_range(0, 1) == 0
+			if not bundle:
+				bundle = {} #如果没有初始化，先初始化
+			#红色增加50血量，蓝色增加30血量
+			bundle['blood'] = 50 if is_red else 30
+			sprite_texture = load('res://assets/ui/ui_nade_{color}.png'\
+				.format({'color': 'red' if is_red else 'blue'}))
+			is_nade_prop = true #标记是纳豆的道具
 		PropType.ammo: #弹药
 			set_collision_layer_value(9, true)
 			set_collision_layer_value(11, false)
 			set_collision_layer_value(12, false)
+			set_collision_layer_value(13, false)
 			sprite_texture = load('res://assets/props/ammo.png')
 		PropType.crate: #木箱
 			set_collision_layer_value(9, false)
 			set_collision_layer_value(11, true)
 			set_collision_layer_value(12, false)
+			set_collision_layer_value(13, false)
 			sprite_texture = load('res://assets/props/crate.png')
 		PropType.big_crate: #大木箱
 			set_collision_layer_value(9, false)
 			set_collision_layer_value(11, false)
 			set_collision_layer_value(12, true)
+			set_collision_layer_value(13, false)
 			sprite_texture = load('res://assets/props/bigcrate.png')
 	if not sprite_texture: return
 	if sprite_texture is Texture2D:
 		sprite.texture = sprite_texture
-		sprite.scale = Vector2(0.6, 0.6)
-	var sprite_size =\
-		sprite.texture.get_size() * sprite.scale.x
+	sprite.scale = Vector2(1.0, 1.0) if is_nade_prop else Vector2(0.6, 0.6)
+	var sprite_size = sprite.texture.get_size() * sprite.scale.x
 	_update_collision_shape(sprite_size) #更新碰撞矩形形状
 
 ## 更新碰撞矩形形状
@@ -117,7 +140,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if not body is Player:
 		return #如果不是与玩家碰撞，直接返回
 	_stop_auto_dismiss_timer() #先停止这个定时器
-	(body as Player).get_prop(prop_type) #玩家获得道具
+	(body as Player).get_prop(prop_type, bundle) #玩家获得道具
 	if prop_type == PropType.ammo: #如果是弹药道具，直接从视图删除
 		queue_free()
 		return

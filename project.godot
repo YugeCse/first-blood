@@ -126,6 +126,7 @@ pointing/emulate_touch_from_mouse=true
 2d_physics/layer_10="barrel_prop"
 2d_physics/layer_11="crate_prop"
 2d_physics/layer_12="big_crate_prop"
+2d_physics/layer_13="nade_prop"
 
 [rendering]
 

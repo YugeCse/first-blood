@@ -3,29 +3,25 @@
 [ext_resource type="Script" uid="uid://cld6yuc6tmc1w" path="res://sprites/scripts/prop.gd" id="1_3yugd"]
 [ext_resource type="Texture2D" uid="uid://beyxygtqfn51w" path="res://assets/props/crate.png" id="2_xxxvp"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kvpxo"]
-size = Vector2(13, 13)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xxxvp"]
-size = Vector2(16, 16)
+size = Vector2(9.6, 9.6)
 
-[node name="Prop" type="CharacterBody2D" unique_id=704014775]
-collision_layer = 3328
-collision_mask = 2
-platform_floor_layers = 4294967293
+[node name="Prop" type="CharacterBody2D" unique_id=967577813]
+collision_layer = 7424
 platform_wall_layers = 2
 script = ExtResource("1_3yugd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1207146229]
-shape = SubResource("RectangleShape2D_kvpxo")
+position = Vector2(0, 1099689700)
+shape = SubResource("RectangleShape2D_xxxvp")
 
 [node name="PickArea2D" type="Area2D" parent="." unique_id=321473146]
-collision_layer = 3328
+position = Vector2(0, 1099689700)
+collision_layer = 7424
 
 [node name="Sprite2D" type="Sprite2D" parent="PickArea2D" unique_id=2014259585]
+scale = Vector2(0.6, 0.6)
 texture = ExtResource("2_xxxvp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickArea2D" unique_id=923419206]
 shape = SubResource("RectangleShape2D_xxxvp")
-
-[connection signal="body_entered" from="PickArea2D" to="." method="_on_body_entered"]

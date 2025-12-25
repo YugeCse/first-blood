@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://glgqlkxcf6wl"]
+
+[ext_resource type="Shader" uid="uid://d1gu1vx4s4q7p" path="res://shared/themes/shaders/tip_message_box_shader.gdshader" id="1_vhbve"]
+
+[resource]
+shader = ExtResource("1_vhbve")

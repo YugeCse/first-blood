@@ -282,12 +282,20 @@ func _get_collision_shape_rect() -> Rect2:
 		collision_shape.shape as RectangleShape2D
 	return Rect2(Vector2.ZERO, collider_shape.size)
 
-## 获得道具
-func get_prop(type: Prop.PropType) -> void:
+## 获得道具[br]
+## - type: 道具类型[br]
+## - bundle: 数据包
+func get_prop(type: Prop.PropType, bundle: Dictionary[String, Variant]) -> void:
 	var prop_name = CommonUtils\
 		.enum_to_string(Prop.PropType, type)
 	print('玩家获得道具: {name}'.format({'name': prop_name}))
-	match type:
+	match type: #根据道具类型，处理不同逻辑
+		Prop.PropType.nade: #获得食物，血量增加
+			var blood: float
+			if bundle.has('blood'):
+				blood = bundle.get('blood') as float
+			else: blood = randf_range(10.0, 20.0)
+			life_blood = clampf(life_blood + blood, 0, life_blood_max)
 		Prop.PropType.ammo: #玩家获得强大火力支持
 			_use_stronge_fire = true
 			print('哈哈哈！你的火力加强啦！')
@@ -297,4 +305,4 @@ func get_prop(type: Prop.PropType) -> void:
 			pass
 	$SoundEffectAudioPlayer.stream = pick_up_sth_audio_resource
 	$SoundEffectAudioPlayer.play()
-	GlobalSignals.on_player_get_prop.emit(type) #通知玩家获得道具，更新HUD
+	GlobalSignals.on_player_get_prop.emit(type, bundle) #通知玩家获得道具，更新HUD
