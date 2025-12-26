@@ -41,7 +41,6 @@ func _adjust_viewport_size() -> void:
 	var target_height = require_scale * default_y
 	var offset_x = (visible_size.x - target_width) / 2.0
 	var offset_y = (visible_size.y - target_height) / 2.0
-	# viewport_container.size = Vector2(target_width, target_height)
 	viewport_container.scale = Vector2(require_scale, require_scale)
 	viewport_container.global_position = Vector2(offset_x, offset_y)
 
