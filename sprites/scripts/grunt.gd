@@ -44,6 +44,10 @@ var patrol_path: Path2D
 @export
 var patrol_path_follow: PathFollow2D
 
+## 掉落系统
+@export
+var drop_system: DropSystem
+
 ## 被监视的玩家
 var spy_player: Player
 
@@ -204,11 +208,13 @@ func _remove_from_tree():
 	else:
 		parent = get_parent()
 		queue_free()
-	var prop = DropPropManager\
-		.rand_drop_prop(randf_range(10.0, 15.0))
-	if not prop: return
-	prop.global_position = location
-	parent.add_child(prop) #把道具添加到界面中
+	if drop_system: #如果有物品掉落系统
+		var drops = drop_system.calculate_drops_weighted("grunt")
+		if drops.size() > 0:
+			var prop = drop_system.generate_prop(drops.keys()[0])
+			if not prop: return
+			prop.global_position = location
+			parent.add_child(prop) #把道具添加到界面中
 
 ## 获取碰撞区域矩形大小(相对于全局坐标而言)
 func _get_collision_rect()->Rect2:

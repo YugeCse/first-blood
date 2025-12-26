@@ -9,6 +9,9 @@ var factory_view: Control
 @export
 var enemy_map_layer: TileMapLayer
 
+@export
+var drop_system: DropSystem
+
 ## 炮台场景资源
 @onready
 var turret_scene_packed = preload('res://sprites/tscns/turret.tscn')
@@ -87,6 +90,7 @@ func _create_turret(location: Vector2, data: TileData) -> Turret:
 ## - data 创建对象依赖的数据
 func _create_grunt(location: Vector2, data: TileData) -> Node2D:
 	var enemy = grunt_scene_packed.instantiate() as Grunt
+	enemy.drop_system = drop_system
 	var support_patrol = data.has_custom_data('PatrolAvailable')
 	if support_patrol: #如果支持巡逻模式
 		var curve = Curve2D.new()

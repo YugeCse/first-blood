@@ -1,18 +1,17 @@
 ## 道具组件
 @tool
-class_name Prop 
-extends CharacterBody2D
+class_name Prop extends CharacterBody2D
 
 ## 道具类型
 enum PropType {
 	## 纳豆(食物)
-	nade,
+	nade = 13,
 	## 弹药
-	ammo,
+	ammo = 9,
 	## 木箱
-	crate,
+	crate = 11,
 	## 大木箱
-	big_crate
+	big_crate = 12
 }
 
 ## 道具类型
@@ -71,10 +70,6 @@ func _update_prop_sprite(type: PropType) -> void:
 	var is_nade_prop: bool = false
 	match type: #根据道具类型，做不同处理
 		PropType.nade: #纳豆
-			set_collision_layer_value(9, false)
-			set_collision_layer_value(11, false)
-			set_collision_layer_value(12, false)
-			set_collision_layer_value(13, true)
 			var is_red = randi_range(0, 1) == 0
 			if not bundle:
 				bundle = {} #如果没有初始化，先初始化
@@ -83,23 +78,15 @@ func _update_prop_sprite(type: PropType) -> void:
 			sprite_texture = load('res://assets/ui/ui_nade_{color}.png'\
 				.format({'color': 'red' if is_red else 'blue'}))
 			is_nade_prop = true #标记是纳豆的道具
+			_set_collision_layer_value(type, true)
 		PropType.ammo: #弹药
-			set_collision_layer_value(9, true)
-			set_collision_layer_value(11, false)
-			set_collision_layer_value(12, false)
-			set_collision_layer_value(13, false)
+			_set_collision_layer_value(type, true)
 			sprite_texture = load('res://assets/props/ammo.png')
 		PropType.crate: #木箱
-			set_collision_layer_value(9, false)
-			set_collision_layer_value(11, true)
-			set_collision_layer_value(12, false)
-			set_collision_layer_value(13, false)
+			_set_collision_layer_value(type, true)
 			sprite_texture = load('res://assets/props/crate.png')
 		PropType.big_crate: #大木箱
-			set_collision_layer_value(9, false)
-			set_collision_layer_value(11, false)
-			set_collision_layer_value(12, true)
-			set_collision_layer_value(13, false)
+			_set_collision_layer_value(type, true)
 			sprite_texture = load('res://assets/props/bigcrate.png')
 	if not sprite_texture: return
 	if sprite_texture is Texture2D:
@@ -133,7 +120,16 @@ func _dismiss_prop(hide_time: float = 1.0) -> void:
 	tween.tween_property(self, 'scale', 0.0, hide_time)
 	tween.tween_property(self, 'modulate:a', 0.0, hide_time)
 	tween.play()
-	tween.finished.connect(queue_free) #动画完成从节点删除
+	tween.finished.connect(get_parent().queue_free) #动画完成从节点删除
+
+## 设置道具碰撞层信息[br]
+## - type: 道具类型[br]
+## = value: 是否应用碰撞, 未符合要求的，统一设置为false
+func _set_collision_layer_value(type: PropType, value: bool) -> void:
+	for layer_value in PropType.values():
+		var available = value if type == layer_value else false
+		set_collision_layer_value(layer_value, available)
+		$PickArea2D.set_collision_layer_value(layer_value, available)
 
 ## 道具与玩家发生碰撞判断
 func _on_pick_area_2d_body_entered(body: Node2D) -> void:

@@ -3,29 +3,32 @@
 [ext_resource type="Script" uid="uid://cld6yuc6tmc1w" path="res://sprites/scripts/prop.gd" id="1_3yugd"]
 [ext_resource type="Texture2D" uid="uid://beyxygtqfn51w" path="res://assets/props/crate.png" id="2_xxxvp"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kvpxo"]
+size = Vector2(16, 16)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a2gxw"]
 size = Vector2(16, 16)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3yugd"]
-size = Vector2(16, 16)
+[node name="Prop" type="Node2D" unique_id=1680631142]
 
-[node name="Prop" type="CharacterBody2D" unique_id=1724971385]
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1054818962]
 collision_layer = 7424
 collision_mask = 2
 platform_floor_layers = 4294967293
 platform_wall_layers = 2
 script = ExtResource("1_3yugd")
+prop_type = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=880111081]
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=946134729]
 texture = ExtResource("2_xxxvp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1717322673]
-shape = SubResource("RectangleShape2D_a2gxw")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1882297169]
+shape = SubResource("RectangleShape2D_kvpxo")
 
-[node name="PickArea2D" type="Area2D" parent="." unique_id=1532736246]
+[node name="PickArea2D" type="Area2D" parent="CharacterBody2D" unique_id=1512087585]
 collision_layer = 7424
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PickArea2D" unique_id=1872463751]
-shape = SubResource("RectangleShape2D_3yugd")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/PickArea2D" unique_id=351567121]
+shape = SubResource("RectangleShape2D_a2gxw")
 
-[connection signal="body_entered" from="PickArea2D" to="." method="_on_pick_area_2d_body_entered"]
+[connection signal="body_entered" from="CharacterBody2D/PickArea2D" to="CharacterBody2D" method="_on_pick_area_2d_body_entered"]
