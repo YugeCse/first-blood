@@ -70,14 +70,16 @@ func _on_area_entered(area: Area2D) -> void:
 	var parent = area.get_parent()
 	if not parent: return
 	var fire_crack = 10.0
-	if is_strong_fire:
+	if is_strong_fire: #如果是强大活力
 		fire_crack = randf_range(30.0, 60.0)
 	else: fire_crack = randf_range(10.0, 30.0)
 	if parent is Turret: #如果是炮台
 		parent.hurt(fire_crack)
 		boom() #发生碰撞，需要删除
 	elif parent is Grunt: #如果是敌人
-		if is_strong_fire:
-			parent.hurt(fire_crack)
-		else: parent.hurt(fire_crack)
+		parent.hurt(fire_crack)
 		boom() #发生碰撞，需要删除
+	elif parent is Boss: #如果是boss
+		parent.hurt(fire_crack)
+		boom() #发生碰撞，需要删除
+		

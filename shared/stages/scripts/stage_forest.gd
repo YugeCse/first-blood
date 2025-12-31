@@ -32,6 +32,8 @@ var prop_container: HBoxContainer
 @export
 var player_life_progress_bar: TextureProgressBar
 
+var _is_attach_stage_tag: bool = false
+
 ## 玩家场景资源包
 @onready
 var player_scene_packed: PackedScene = preload('res://sprites/tscns/player.tscn')
@@ -40,8 +42,9 @@ func _ready() -> void:
 	get_tree().create_timer(3.0).timeout\
 		.connect($HUDContainer/TipMessageContainer.queue_free)
 	hud_container.custom_viewport = game_viewport
-	get_tree().root.size_changed\
-		.connect(joystick._on_viewport_size_changed)
+	if joystick: #如果游戏摇杆可用
+		get_tree().root.size_changed\
+			.connect(joystick._on_viewport_size_changed)
 	_create_player_hero(Vector2(0, 50.0)) #创建玩家角色
 	GlobalSignals.on_player_dead.connect(_on_player_dead)
 	GlobalSignals.on_player_get_prop.connect(_on_player_get_prop)
@@ -52,6 +55,14 @@ func _physics_process(_delta: float) -> void:
 	var life_percent =\
 		(player.life_blood / player.life_blood_max) * 100.0
 	player_life_progress_bar.value = life_percent #当前声明百分值
+	#endregion
+	#region 如果到达下一个的触发点, 执行关卡切换
+	if player.global_position.x >=\
+		GlobalConfigs.DESIGN_MAP_WIDTH - 12.0 and\
+		player.is_on_floor(): #如果到达进入下一关的触发点
+		if _is_attach_stage_tag: return
+		_is_attach_stage_tag = true
+		get_tree().change_scene_to_file('res://scenes/tscns/boss_scene.tscn')
 	#endregion
 
 ## 玩家角色死亡时的监听方法
@@ -111,12 +122,23 @@ func _create_player_hero(\
 		player = player_scene_packed.instantiate()
 	player.z_index = 1000 #玩家的绘制层index
 	player.global_position = location
+	player.add_child(_create_player_camera()) #添加玩家相机
 	add_child(player) #添加玩家到数据节点
 	var child_count = life_container.get_child_count()
 	if child_count > 0: #如果还有子组件，则执行删除
 		life_container.remove_child(\
 			life_container.get_child(0))
 	player_life_progress_bar.value = 100.0 #生命数恢复100%
+
+## 创建玩家相机
+func _create_player_camera() -> Camera2D:
+	var camera = Camera2D.new()
+	camera.limit_left = 0
+	camera.limit_top = 0
+	camera.limit_right = 2000
+	camera.limit_bottom = 210
+	camera.limit_smoothed = true
+	return camera
 
 ## 添加1个用户生命值
 func _add_player_life() -> void:

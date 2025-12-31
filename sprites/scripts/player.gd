@@ -41,6 +41,12 @@ var jump_height: float = 200.0
 @export_range(10, 1000)
 var jump_secondary_height: float = 180.0
 
+## 行走范围限制宽度
+var walk_area_x: float = GlobalConfigs.DESIGN_MAP_WIDTH
+
+## 行走范围限制高度
+var walk_area_y: float = GlobalConfigs.DESIGN_MAP_HEIGHT
+
 ## 朝向, 1-向右；-1-向右
 var facing: int = 1
 
@@ -80,7 +86,6 @@ var pick_up_sth_audio_resource = preload('res://assets/audio/pick_up_sth.ogg')
 
 func _ready() -> void:
 	set_process_input(true)
-	$FollowCamera2D.make_current() #设置相机跟随
 
 func _physics_process(delta: float) -> void:
 	_handle_control_move(delta) #处理控制移动
@@ -98,7 +103,7 @@ func _handle_control_move(_delta: float):
 		_changed_soul_time += _delta
 		return
 	#endregion
-	_set_position_clamp() #设置坐标限制
+	set_position_clamp(walk_area_x, walk_area_y) #设置坐标限制
 	#region 控制重力逻辑
 	# 把 velocity 当作像素/秒来管理：水平速度不乘 delta，重力乘 delta
 	if is_on_floor(): #当在地面上时，把垂直速度清零，避免累积
@@ -189,11 +194,13 @@ func _handle_control_move(_delta: float):
 	#endregion
 
 ## 设置坐标限制，超出范围就还原到特定位置
-func _set_position_clamp():
+func set_position_clamp(
+	area_x: float = GlobalConfigs.DESIGN_MAP_WIDTH, 
+	area_y: float = GlobalConfigs.DESIGN_MAP_HEIGHT):
 	var shape_size = (collision_shape.shape as RectangleShape2D).size
 	var min_x = shape_size.x / 2.0
-	var max_x = GlobalConfigs.DESIGN_MAP_WIDTH - shape_size.x / 2.0
-	var max_y = GlobalConfigs.DESIGN_MAP_HEIGHT + shape_size.y / 2.0
+	var max_x = area_x - shape_size.x / 2.0
+	var max_y = area_y + shape_size.y / 2.0
 	if global_position.x < min_x:
 		global_position.x = min_x
 	elif global_position.x >= max_x:
