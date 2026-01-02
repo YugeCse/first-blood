@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://byferpsapwemn" path="res://assets/ui/ui_weapon_double_red.png" id="5_4ckmd"]
 [ext_resource type="Script" uid="uid://bcmcoeb08f3ge" path="res://shared/widgets/ui_prop_texture_rect.gd" id="6_2mrxv"]
 [ext_resource type="PackedScene" uid="uid://bbevk3wl4e51h" path="res://sprites/tscns/prop.tscn" id="7_g05p7"]
+[ext_resource type="PackedScene" uid="uid://cm6tulftvh8w7" path="res://sprites/tscns/grunt.tscn" id="8_jf1d5"]
+[ext_resource type="PackedScene" uid="uid://vw5uyss153ct" path="res://sprites/tscns/grunt_soilder.tscn" id="9_dsuep"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ba2jb"]
 texture = ExtResource("2_jf1d5")
@@ -143,22 +145,20 @@ physics_layer_0/collision_layer = 2
 physics_layer_0/collision_mask = 7949
 sources/0 = SubResource("TileSetAtlasSource_ba2jb")
 
-[node name="UnitTestScene" type="Control" unique_id=489209989]
-layout_mode = 3
-anchors_preset = 0
+[node name="UnitTestScene" type="Node2D" unique_id=1551275661]
 script = ExtResource("1_six6g")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1776620570]
 clip_contents = true
-layout_mode = 0
-offset_right = 960.0
-offset_bottom = 210.0
-scale = Vector2(6.9333334, 6.9333334)
+offset_top = 270.08173
+offset_right = 416.0
+offset_bottom = 480.08173
+scale = Vector2(5.418269, 5.418269)
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=263135485]
 handle_input_locally = false
-size = Vector2i(960, 210)
+size = Vector2i(416, 210)
 render_target_update_mode = 4
 
 [node name="TileMapLayer" type="TileMapLayer" parent="SubViewportContainer/SubViewport" unique_id=2112943279]
@@ -184,3 +184,9 @@ metadata/_custom_type_script = "uid://bcmcoeb08f3ge"
 
 [node name="Prop" parent="SubViewportContainer/SubViewport" unique_id=1983358970 instance=ExtResource("7_g05p7")]
 position = Vector2(161, 45)
+
+[node name="Grunt" parent="SubViewportContainer/SubViewport" unique_id=1531908231 instance=ExtResource("8_jf1d5")]
+position = Vector2(333.52206, 165.07153)
+
+[node name="GruntSoilder" parent="SubViewportContainer/SubViewport" unique_id=1292218497 instance=ExtResource("9_dsuep")]
+position = Vector2(402.72946, 165.19548)

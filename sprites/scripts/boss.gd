@@ -5,10 +5,10 @@ signal on_boss_die
 
 ## 血量设定对象
 @export_range(10.0, 10000.0)
-var life_blood: float = 2000.0
+var life_blood: float = 800.0
 
 @export_range(10.0, 10000.0)
-var life_blood_max: float = 2000.0
+var life_blood_max: float = 800.0
 
 ## 是否已经死亡，默认：false
 var _is_die: bool = false
@@ -19,10 +19,6 @@ var spy_player: Player
 ## 行为定时器对象
 @onready
 var action_timer: Timer = $ActionTimer
-
-## 发射子弹的定时器对象
-@onready
-var shoot_timer: Timer = $ShootTimer
 
 ## 头部的精灵对象
 @onready
@@ -37,11 +33,27 @@ var head_collision_shape: CollisionShape2D = $HeadArea2D/CollisionShape2D
 var bullet_packed_scene: PackedScene = preload('res://sprites/tscns/boss_bullet.tscn')
 
 func _ready() -> void:
+	visible = false #可见性设置为false
 	if life_blood <= 0.0:
-		life_blood = 2000.0
+		life_blood = 1000.0
 	if life_blood_max < life_blood:
 		life_blood_max = life_blood
 	head_sprite.play(&'idle')
+	get_tree().create_timer(0.8).timeout.connect(_start_blink) #启动闪烁效果
+
+## 启动行为定时器
+func _start_action_timer() -> void:
+	if action_timer.is_stopped():
+		action_timer.paused = false
+		action_timer.start()
+	print('Boss已启动行为定时器！')
+
+## 停止行为定时器
+func _stop_action_timer() -> void:
+	if not action_timer.paused:
+		action_timer.paused = false
+	if not action_timer.is_stopped():
+		action_timer.stop()
 
 ## 发射
 func _shoot() -> void:
@@ -60,13 +72,30 @@ func hurt(crack: float) -> void:
 		life_blood - crack, 0.0, life_blood_max)
 	if life_blood <= 0 and not _is_die:
 		_is_die = true
+		_stop_action_timer()
 		on_boss_die.emit()
 		_destroy() #boss被消灭
 		print('boss被打败了！')
 
 ## 被消灭
 func _destroy() -> void:
-	pass
+	var tween = get_tree().create_tween()
+	tween.set_loops(3)
+	tween.tween_property(head_sprite, 'modulate:a', 0.2, 0.5)
+	tween.tween_property(head_sprite, 'modulate:a', 1.0, 0.5)
+	tween.play()
+	tween.finished.connect(func(): head_sprite.queue_free())
+
+## 启动闪烁效果
+func _start_blink() -> void:
+	if not visible: visible = true
+	print('Boss启动闪烁效果!')
+	var tween = get_tree().create_tween()
+	tween.set_loops(6)
+	tween.tween_property(self, 'modulate:a', 0.2, 0.5)
+	tween.tween_property(self, 'modulate:a', 1.0, 0.5)
+	tween.play()
+	tween.finished.connect(_start_action_timer)
 
 ## 行为定时器的逻辑
 func _on_action_timer_timeout() -> void:

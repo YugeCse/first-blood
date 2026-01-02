@@ -313,10 +313,6 @@ position = Vector2(0, -32)
 script = ExtResource("1_3drh3")
 
 [node name="ActionTimer" type="Timer" parent="." unique_id=1630663218]
-autostart = true
-
-[node name="ShootTimer" type="Timer" parent="." unique_id=31357088]
-autostart = true
 
 [node name="HeadArea2D" type="Area2D" parent="." unique_id=1960608506]
 collision_layer = 128
@@ -336,4 +332,3 @@ sprite_frames = SubResource("SpriteFrames_kctpe")
 animation = &"idle"
 
 [connection signal="timeout" from="ActionTimer" to="." method="_on_action_timer_timeout"]
-[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

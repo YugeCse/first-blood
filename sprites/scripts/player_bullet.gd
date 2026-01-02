@@ -79,6 +79,9 @@ func _on_area_entered(area: Area2D) -> void:
 	elif parent is Grunt: #如果是敌人
 		parent.hurt(fire_crack)
 		boom() #发生碰撞，需要删除
+	elif parent is GruntSoilder: #如果是红衣士兵
+		parent.boom()
+		boom() #发生碰撞，需要删除
 	elif parent is Boss: #如果是boss
 		parent.hurt(fire_crack)
 		boom() #发生碰撞，需要删除

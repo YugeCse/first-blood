@@ -11,6 +11,10 @@ var _is_game_over: bool = false
 var _viewport_size = Vector2(416.0, 260.0)
 
 @onready
+var _grunt_soilder_timer: Timer =\
+	$SubViewportContainer/SubViewport/GruntSoliderTimer
+
+@onready
 var boss: Boss = $SubViewportContainer/SubViewport/Boss
 
 @onready
@@ -27,8 +31,13 @@ var life_container: HBoxContainer =\
 var blood_progress: TextureProgressBar =\
 	$SubViewportContainer/SubViewport/HudContainer/HeroProfileContainer/HeroBloodProgressBar
 
+## 玩家打包资源对象
 @onready
 var player_packed_scene: PackedScene = preload('res://sprites/tscns/player.tscn')
+
+## 敌方士兵打包资源对象
+@onready
+var grunt_solider_packed_scene: PackedScene = preload('res://sprites/tscns/grunt_soilder.tscn')
 
 func _ready() -> void:
 	set_physics_process(true)
@@ -39,8 +48,12 @@ func _ready() -> void:
 		.connect(_on_game_over)
 	GlobalSignals.on_player_dead\
 		.connect(_on_player_dead)
+	_grunt_soilder_timer\
+		.wait_time = randf_range(5.0, 15.0)
 	boss.spy_player = player
 	boss.on_boss_die.connect(_on_boss_die)
+	_grunt_soilder_timer.timeout.connect(_generate_grunt_soilder)
+	get_tree().create_timer(3.0).timeout.connect(_generate_grunt_soilder)
 
 ## 更新UI显示
 func _update_ui_display() -> void:
@@ -78,9 +91,39 @@ func _physics_process(_delta: float) -> void:
 
 ## 创建玩家
 func _create_player(location: Vector2) -> Player:
-	var _player = player_packed_scene.instantiate() as Player
+	var _player = player_packed_scene\
+		.instantiate() as Player
 	_player.global_position = location
 	return _player
+
+## 启动生成红隼士兵的定时器
+func _start_generate_grunt_soilder_timer() -> void:
+	if not _grunt_soilder_timer: return
+	_grunt_soilder_timer\
+		.wait_time = randf_range(5.0, 15.0)
+	if _grunt_soilder_timer.paused:
+		_grunt_soilder_timer.paused = false
+	if _grunt_soilder_timer.is_stopped():
+		_grunt_soilder_timer.start()
+
+## 停止生成红隼士兵的定时器
+func _stop_generate_grunt_soilder_timer() -> void:
+	if not _grunt_soilder_timer: return
+	if not _grunt_soilder_timer.paused:
+		_grunt_soilder_timer.paused = true
+	if not _grunt_soilder_timer.is_stopped():
+		_grunt_soilder_timer.stop()
+
+## 生成敌方的敌人对象
+func _generate_grunt_soilder() -> void:
+	_stop_generate_grunt_soilder_timer() #停止生成红隼士兵的定时器
+	var soilder = grunt_solider_packed_scene\
+		.instantiate() as GruntSoilder
+	soilder.run_area = _viewport_size + Vector2(30.0, 0.0)
+	soilder.global_position =\
+		Vector2(_viewport_size.x + 20.0, _viewport_size.y / 2.0)
+	viewport.add_child(soilder) #添加士兵对象
+	_start_generate_grunt_soilder_timer() #启动生成红隼士兵的定时器
 
 ## boss被玩家消灭
 func _on_boss_die() -> void:
