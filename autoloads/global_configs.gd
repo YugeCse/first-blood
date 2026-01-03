@@ -17,13 +17,13 @@ var player_score: float = 0.0
 var player_props: Array = []
 
 ## 玩家生命数
-var player_life_count: int = 1
+var player_life_count: int = 3
 
 ## 重置玩家数据
 func reset_player_data():
 	player_score = 0.0
 	player_props = []
-	player_life_count = 1
+	player_life_count = 3
 
 
 ##############################
