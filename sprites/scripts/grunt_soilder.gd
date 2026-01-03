@@ -56,6 +56,7 @@ func _ready() -> void:
 	sprite.play(&'run')
 	action = EnemyState.Action.chase
 	facing = -1 if direction == Vector2.LEFT else 1
+	_shoot_rand_time = _rng.randf_range(1.2, 5.0)
 	
 func _physics_process(delta: float) -> void:
 	if run_area: #如果运动范围设置了
@@ -96,7 +97,7 @@ func _shoot() -> void:
 	bullet.direction = Vector2.LEFT if facing == -1 else Vector2.RIGHT
 	bullet.global_position = global_position + Vector2(facing * 15.0, 3.0)
 	get_viewport().add_child(bullet)
-	_shoot_rand_time = _rng.randf_range(1.2, 3.0)
+	_shoot_rand_time = _rng.randf_range(1.2, 5.0)
 	sprite.animation_finished.connect(func(): _is_shooting = false)
 
 ## 爆炸

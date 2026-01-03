@@ -20,9 +20,21 @@ var spy_player: Player
 @onready
 var action_timer: Timer = $ActionTimer
 
+## 左手臂标记点位
+@onready
+var arm_left_marker: Marker2D = $BodyAnimSprite2D/ArmLeftMarker2D
+
+## 右手臂标记点位
+@onready
+var arm_right_marker: Marker2D = $BodyAnimSprite2D/ArmRightMarker2D2
+
 ## 头部的精灵对象
 @onready
 var head_sprite: AnimatedSprite2D = $HeadArea2D/HeadAnimSprite2D
+
+## 身体的精灵对象
+@onready
+var body_sprite: AnimatedSprite2D = $BodyAnimSprite2D
 
 ## 头部的碰撞形状对象
 @onready
@@ -39,6 +51,7 @@ func _ready() -> void:
 	if life_blood_max < life_blood:
 		life_blood_max = life_blood
 	head_sprite.play(&'idle')
+	body_sprite.play(&'static')
 	get_tree().create_timer(0.8).timeout.connect(_start_blink) #启动闪烁效果
 
 ## 启动行为定时器
@@ -100,9 +113,10 @@ func _start_blink() -> void:
 ## 行为定时器的逻辑
 func _on_action_timer_timeout() -> void:
 	head_sprite.play(&'anim')
+	body_sprite.play(&'idle')
 	_shoot() #发射子弹
-	head_sprite.animation_finished\
-		.connect(func(): head_sprite.play(&'idle'))
+	head_sprite.animation_finished.connect(\
+		func(): head_sprite.play(&'idle'); body_sprite.play(&'static'))
 	action_timer.paused = true
 	action_timer.stop()
 	action_timer.wait_time = randf_range(1.5, 3.0)

@@ -24,8 +24,8 @@ var viewport: SubViewport = $SubViewportContainer/SubViewport
 var viewport_container: SubViewportContainer = $SubViewportContainer
 
 @onready
-var life_container: HBoxContainer =\
-	$SubViewportContainer/SubViewport/HudContainer/HeroProfileContainer/LifeContainer
+var life_medal_box: LifeMedalBox =\
+	$SubViewportContainer/SubViewport/HudContainer/HeroProfileContainer/LifeMedalBox
 
 @onready
 var blood_progress: TextureProgressBar =\
@@ -48,6 +48,7 @@ func _ready() -> void:
 		.connect(_on_game_over)
 	GlobalSignals.on_player_dead\
 		.connect(_on_player_dead)
+	life_medal_box.life_count = GlobalConfigs.player_life_count
 	_grunt_soilder_timer\
 		.wait_time = randf_range(5.0, 15.0)
 	boss.spy_player = player
@@ -77,16 +78,6 @@ func _physics_process(_delta: float) -> void:
 		#region 更新血条信息
 		blood_progress.value =\
 			(player.life_blood / player.life_blood_max) * 100.0
-		var life_count = life_container.get_child_count()
-		var diff_count = GlobalConfigs.player_life_count - life_count
-		if diff_count > 1:
-			var texture = TextureRect.new()
-			texture.texture =\
-				load('res://assets/ui/ui_medal_life.png') as Texture2D
-			life_container.add_child(texture)
-		elif life_count > 0:
-			var last_child = life_container.get_child(0)
-			life_container.remove_child(last_child)
 		#endregion
 
 ## 创建玩家
@@ -117,12 +108,15 @@ func _stop_generate_grunt_soilder_timer() -> void:
 ## 生成敌方的敌人对象
 func _generate_grunt_soilder() -> void:
 	_stop_generate_grunt_soilder_timer() #停止生成红隼士兵的定时器
-	var soilder = grunt_solider_packed_scene\
-		.instantiate() as GruntSoilder
-	soilder.run_area = _viewport_size + Vector2(30.0, 0.0)
-	soilder.global_position =\
-		Vector2(_viewport_size.x + 20.0, _viewport_size.y / 2.0)
-	viewport.add_child(soilder) #添加士兵对象
+	var count = randi_range(1, 2)
+	for i in range(0, count):
+		var soilder = grunt_solider_packed_scene\
+			.instantiate() as GruntSoilder
+		soilder.run_area = _viewport_size +\
+			Vector2(randf_range(25.0, 35.0), 0.0)
+		soilder.global_position =\
+			Vector2(_viewport_size.x + 20.0, _viewport_size.y / 2.0)
+		viewport.add_child(soilder) #添加士兵对象
 	_start_generate_grunt_soilder_timer() #启动生成红隼士兵的定时器
 
 ## boss被玩家消灭
@@ -145,11 +139,23 @@ func _on_player_dead(location: Vector2) -> void:
 		if boss and not boss._is_die: #如果boss还存在
 			get_tree().create_timer(0.5)\
 				.timeout.connect(func(): boss.spy_player = player)
+	if life_count < 0: life_count = 0
 	GlobalConfigs.player_life_count = life_count
-	if not _is_game_over: _on_game_over() #游戏结束
+	if life_count == 0 and not _is_game_over: 
+		GlobalSignals.on_game_over.emit() #玩家生命数为0且未标记游戏结束时，执行游戏结束
+	life_medal_box.life_count = GlobalConfigs.player_life_count
 
 ## 游戏结束了
 func _on_game_over() -> void:
-	if not _is_game_over: return
+	if _is_game_over: return
 	_is_game_over = true #标记游戏已经结束
+	#播放游戏结束的动画
+	var lb_game_over =\
+		$SubViewportContainer/SubViewport/LbGameOver
+	lb_game_over.visible = true
+	lb_game_over.set_deferred('modulate:a', 0.0)
+	var tween = get_tree().create_tween()
+	tween.set_loops(1)
+	tween.tween_property(lb_game_over, 'modulate:a', 1.0, 2.0)
+	tween.play()
 	print('游戏结束啦！😊')

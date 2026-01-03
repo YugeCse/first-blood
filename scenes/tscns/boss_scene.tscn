@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://u23ensea77od" path="res://sprites/tscns/boss.tscn" id="3_h8nbb"]
 [ext_resource type="PackedScene" uid="uid://bu0oiv8b0bb31" path="res://sprites/tscns/player.tscn" id="4_hhom6"]
 [ext_resource type="Texture2D" uid="uid://c6wpumijxy8y6" path="res://assets/ui/life_unit.png" id="4_xsxvb"]
-[ext_resource type="Texture2D" uid="uid://ctmfm7yj0fdsm" path="res://assets/ui/ui_medal_life.png" id="5_v642u"]
+[ext_resource type="Script" uid="uid://dn6tg340ivr45" path="res://sprites/scripts/life_medal_box.gd" id="5_5hf33"]
 [ext_resource type="AudioStream" uid="uid://yrroa6uebjnb" path="res://assets/audio/background-music.ogg" id="6_7afre"]
 [ext_resource type="Texture2D" uid="uid://dujkkfpb87ipj" path="res://assets/ui/ui_weapon_missile_red.png" id="6_b65pm"]
 [ext_resource type="Script" uid="uid://bcmcoeb08f3ge" path="res://shared/widgets/ui_prop_texture_rect.gd" id="7_gggjs"]
@@ -765,24 +765,11 @@ nine_patch_stretch = true
 texture_under = ExtResource("3_ei2eg")
 texture_progress = ExtResource("4_xsxvb")
 
-[node name="LifeContainer" type="HBoxContainer" parent="SubViewportContainer/SubViewport/HudContainer/HeroProfileContainer" unique_id=417010111]
+[node name="LifeMedalBox" type="HBoxContainer" parent="SubViewportContainer/SubViewport/HudContainer/HeroProfileContainer" unique_id=309259300]
 layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="TextureRect" type="TextureRect" parent="SubViewportContainer/SubViewport/HudContainer/HeroProfileContainer/LifeContainer" unique_id=1036187362]
-layout_mode = 2
-texture = ExtResource("5_v642u")
-stretch_mode = 4
-
-[node name="TextureRect2" type="TextureRect" parent="SubViewportContainer/SubViewport/HudContainer/HeroProfileContainer/LifeContainer" unique_id=1638310287]
-layout_mode = 2
-texture = ExtResource("5_v642u")
-stretch_mode = 4
-
-[node name="TextureRect3" type="TextureRect" parent="SubViewportContainer/SubViewport/HudContainer/HeroProfileContainer/LifeContainer" unique_id=466224958]
-layout_mode = 2
-texture = ExtResource("5_v642u")
-stretch_mode = 4
+script = ExtResource("5_5hf33")
+life_count = 5
+metadata/_custom_type_script = "uid://dn6tg340ivr45"
 
 [node name="PropContainer" type="HBoxContainer" parent="SubViewportContainer/SubViewport/HudContainer/HeroProfileContainer" unique_id=343663182]
 layout_mode = 2
@@ -812,7 +799,7 @@ tile_map_data = PackedByteArray("AAAAABsAAAABAAAAAAAAABwAAAABAAEAAAAAAB0AAAABAAI
 tile_set = SubResource("TileSet_jjc3q")
 
 [node name="Boss" parent="SubViewportContainer/SubViewport" unique_id=1291223552 instance=ExtResource("3_h8nbb")]
-position = Vector2(203, 45)
+position = Vector2(193, 57)
 
 [node name="Player" parent="SubViewportContainer/SubViewport" unique_id=1159946890 instance=ExtResource("4_hhom6")]
 position = Vector2(11, 203)
@@ -821,6 +808,23 @@ position = Vector2(11, 203)
 color = Color(0.3553136, 0.35531354, 0.35531357, 1)
 
 [node name="GruntSoliderTimer" type="Timer" parent="SubViewportContainer/SubViewport" unique_id=804542819]
+
+[node name="LbGameOver" type="Label" parent="SubViewportContainer/SubViewport" unique_id=804359427]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.5
+offset_top = -11.5
+offset_right = 43.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 48
+text = "Game Over"
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=55657598]
 stream = ExtResource("6_7afre")

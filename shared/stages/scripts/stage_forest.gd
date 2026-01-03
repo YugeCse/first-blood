@@ -22,7 +22,7 @@ var hud_container: CanvasLayer
 
 ## 玩家生命数容器对象
 @export
-var life_container: HBoxContainer
+var life_medal_box: LifeMedalBox
 
 ## 道具显示容器对象
 @export
@@ -124,10 +124,7 @@ func _create_player_hero(\
 	player.global_position = location
 	player.add_child(_create_player_camera()) #添加玩家相机
 	add_child(player) #添加玩家到数据节点
-	var child_count = life_container.get_child_count()
-	if child_count > 0: #如果还有子组件，则执行删除
-		life_container.remove_child(\
-			life_container.get_child(0))
+	life_medal_box.life_count = GlobalConfigs.player_life_count
 	player_life_progress_bar.value = 100.0 #生命数恢复100%
 
 ## 创建玩家相机
@@ -139,25 +136,6 @@ func _create_player_camera() -> Camera2D:
 	camera.limit_bottom = 210
 	camera.limit_smoothed = true
 	return camera
-
-## 添加1个用户生命值
-func _add_player_life() -> void:
-	var child_count = life_container.get_child_count()
-	if child_count < 3: #如果还有子组件，则执行删除
-		var life_texture =\
-			load('res://assets/ui/ui_medal_life.png') as Texture2D
-		var life_texture_rect = TextureRect.new()
-		life_texture_rect.texture = life_texture
-		life_texture_rect.expand_mode = TextureRect.EXPAND_KEEP_SIZE
-		life_container.add_child(life_texture_rect)
-	elif child_count == 3: #如果生命数等于3了
-		life_container.remove_child(life_container.get_child(0))
-		var life_texture =\
-			load('res://assets/ui/ui_medal_life_red.png') as Texture2D
-		var life_texture_rect = TextureRect.new()
-		life_texture_rect.texture = life_texture
-		life_texture_rect.expand_mode = TextureRect.EXPAND_KEEP_SIZE
-		life_container.add_child(life_texture_rect)
 
 ## 查找玩家火力类型的显示组件
 func _find_player_fire_type_ui_prop() -> UiPropTextureRect:

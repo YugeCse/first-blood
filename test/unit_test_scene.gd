@@ -18,12 +18,13 @@ const CommonUtils = preload('res://shared/utils/common_utils.gd')
 func _ready() -> void:
 	_initialize() #初始化
 	if player: #如果玩家存在，就设置玩家对象的对应限制
-		player.walk_area_x = 882
-		player.walk_area_y = 210
+		player.walk_area_x = 882.0
+		player.walk_area_y = 210.0
 		if not player.get_children()\
 			.any(func(node): return node is Camera2D):
 			player.add_child(_create_player_camera())
-	test_drop_system() #测试物品掉落系统
+	_test_drop_system() #测试物品掉落系统
+	RenderingServer.set_default_clear_color(Color.BLACK)
 
 ## 初始化方法
 func _initialize() -> void:
@@ -45,7 +46,7 @@ func _adjust_controls_size() -> void:
 	viewport_container.global_position = Vector2(offset_x, offset_y)
 
 ## 测试物品掉落系统
-func test_drop_system() -> void:
+func _test_drop_system() -> void:
 	var drop_system = DropSystem.new()
 	add_child(drop_system)
 	var drop_result = drop_system.calculate_drops_weighted("grunt")

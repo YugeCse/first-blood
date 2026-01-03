@@ -329,6 +329,13 @@ animation = &"anim"
 [node name="BodyAnimSprite2D" type="AnimatedSprite2D" parent="." unique_id=28547197]
 position = Vector2(1, 50)
 sprite_frames = SubResource("SpriteFrames_kctpe")
-animation = &"idle"
+animation = &"static"
+frame_progress = 0.3997841
+
+[node name="ArmLeftMarker2D" type="Marker2D" parent="BodyAnimSprite2D" unique_id=1685847096]
+position = Vector2(-86, 19)
+
+[node name="ArmRightMarker2D2" type="Marker2D" parent="BodyAnimSprite2D" unique_id=457281348]
+position = Vector2(85, 18)
 
 [connection signal="timeout" from="ActionTimer" to="." method="_on_action_timer_timeout"]
