@@ -52,6 +52,9 @@ func _ready() -> void:
 		life_blood_max = life_blood
 	head_sprite.play(&'idle')
 	body_sprite.play(&'static')
+	print('左手坐标：{left_position}, 右手坐标:{right_position}'\
+		.format({'left_position': arm_left_marker.global_position,\
+			'right_position': arm_right_marker.global_position}))
 	get_tree().create_timer(0.8).timeout.connect(_start_blink) #启动闪烁效果
 
 ## 启动行为定时器

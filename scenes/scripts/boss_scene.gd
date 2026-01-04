@@ -149,16 +149,8 @@ func _on_player_dead(location: Vector2) -> void:
 func _on_game_over() -> void:
 	if _is_game_over: return
 	_is_game_over = true #标记游戏已经结束
-	#播放游戏结束的动画
-	var lb_game_over =\
-		$SubViewportContainer/SubViewport/LbGameOver
-	lb_game_over.visible = true
-	lb_game_over.set_deferred('modulate:a', 0.0)
-	var tween = get_tree().create_tween()
-	tween.set_loops(1)
-	tween.tween_property(lb_game_over, 'modulate:a', 1.0, 2.0)
-	tween.play()
 	print('游戏结束啦！😊')
+	get_tree().change_scene_to_file('res://scenes/tscns/defeat_scene.tscn')
 
 ## 声音播放按钮的操作事件
 func _on_music_button_toggled(toggled_on: bool) -> void:
