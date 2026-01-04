@@ -159,3 +159,7 @@ func _on_game_over() -> void:
 	tween.tween_property(lb_game_over, 'modulate:a', 1.0, 2.0)
 	tween.play()
 	print('游戏结束啦！😊')
+
+## 声音播放按钮的操作事件
+func _on_music_button_toggled(toggled_on: bool) -> void:
+	AudioManager.set_play_sounds(toggled_on)

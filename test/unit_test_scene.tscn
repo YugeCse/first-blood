@@ -151,8 +151,10 @@ script = ExtResource("1_six6g")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1776620570]
 clip_contents = true
+offset_top = 296.33173
 offset_right = 416.0
-offset_bottom = 210.0
+offset_bottom = 506.33173
+scale = Vector2(5.168269, 5.168269)
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=263135485]

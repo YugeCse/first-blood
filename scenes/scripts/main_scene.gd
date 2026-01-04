@@ -52,5 +52,7 @@ func _on_game_over() -> void:
 	print('游戏结束了，玩家角色生命已经用完！切换到defeat页面！')
 	await get_tree().create_timer(3.0).timeout
 	get_tree().change_scene_to_file('res://scenes/tscns/defeat_scene.tscn')
-	
-	
+
+## 声音播放控制按钮切换事件
+func _on_music_button_toggled(toggled_on: bool) -> void:
+	AudioManager.set_play_sounds(toggled_on)

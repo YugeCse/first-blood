@@ -9,9 +9,17 @@
 [ext_resource type="PackedScene" uid="uid://bu0oiv8b0bb31" path="res://sprites/tscns/player.tscn" id="4_hhom6"]
 [ext_resource type="Texture2D" uid="uid://c6wpumijxy8y6" path="res://assets/ui/life_unit.png" id="4_xsxvb"]
 [ext_resource type="Script" uid="uid://dn6tg340ivr45" path="res://sprites/scripts/life_medal_box.gd" id="5_5hf33"]
-[ext_resource type="AudioStream" uid="uid://yrroa6uebjnb" path="res://assets/audio/background-music.ogg" id="6_7afre"]
 [ext_resource type="Texture2D" uid="uid://dujkkfpb87ipj" path="res://assets/ui/ui_weapon_missile_red.png" id="6_b65pm"]
 [ext_resource type="Script" uid="uid://bcmcoeb08f3ge" path="res://shared/widgets/ui_prop_texture_rect.gd" id="7_gggjs"]
+[ext_resource type="Texture2D" uid="uid://cplgso432vmy2" path="res://assets/ui/audio_icon.png" id="8_5hf33"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5hf33"]
+atlas = ExtResource("8_5hf33")
+region = Rect2(64, 1, 61, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ei2eg"]
+atlas = ExtResource("8_5hf33")
+region = Rect2(1, 1, 61, 62)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7afre"]
 texture = ExtResource("2_7sg10")
@@ -783,6 +791,23 @@ script = ExtResource("7_gggjs")
 type = 1
 metadata/_custom_type_script = "uid://bcmcoeb08f3ge"
 
+[node name="MusicButton" type="TextureButton" parent="SubViewportContainer/SubViewport/HudContainer" unique_id=169922362]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -26.0
+offset_top = 8.0
+offset_right = 35.0
+offset_bottom = 70.0
+grow_horizontal = 0
+scale = Vector2(0.25, 0.25)
+size_flags_horizontal = 8
+size_flags_vertical = 0
+toggle_mode = true
+texture_normal = SubResource("AtlasTexture_5hf33")
+texture_pressed = SubResource("AtlasTexture_ei2eg")
+ignore_texture_size = true
+
 [node name="ColorRect" type="ColorRect" parent="SubViewportContainer/SubViewport" unique_id=1278465486]
 offset_right = 960.0
 offset_bottom = 640.0
@@ -826,8 +851,4 @@ size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 48
 text = "Game Over"
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=55657598]
-stream = ExtResource("6_7afre")
-autoplay = true
-playback_type = 1
-parameters/looping = true
+[connection signal="toggled" from="SubViewportContainer/SubViewport/HudContainer/MusicButton" to="." method="_on_music_button_toggled"]

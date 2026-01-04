@@ -1,5 +1,8 @@
 extends Node
 
+## 声音是否可用
+var sound_available: bool = false
+
 
 ##############################
 ##                          ##

@@ -2,7 +2,16 @@
 
 [ext_resource type="Script" uid="uid://bgsml851ggl8l" path="res://scenes/scripts/main_scene.gd" id="1_aqrb5"]
 [ext_resource type="PackedScene" uid="uid://dr8lwtyx74ix2" path="res://shared/stages/tscns/stage_forest.tscn" id="2_aqrb5"]
+[ext_resource type="Texture2D" uid="uid://cplgso432vmy2" path="res://assets/ui/audio_icon.png" id="2_hdif8"]
 [ext_resource type="PackedScene" uid="uid://dudiaww77be4f" path="res://shared/joystic/virtual_joystic.tscn" id="6_4jd7c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ehh3e"]
+atlas = ExtResource("2_hdif8")
+region = Rect2(64, 1, 61, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_py70p"]
+atlas = ExtResource("2_hdif8")
+region = Rect2(1, 1, 61, 62)
 
 [node name="MainScene" type="ColorRect" unique_id=730815157]
 clip_contents = true
@@ -35,6 +44,25 @@ handle_input_locally = false
 size = Vector2i(380, 210)
 render_target_update_mode = 4
 
+[node name="HudContainer" type="CanvasLayer" parent="ViewportContainer/Viewport" unique_id=658359253]
+
+[node name="MusicButton" type="TextureButton" parent="ViewportContainer/Viewport/HudContainer" unique_id=897547897]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -26.0
+offset_top = 8.0
+offset_right = 35.0
+offset_bottom = 70.0
+grow_horizontal = 0
+scale = Vector2(0.25, 0.25)
+size_flags_horizontal = 8
+size_flags_vertical = 0
+toggle_mode = true
+texture_normal = SubResource("AtlasTexture_ehh3e")
+texture_pressed = SubResource("AtlasTexture_py70p")
+ignore_texture_size = true
+
 [node name="StageForest" parent="ViewportContainer/Viewport" unique_id=1177577150 node_paths=PackedStringArray("joystick", "game_viewport", "game_viewport_container") instance=ExtResource("2_aqrb5")]
 anchors_preset = 15
 anchor_right = 1.0
@@ -58,3 +86,5 @@ shoot_button_color = Color(0.8, 0.2, 0.2, 0.6431373)
 input_area_color = Color(0, 0, 0, 0)
 jump_action = "ui_jump"
 shoot_action = "ui_shoot"
+
+[connection signal="toggled" from="ViewportContainer/Viewport/HudContainer/MusicButton" to="." method="_on_music_button_toggled"]
