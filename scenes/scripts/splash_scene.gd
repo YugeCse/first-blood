@@ -57,10 +57,11 @@ func _update_splash_image_display() -> void:
 		var offset_y = (visible_rect_size.y - img_y) / 2.0
 		animated_sprite.position = Vector2(offset_x, offset_y)
 		animated_sprite.scale = Vector2(target_scale, target_scale)
-		progress_bar.scale = animated_sprite.scale
-		progress_bar.position = Vector2(\
-			(visible_rect_size.x - progress_bar.size.x * target_scale) / 2.0,\
-			visible_rect_size.y - offset_y - progress_bar.size.y * target_scale * 2.0)
+		if progress_bar: #如果进度条可用，设置进度条属性
+			progress_bar.scale = animated_sprite.scale
+			progress_bar.position = Vector2(\
+				(visible_rect_size.x - progress_bar.size.x * target_scale) / 2.0,\
+				visible_rect_size.y - offset_y - progress_bar.size.y * target_scale * 2.0)
 
 ## 预加载主场景内容
 func _preload_main_scene() -> void:

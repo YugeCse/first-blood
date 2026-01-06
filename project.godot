@@ -48,6 +48,7 @@ folder_colors={
 "res://assets/": "yellow",
 "res://assets/anim/": "orange",
 "res://assets/audio/": "yellow",
+"res://assets/font/": "purple",
 "res://autoloads/": "green",
 "res://docs/": "purple",
 "res://scenes/": "blue",
