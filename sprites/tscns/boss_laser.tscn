@@ -1,34 +1,22 @@
 [gd_scene format=3 uid="uid://b2ytng2ru4p7g"]
 
 [ext_resource type="Script" uid="uid://60p7cqfr76m2" path="res://sprites/scripts/boss_laser.gd" id="1_ink1v"]
-[ext_resource type="Texture2D" uid="uid://nj5apte63qo3" path="res://assets/boss/Boss_laser.png" id="2_86a7t"]
+[ext_resource type="Texture2D" uid="uid://canl5mgla8i25" path="res://assets/boss/sparks.png" id="2_86a7t"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_erjsn"]
+atlas = ExtResource("2_86a7t")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_86a7t"]
+radius = 8.0
 
 [node name="BossLaser" type="Node2D" unique_id=400128010]
 script = ExtResource("1_ink1v")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=766396209]
-texture = ExtResource("2_86a7t")
+texture = SubResource("AtlasTexture_erjsn")
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1502542695]
-position = Vector2(-9, 0)
-amount = 3
+[node name="Area2D" type="Area2D" parent="." unique_id=1397464891]
 
-[node name="GPUParticles2D2" type="GPUParticles2D" parent="." unique_id=2042742072]
-position = Vector2(-9, 0)
-amount = 3
-
-[node name="GPUParticles2D3" type="GPUParticles2D" parent="." unique_id=16245320]
-position = Vector2(-9, 0)
-amount = 3
-
-[node name="GPUParticles2D4" type="GPUParticles2D" parent="." unique_id=982604911]
-position = Vector2(-9, 0)
-amount = 3
-
-[node name="GPUParticles2D5" type="GPUParticles2D" parent="." unique_id=858888569]
-position = Vector2(-9, 0)
-amount = 3
-
-[node name="GPUParticles2D6" type="GPUParticles2D" parent="." unique_id=2109139938]
-position = Vector2(-9, 0)
-amount = 3
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1567064427]
+shape = SubResource("CircleShape2D_86a7t")
