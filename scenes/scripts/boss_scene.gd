@@ -121,6 +121,10 @@ func _generate_grunt_soilder() -> void:
 
 ## boss被玩家消灭
 func _on_boss_die() -> void:
+	if _grunt_soilder_timer and\
+		not _grunt_soilder_timer.is_stopped():
+		_grunt_soilder_timer.paused = false
+		_grunt_soilder_timer.stop()
 	print('Boss被消灭！你赢了！')
 
 ## 玩家被消灭

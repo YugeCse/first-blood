@@ -2,8 +2,13 @@
 
 [ext_resource type="Script" uid="uid://60p7cqfr76m2" path="res://sprites/scripts/boss_laser.gd" id="1_ink1v"]
 [ext_resource type="Texture2D" uid="uid://canl5mgla8i25" path="res://assets/boss/sparks.png" id="2_86a7t"]
+[ext_resource type="Script" uid="uid://dbc4y7c4gvab3" path="res://addons/trail_2d/trail_2d.gd" id="3_erjsn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_erjsn"]
+atlas = ExtResource("2_86a7t")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0lt3u"]
 atlas = ExtResource("2_86a7t")
 region = Rect2(0, 0, 16, 16)
 
@@ -12,9 +17,21 @@ radius = 8.0
 
 [node name="BossLaser" type="Node2D" unique_id=400128010]
 script = ExtResource("1_ink1v")
+debug_mode = true
+direction = Vector2(0, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=766396209]
 texture = SubResource("AtlasTexture_erjsn")
+
+[node name="Trail2D" type="Line2D" parent="." unique_id=1296164102]
+points = PackedVector2Array(0, 0)
+width = 20.0
+default_color = Color(0.5054552, 1, 0.9973586, 1)
+texture = SubResource("AtlasTexture_0lt3u")
+antialiased = true
+script = ExtResource("3_erjsn")
+length = 30
+metadata/_custom_type_script = "uid://dbc4y7c4gvab3"
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1397464891]
 

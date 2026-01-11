@@ -42,6 +42,10 @@ window/stretch/scale=3.0
 
 movie_writer/movie_file="/Users/hwang/Downloads/未命名.avi"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/trail_2d/plugin.cfg")
+
 [file_customization]
 
 folder_colors={
